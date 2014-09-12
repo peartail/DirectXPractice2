@@ -148,7 +148,7 @@ void SystemClass::InitializeWindows(int& screenWidth, int& screenHeight)
 	m_hinstance = GetModuleHandle(NULL);
 
 	//어플 이름
-	m_applicationName = "TEST";
+	m_applicationName = L"TEST";
 
 	//윈도우 클래스 설정
 	wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
@@ -194,7 +194,7 @@ void SystemClass::InitializeWindows(int& screenWidth, int& screenHeight)
 		posy = (GetSystemMetrics(SM_CYSCREEN) - screenHeight) / 2;
 	}
 
-	m_hwnd = CreateWindowEx(WS_EX_APPWINDOW, m_applicationName, m_applicationName, WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_POPUP, posx, posy, screenWidth, screenHeight, NULL, NULL, m_hinstance);
+	m_hwnd = CreateWindowEx(WS_EX_APPWINDOW, m_applicationName, m_applicationName, WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_POPUP, posx, posy, screenWidth, screenHeight, NULL, NULL, m_hinstance, NULL);
 
 	ShowWindow(m_hwnd, SW_SHOW);
 	SetForegroundWindow(m_hwnd);
@@ -242,4 +242,3 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam)
 	}
 	}
 }
-
