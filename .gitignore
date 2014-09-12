@@ -26,3 +26,9 @@
 *.exe
 *.out
 *.app
+
+Debug/
+
+ipch/
+
+DirectXStudy1/Debug/
