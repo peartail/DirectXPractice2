@@ -4,6 +4,9 @@
 #define __GraphicClass_H_
 
 #include "D3dclass.h"
+#include "CameraClass.h"
+#include "ModelClass.h"
+#include "ColorShaderClass.h"
 
 const bool FULL_SCREEN = false;
 const bool VSYNC_ENABLED = true;
@@ -26,6 +29,10 @@ private:
 
 private:
 	D3dclass* _D3D;
+
+	CameraClass* _Camera;
+	ModelClass* _model;
+	ColorShaderClass* _ColorShader;
 };
 
 #endif

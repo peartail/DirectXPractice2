@@ -4,7 +4,7 @@ struct PInputType
 	float4 color : COLOR;
 };
 
-float4 main(PInputType i) : SV_TARGET
+float4 ColorPixelShader(PInputType i) : SV_TARGET
 {
 	return i.color;
 }

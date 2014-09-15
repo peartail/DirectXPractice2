@@ -18,7 +18,7 @@ struct PInputType
 };
 
 
-PInputType main( VInputType i )
+PInputType ColorVertexShader(VInputType i)
 {
 	PInputType o;
 
