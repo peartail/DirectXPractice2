@@ -6,7 +6,12 @@
 #include "D3dclass.h"
 #include "CameraClass.h"
 #include "ModelClass.h"
+
+#ifdef __CHATER_FOUR__
 #include "ColorShaderClass.h"
+#elif defined __CHAPTER_FIVE__
+#include "TextureShaderClass.h"
+#endif
 
 const bool FULL_SCREEN = false;
 const bool VSYNC_ENABLED = true;
@@ -32,7 +37,11 @@ private:
 
 	CameraClass* _Camera;
 	ModelClass* _model;
-	ColorShaderClass* _ColorShader;
+#ifdef __CHATER_FOUR__
+	ColorShaderClass* _shader;
+#elif defined __CHAPTER_FIVE__
+	TextureShaderClass* _shader;
+#endif
 };
 
 #endif

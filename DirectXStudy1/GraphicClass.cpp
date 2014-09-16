@@ -7,7 +7,7 @@ GraphicClass::GraphicClass()
 
 	_Camera = NULL;
 	_model = NULL;
-	_ColorShader = NULL;
+	_shader = NULL;
 }
 
 GraphicClass::GraphicClass(const GraphicClass& other)
@@ -49,7 +49,7 @@ bool GraphicClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	{
 		return false;
 	}
-
+#ifdef __CHATER__FOUR__
 	result = _model->Initailize(_D3D->GetDevice());
 	if (!result)
 	{
@@ -57,13 +57,23 @@ bool GraphicClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 		return false;
 	}
 
-	_ColorShader = new ColorShaderClass;
-	if (!_ColorShader)
+	_shader = new ColorShaderClass;
+#elif defined __CHAPTER_FIVE__
+	result = _model->Initailize(_D3D->GetDevice(),L"Texture/rocks_NM_height.dds");
+	if (!result)
+	{
+		MessageBox(hwnd, L"Could not init model", L"Error", MB_OK);
+		return false;
+	}
+
+	_shader = new TextureShaderClass;
+#endif
+	if (!_shader)
 	{
 		return false;
 	}
 
-	result = _ColorShader->Initialize(_D3D->GetDevice(), hwnd);
+	result = _shader->Initialize(_D3D->GetDevice(), hwnd);
 	if (!result)
 	{
 		MessageBox(hwnd, L"Coud not init colorshader", L"Error", MB_OK);
@@ -75,11 +85,11 @@ bool GraphicClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 
 void GraphicClass::ShutDown()
 {
-	if (_ColorShader)
+	if (_shader)
 	{
-		_ColorShader->Shutdown();
-		delete _ColorShader;
-		_ColorShader = NULL;
+		_shader->Shutdown();
+		delete _shader;
+		_shader = NULL;
 	}
 
 	if (_model)
@@ -127,8 +137,7 @@ bool GraphicClass::Render()
 	rot.x++;
 	rot.y++;
 
-
-	_Camera->SetRotation(rot.x, rot.y, rot.z);
+	//_Camera->SetRotation(rot.x, rot.y, rot.z);
 
 	_Camera->Render();
 
@@ -140,7 +149,11 @@ bool GraphicClass::Render()
 
 	_model->Render(_D3D->GetDeviceContext());
 
-	result = _ColorShader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj);
+#ifdef __CHATER_FOUR__
+	result = _shader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj);
+#elif defined __CHAPTER_FIVE__
+	result = _shader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj,_model->GetTexture());
+#endif
 	if (!result)
 	{
 		return false;

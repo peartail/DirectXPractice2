@@ -9,10 +9,9 @@
 
 #include "TextureClass.h"
 
-
-
 #define __CHAPTER_FIVE__
 //#define __CHATER_FOUR__
+
 
 class ModelClass
 {

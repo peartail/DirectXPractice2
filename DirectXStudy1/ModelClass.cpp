@@ -282,12 +282,12 @@ bool ModelClass::LoadTexture(ID3D11Device* device, WCHAR* filename)
 	bool result;
 
 	_texture = new TextureClass;
-	if (_texture)
+	if (!_texture)
 	{
 		return false;
 	}
 
-	result = _texture->Initialize(device, filename)
+	result = _texture->Initialize(device, filename);
 	if (!result)
 	{
 		return false;
