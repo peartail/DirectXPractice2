@@ -22,7 +22,7 @@ bool ColorShaderClass::Initialize(ID3D11Device* device, HWND hwnd)
 {
 	bool result;
 
-	result = InitializeShader(device, hwnd, L"ColorVertex.hlsl", L"ColorPixel.hlsl");
+	result = InitializeShader(device, hwnd, L"ColorVertex.vs", L"ColorPixel.ps");
 	if (!result)
 	{
 		return false;
@@ -153,6 +153,7 @@ bool ColorShaderClass::InitializeShader(ID3D11Device* device, HWND hwnd, WCHAR* 
 	matrixBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 	matrixBufferDesc.MiscFlags = 0;
 	matrixBufferDesc.StructureByteStride = 0;
+	
 
 	// 상수 버퍼 포인터를 만들어 이 클래스에서 정점 세이더 상수 버퍼에 접근핤 ㅜ있게 한다는게 먼소리??
 	result = device->CreateBuffer(&matrixBufferDesc, NULL, &_matrixBuffer);

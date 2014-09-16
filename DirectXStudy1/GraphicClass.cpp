@@ -120,14 +120,23 @@ bool GraphicClass::Render()
 	D3DXMATRIX world, view, proj;
 	bool result;
 
+	_D3D->BeginScene(0.0f, 0.0f, 0.0f, 1.0f);
 
-	_D3D->BeginScene(0.5f, 0.5f, 0.5f, 1.0f);
+	D3DXVECTOR3 rot= _Camera->GetRotation();
+
+	rot.x++;
+	rot.y++;
+
+
+	_Camera->SetRotation(rot.x, rot.y, rot.z);
 
 	_Camera->Render();
 
 	_Camera->GetViewMatrix(view);
 	_D3D->GetWorldMatrix(world);
 	_D3D->GetProjectionMatrix(proj);
+
+	
 
 	_model->Render(_D3D->GetDeviceContext());
 

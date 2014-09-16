@@ -6,9 +6,11 @@ D3dclass::D3dclass()
 	m_swapChain = NULL;
 	m_device = NULL;
 	m_deviceContext = NULL;
+
 	m_renderTargetView = NULL;
 	m_depthStencilBuffer = NULL;
 	m_depthStencilState = NULL;
+
 	m_depthStencilView = NULL;
 	m_rasterState = NULL;
 }
@@ -21,12 +23,9 @@ D3dclass::~D3dclass()
 bool D3dclass::Initialize(int screenWidth, int screenHeight, bool vsync, HWND hwnd, bool fullscreen, float screenDepth, float screenNear)
 {
 	HRESULT result;
-	IDXGIFactory* factory;
-	IDXGIAdapter* adapter;
-	IDXGIOutput* adapterOutput;
-	unsigned int numModes, i, numerator, denominator, stringLength;
-	DXGI_MODE_DESC* displayModeList;
-	DXGI_ADAPTER_DESC adapterDesc;
+	
+	unsigned int numerator, denominator;
+	
 	int error;
 	DXGI_SWAP_CHAIN_DESC swapChainDesc;
 	D3D_FEATURE_LEVEL featureLevel;
@@ -40,93 +39,10 @@ bool D3dclass::Initialize(int screenWidth, int screenHeight, bool vsync, HWND hw
 
 	m_vsync_enabled = vsync;
 
-	//밑에설명은 그냥 따라쓰는거임 먼소린지 모름
-	//DX 그래픽 인터페이스 팩토리 만듬?
-	result = CreateDXGIFactory(__uuidof(IDXGIFactory), (void**)&factory);
-	if (FAILED(result))
+	if (!SettingDisplay(numerator, denominator, screenWidth, screenHeight))
 	{
 		return false;
 	}
-
-	//팩토리 객체로 첫번째 그래픽카드 인터페이스 어댑터 생성
-	result = factory->EnumAdapters(0, &adapter);
-	if (FAILED(result))
-	{
-		return false;
-	}
-
-	//출력(모니터)에 대한 첫번째 어댑터
-	result = adapter->EnumOutputs(0, &adapterOutput);
-	if (FAILED(result))
-	{
-		return false;
-	}
-
-	//DXGI_FORMAT_R8G8B8A8_UNORM 모니터 출력 디스플레이 포멧에 맞는 모드의 개수를 구함
-	result = adapterOutput->GetDisplayModeList(DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_ENUM_MODES_INTERLACED, &numModes, NULL);
-	if (FAILED(result))
-	{
-		return false;
-	}
-
-	// 가능한 모든 모니터와 그래픽카드 조합을 저장할리스트 생성
-	displayModeList = new DXGI_MODE_DESC[numModes];
-	if (!displayModeList)
-	{
-		return false;
-	}
-
-	//디스플레이 모드에 대한 리스트 구조를 채워넣음(displayModeList겠지?)
-	result = adapterOutput->GetDisplayModeList(DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_ENUM_MODES_INTERLACED, &numModes, displayModeList);
-	if (FAILED(result))
-	{
-		return false;
-	}
-	
-	//이제 모든 디스플레이 모드에 대해 화면 너비/높이에 맞는 디스플레이 검색
-	//적합한 것을 찾으면 모니터의 새로고침 비율의 분모와 분자값 저장
-	for (i = 0; i < numModes; ++i)
-	{
-		if (displayModeList[i].Width == (unsigned int)screenWidth)
-		{
-			if (displayModeList[i].Height == (unsigned int)screenHeight)
-			{
-				numerator = displayModeList[i].RefreshRate.Numerator;
-				denominator = displayModeList[i].RefreshRate.Denominator;
-			}
-		}
-	}
-
-	//어댑터(그래픽카드)의 DESC를 가져옴
-	result = adapter->GetDesc(&adapterDesc);
-	if (FAILED(result))
-	{
-		return false;
-	}
-
-	//현재 그래픽카드 메모리용량을 메가바이트 단위로 저장
-	m_videoCardMemory = (int)(adapterDesc.DedicatedVideoMemory / 1024 / 1024);
-
-
-	//그래픽카드 이름을 CHAR 형 문자로 변경
-	error = wcstombs_s(&stringLength, m_videoCardDescription, 128, adapterDesc.Description, 128);
-	if (error != 0)
-	{
-		return false;
-	}
-
-	//지역변수들 할당해제
-	delete[] displayModeList;
-	displayModeList = NULL;
-
-	adapterOutput->Release();
-	adapterOutput = NULL;
-
-	adapter->Release();
-	adapter = NULL;
-
-	factory->Release();
-	factory = NULL;
 
 	//스왑체인 DESC 초기화
 	ZeroMemory(&swapChainDesc, sizeof(swapChainDesc));
@@ -328,7 +244,7 @@ bool D3dclass::Initialize(int screenWidth, int screenHeight, bool vsync, HWND hw
 	D3DXMatrixPerspectiveFovLH(&m_projectionMatrix, fieldOfView, screenAspect, screenNear, screenDepth);
 
 	//월드 행렬을 단위 행렬로 초기화
-	D3DXMatrixIsIdentity(&m_worldMatrix);
+	D3DXMatrixIdentity(&m_worldMatrix);
 
 	//2D 렌더링용 정사용(오쏘) 행렬 생성
 	D3DXMatrixOrthoLH(&m_orthoMatrix, (float)screenWidth, (float)screenHeight, screenNear, screenDepth);
@@ -391,6 +307,112 @@ void D3dclass::Shutdown()
 		m_swapChain->Release();
 		m_swapChain = NULL;
 	}
+}
+
+bool D3dclass::SettingDisplay(unsigned int &numerator, unsigned int &denominator, int screenWidth,int screenHeight)
+{
+	int error;
+
+	IDXGIFactory* factory;
+	IDXGIAdapter* adapter;
+	IDXGIOutput* adapterOutput;
+	unsigned int numModes, i, stringLength;
+
+	DXGI_MODE_DESC* displayModeList;
+	DXGI_ADAPTER_DESC adapterDesc;
+
+	HRESULT result;
+
+
+	//밑에설명은 그냥 따라쓰는거임 먼소린지 모름
+	//DX 그래픽 인터페이스 팩토리 만듬?
+	result = CreateDXGIFactory(__uuidof(IDXGIFactory), (void**)&factory);
+	if (FAILED(result))
+	{
+		return false;
+	}
+
+	//팩토리 객체로 첫번째 그래픽카드 인터페이스 어댑터 생성
+	result = factory->EnumAdapters(0, &adapter);
+	if (FAILED(result))
+	{
+		return false;
+	}
+
+	//출력(모니터)에 대한 첫번째 어댑터
+	result = adapter->EnumOutputs(0, &adapterOutput);
+	if (FAILED(result))
+	{
+		return false;
+	}
+
+	//DXGI_FORMAT_R8G8B8A8_UNORM 모니터 출력 디스플레이 포멧에 맞는 모드의 개수를 구함
+	result = adapterOutput->GetDisplayModeList(DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_ENUM_MODES_INTERLACED, &numModes, NULL);
+	if (FAILED(result))
+	{
+		return false;
+	}
+
+	// 가능한 모든 모니터와 그래픽카드 조합을 저장할리스트 생성
+	displayModeList = new DXGI_MODE_DESC[numModes];
+	if (!displayModeList)
+	{
+		return false;
+	}
+
+	//디스플레이 모드에 대한 리스트 구조를 채워넣음(displayModeList겠지?)
+	result = adapterOutput->GetDisplayModeList(DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_ENUM_MODES_INTERLACED, &numModes, displayModeList);
+	if (FAILED(result))
+	{
+		return false;
+	}
+
+	//이제 모든 디스플레이 모드에 대해 화면 너비/높이에 맞는 디스플레이 검색
+	//적합한 것을 찾으면 모니터의 새로고침 비율의 분모와 분자값 저장
+	for (i = 0; i < numModes; ++i)
+	{
+		if (displayModeList[i].Width == (unsigned int)screenWidth)
+		{
+			if (displayModeList[i].Height == (unsigned int)screenHeight)
+			{
+				numerator = displayModeList[i].RefreshRate.Numerator;
+				denominator = displayModeList[i].RefreshRate.Denominator;
+			}
+		}
+	}
+
+	//어댑터(그래픽카드)의 DESC를 가져옴
+	result = adapter->GetDesc(&adapterDesc);
+	if (FAILED(result))
+	{
+		return false;
+	}
+
+	//현재 그래픽카드 메모리용량을 메가바이트 단위로 저장
+	m_videoCardMemory = (int)(adapterDesc.DedicatedVideoMemory / 1024 / 1024);
+
+
+	//그래픽카드 이름을 CHAR 형 문자로 변경
+	error = wcstombs_s(&stringLength, m_videoCardDescription, 128, adapterDesc.Description, 128);
+	if (error != 0)
+	{
+		return false;
+	}
+
+	//지역변수들 할당해제
+	delete[] displayModeList;
+	displayModeList = NULL;
+
+	adapterOutput->Release();
+	adapterOutput = NULL;
+
+	adapter->Release();
+	adapter = NULL;
+
+	factory->Release();
+	factory = NULL;
+
+	return true;
 }
 
 void D3dclass::BeginScene(float red, float green, float blue, float alpha)

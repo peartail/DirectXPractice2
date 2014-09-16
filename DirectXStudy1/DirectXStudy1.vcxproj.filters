@@ -65,7 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Color.hlsl" />
-    <None Include="ColorVertex.hlsl" />
-    <None Include="ColorPixel.hlsl" />
+    <None Include="ColorPixel.ps" />
+    <None Include="ColorVertex.vs" />
   </ItemGroup>
 </Project>

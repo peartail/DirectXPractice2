@@ -20,6 +20,7 @@ public:
 	ModelClass(void);
 	ModelClass(const ModelClass&);
 	~ModelClass(void);
+
 	bool Initailize(ID3D11Device*);
 	void Shutdown();
 	void Render(ID3D11DeviceContext*);

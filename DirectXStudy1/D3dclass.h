@@ -49,6 +49,8 @@ private:
 	D3DXMATRIX m_projectionMatrix;
 	D3DXMATRIX m_worldMatrix;
 	D3DXMATRIX m_orthoMatrix;
+
+	bool SettingDisplay(unsigned int &numerator, unsigned int &denominator, int screenWidth, int screenHeight);
 };
 
 #endif
