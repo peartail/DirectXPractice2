@@ -11,6 +11,9 @@
 #include "ColorShaderClass.h"
 #elif defined __CHAPTER_FIVE__
 #include "TextureShaderClass.h"
+#elif defined __CHAPTER_SIX__
+#include "LightClass.h"
+#include "LightShaderClass.h"
 #endif
 
 const bool FULL_SCREEN = false;
@@ -30,7 +33,11 @@ public:
 	bool Frame();
 
 private:
+#ifdef __CHAPTER_SIX__
+	bool Render(float);
+#else
 	bool Render();
+#endif
 
 private:
 	D3dclass* _D3D;
@@ -41,6 +48,9 @@ private:
 	ColorShaderClass* _shader;
 #elif defined __CHAPTER_FIVE__
 	TextureShaderClass* _shader;
+#elif defined __CHAPTER_SIX__
+	LightShaderClass* _shader;
+	LightClass* _light;
 #endif
 };
 

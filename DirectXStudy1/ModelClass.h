@@ -7,10 +7,12 @@
 #include <D3DX10math.h>
 
 
-#include "TextureClass.h"
 
-#define __CHAPTER_FIVE__
+#define __CHAPTER_SIX__
+//#define __CHAPTER_FIVE__
 //#define __CHATER_FOUR__
+
+#include "TextureClass.h"
 
 
 class ModelClass
@@ -28,6 +30,12 @@ private:
 		D3DXVECTOR2 tex;
 	};
 
+	struct LightVertexType
+	{
+		D3DXVECTOR3 pos;
+		D3DXVECTOR2 tex;
+		D3DXVECTOR3 nom;
+	};
 	ID3D11Buffer *m_vertexBuffer,*m_indexBuffer;
 	int m_vertexCount,m_indexCount;
 
@@ -42,7 +50,6 @@ public:
 	void Render(ID3D11DeviceContext*);
 
 	int GetIndexCount();
-
 	ID3D11ShaderResourceView* GetTexture();
 
 

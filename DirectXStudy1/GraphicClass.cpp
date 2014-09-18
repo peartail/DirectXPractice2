@@ -8,6 +8,9 @@ GraphicClass::GraphicClass()
 	_Camera = NULL;
 	_model = NULL;
 	_shader = NULL;
+#ifdef __CHAPTER_SIX__
+	_light = NULL;
+#endif
 }
 
 GraphicClass::GraphicClass(const GraphicClass& other)
@@ -67,6 +70,15 @@ bool GraphicClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	}
 
 	_shader = new TextureShaderClass;
+#elif defined __CHAPTER_SIX__
+	result = _model->Initailize(_D3D->GetDevice(), L"Texture/rocks_NM_height.dds");
+	if (!result)
+	{
+		MessageBox(hwnd, L"Could not init model", L"Error", MB_OK);
+		return false;
+	}
+
+	_shader = new LightShaderClass;
 #endif
 	if (!_shader)
 	{
@@ -80,11 +92,28 @@ bool GraphicClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 		return false;
 	}
 
+#ifdef __CHAPTER_SIX__
+	_light = new LightClass;
+	if (!_light)
+	{
+		return false;
+	}
+
+	_light->SetDiffuseColor(0.0f, 1.0f, 1.0f, 1.0f);
+	_light->SetDirection(0.0f, 0.0f, 1.0f);
+#endif
 	return true;
 }
 
 void GraphicClass::ShutDown()
 {
+#ifdef __CHAPTER_SIX__
+	if (_light)
+	{
+		delete _light;
+		_light = NULL;
+	}
+#endif
 	if (_shader)
 	{
 		_shader->Shutdown();
@@ -116,16 +145,32 @@ void GraphicClass::ShutDown()
 bool GraphicClass::Frame()
 {
 	bool result;
+#ifdef __CHAPTER_SIX__
+	static float rotation = 0.0f;
 
+	rotation += (float)D3DX_PI * 0.01f;
+	if (rotation > 360.0f)
+	{
+		rotation -= 360.0f;
+	}
+
+	result = Render(rotation);
+#else
 	result = Render();
+#endif
 	if (!result)
 	{
 		return false;
 	}
+
 	return true;
 }
 
+#ifdef __CHAPTER_SIX__
+bool GraphicClass::Render(float rotation)
+#else
 bool GraphicClass::Render()
+#endif
 {
 	D3DXMATRIX world, view, proj;
 	bool result;
@@ -146,6 +191,9 @@ bool GraphicClass::Render()
 	_D3D->GetProjectionMatrix(proj);
 
 	
+#ifdef __CHAPTER_SIX__
+	D3DXMatrixRotationY(&world, rotation);
+#endif
 
 	_model->Render(_D3D->GetDeviceContext());
 
@@ -153,6 +201,8 @@ bool GraphicClass::Render()
 	result = _shader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj);
 #elif defined __CHAPTER_FIVE__
 	result = _shader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj,_model->GetTexture());
+#elif defined __CHAPTER_SIX__
+	result = _shader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj, _model->GetTexture(), _light->GetDirection(), _light->GetDiffuseColor());
 #endif
 	if (!result)
 	{

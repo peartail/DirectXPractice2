@@ -65,10 +65,10 @@ bool ModelClass::InitializeBuffers(ID3D11Device* device)
 	D3D11_BUFFER_DESC vertexBufferDesc,indexBufferDesc;
 	D3D11_SUBRESOURCE_DATA vertexData,indexData;
 	HRESULT result;
-
+	
+#ifdef __CHAPTER_FOUR__
 	m_vertexCount = 8;
 	m_indexCount = 36;
-#ifdef __CHAPTER_FOUR__
 
 	VertexType* vertice;
 	//배열 생성
@@ -78,9 +78,23 @@ bool ModelClass::InitializeBuffers(ID3D11Device* device)
 		return false;
 	}
 #elif defined __CHAPTER_FIVE__
+	m_vertexCount = 8;
+	m_indexCount = 36;
+
 	TexVertexType* vertice;
 	//배열 생성
 	vertice = new TexVertexType[m_vertexCount];
+	if (!vertice)
+	{
+		return false;
+	}
+#elif defined __CHAPTER_SIX__
+	m_vertexCount = 3;
+	m_indexCount = 3;
+
+	LightVertexType* vertice;
+	//배열 생성
+	vertice = new LightVertexType[m_vertexCount];
 	if (!vertice)
 	{
 		return false;
@@ -118,32 +132,6 @@ bool ModelClass::InitializeBuffers(ID3D11Device* device)
 
 	vertice[7].pos = D3DXVECTOR3(-1.0f, -1.0f, 1.0f);
 	vertice[7].tex = D3DXVECTOR2(1.0f, 1.0f);
-#elif defined __CHAPTER_FOUR__
-	//정점 배열 값 저장
-	vertice[0].position = D3DXVECTOR3(-1.0f,1.0f,-1.0f);
-	vertice[0].color = D3DXVECTOR4(0.0f,1.0f,0.0f,1.0f);
-
-	vertice[1].position = D3DXVECTOR3(1.0f,1.0f,-1.0f);
-	vertice[1].color = D3DXVECTOR4(0.0f,1.0f,0.0f,1.0f);
-
-	vertice[2].position = D3DXVECTOR3(1.0f,1.0f,1.0f);
-	vertice[2].color = D3DXVECTOR4(0.0f,1.0f,0.0f,1.0f);
-
-	vertice[3].position = D3DXVECTOR3(-1.0f, 1.0f, 1.0f);
-	vertice[3].color = D3DXVECTOR4(0.0f, 1.0f, 0.0f, 1.0f);
-
-	vertice[4].position = D3DXVECTOR3(-1.0f, -1.0f, -1.0f);
-	vertice[4].color = D3DXVECTOR4(0.0f, 1.0f, 0.0f, 1.0f);
-
-	vertice[5].position = D3DXVECTOR3(1.0f, -1.0f, -1.0f);
-	vertice[5].color = D3DXVECTOR4(0.0f, 1.0f, 0.0f, 1.0f);
-
-	vertice[6].position = D3DXVECTOR3(1.0f, -1.0f, 1.0f);
-	vertice[6].color = D3DXVECTOR4(0.0f, 1.0f, 0.0f, 1.0f);
-
-	vertice[7].position = D3DXVECTOR3(-1.0f, -1.0f, 1.0f);
-	vertice[7].color = D3DXVECTOR4(0.0f, 1.0f, 0.0f, 1.0f);
-#endif
 
 	indices[0] = 3;
 	indices[1] = 1;
@@ -186,6 +174,92 @@ bool ModelClass::InitializeBuffers(ID3D11Device* device)
 	indices[33] = 7;
 	indices[34] = 4;
 	indices[35] = 6;
+#elif defined __CHAPTER_FOUR__
+	//정점 배열 값 저장
+	vertice[0].position = D3DXVECTOR3(-1.0f,1.0f,-1.0f);
+	vertice[0].color = D3DXVECTOR4(0.0f,1.0f,0.0f,1.0f);
+
+	vertice[1].position = D3DXVECTOR3(1.0f,1.0f,-1.0f);
+	vertice[1].color = D3DXVECTOR4(0.0f,1.0f,0.0f,1.0f);
+
+	vertice[2].position = D3DXVECTOR3(1.0f,1.0f,1.0f);
+	vertice[2].color = D3DXVECTOR4(0.0f,1.0f,0.0f,1.0f);
+
+	vertice[3].position = D3DXVECTOR3(-1.0f, 1.0f, 1.0f);
+	vertice[3].color = D3DXVECTOR4(0.0f, 1.0f, 0.0f, 1.0f);
+
+	vertice[4].position = D3DXVECTOR3(-1.0f, -1.0f, -1.0f);
+	vertice[4].color = D3DXVECTOR4(0.0f, 1.0f, 0.0f, 1.0f);
+
+	vertice[5].position = D3DXVECTOR3(1.0f, -1.0f, -1.0f);
+	vertice[5].color = D3DXVECTOR4(0.0f, 1.0f, 0.0f, 1.0f);
+
+	vertice[6].position = D3DXVECTOR3(1.0f, -1.0f, 1.0f);
+	vertice[6].color = D3DXVECTOR4(0.0f, 1.0f, 0.0f, 1.0f);
+
+	vertice[7].position = D3DXVECTOR3(-1.0f, -1.0f, 1.0f);
+	vertice[7].color = D3DXVECTOR4(0.0f, 1.0f, 0.0f, 1.0f);
+
+	indices[0] = 3;
+	indices[1] = 1;
+	indices[2] = 0;
+	indices[3] = 2;
+	indices[4] = 1;
+	indices[5] = 3;
+
+	indices[6] = 0;
+	indices[7] = 5;
+	indices[8] = 4;
+	indices[9] = 1;
+	indices[10] = 5;
+	indices[11] = 0;
+
+	indices[12] = 3;
+	indices[13] = 4;
+	indices[14] = 7;
+	indices[15] = 0;
+	indices[16] = 4;
+	indices[17] = 3;
+
+	indices[18] = 1;
+	indices[19] = 6;
+	indices[20] = 5;
+	indices[21] = 2;
+	indices[22] = 6;
+	indices[23] = 1;
+
+	indices[24] = 2;
+	indices[25] = 7;
+	indices[26] = 6;
+	indices[27] = 3;
+	indices[28] = 7;
+	indices[29] = 2;
+
+	indices[30] = 6;
+	indices[31] = 4;
+	indices[32] = 5;
+	indices[33] = 7;
+	indices[34] = 4;
+	indices[35] = 6;
+#elif defined __CHAPTER_SIX__
+	vertice[0].pos = D3DXVECTOR3(-1.0f, -1.0f, 0.0f);
+	vertice[0].tex = D3DXVECTOR2(0.0f,1.0f);
+	vertice[0].nom = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
+
+	vertice[1].pos = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	vertice[1].tex = D3DXVECTOR2(0.5f, 1.0f);
+	vertice[1].nom = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
+
+	vertice[2].pos = D3DXVECTOR3(1.0f, -1.0f, 0.0f);
+	vertice[2].tex = D3DXVECTOR2(1.0f, 1.0f);
+	vertice[2].nom = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
+
+	indices[0] = 0;
+	indices[1] = 1;
+	indices[2] = 2;
+#endif
+
+	
 
 #ifdef __CHAPTER_FOUR__
 	//정점 버퍼의 DESC 작성
@@ -199,6 +273,14 @@ bool ModelClass::InitializeBuffers(ID3D11Device* device)
 	//정점 버퍼의 DESC 작성
 	vertexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
 	vertexBufferDesc.ByteWidth = sizeof(TexVertexType)* m_vertexCount;
+	vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	vertexBufferDesc.CPUAccessFlags = 0;
+	vertexBufferDesc.MiscFlags = 0;
+	vertexBufferDesc.StructureByteStride = 0;
+#elif defined __CHAPTER_SIX__
+	//정점 버퍼의 DESC 작성
+	vertexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
+	vertexBufferDesc.ByteWidth = sizeof(LightVertexType)* m_vertexCount;
 	vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	vertexBufferDesc.CPUAccessFlags = 0;
 	vertexBufferDesc.MiscFlags = 0;
