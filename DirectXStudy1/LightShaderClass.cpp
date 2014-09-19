@@ -24,7 +24,7 @@ bool LightShaderClass::Initialize(ID3D11Device* device, HWND hwnd)
 {
 	bool result;
 
-	result = InitializeShader(device, hwnd, L"Light.fx", L"Light.fx");
+	result = InitializeShader(device, hwnd, L"Light.vs", L"Light.ps");
 	if (!result)
 	{
 		return false;
@@ -84,7 +84,7 @@ bool LightShaderClass::InitializeShader(ID3D11Device* device, HWND hwnd, WCHAR* 
 	}
 
 	result = D3DX11CompileFromFile(psFile, NULL, NULL, "PS", "ps_5_0", D3D10_SHADER_ENABLE_STRICTNESS, 0, NULL
-		, &vertexShader, &errormsg, NULL);
+		, &pixelShader, &errormsg, NULL);
 	if (FAILED(result))
 	{
 		if (errormsg)

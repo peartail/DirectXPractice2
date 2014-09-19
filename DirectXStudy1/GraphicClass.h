@@ -33,11 +33,7 @@ public:
 	bool Frame();
 
 private:
-#ifdef __CHAPTER_SIX__
 	bool Render(float);
-#else
-	bool Render();
-#endif
 
 private:
 	D3dclass* _D3D;

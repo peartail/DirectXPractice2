@@ -111,6 +111,8 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
       <FileType>Document</FileType>
     </None>
+    <None Include="Light.ps" />
+    <None Include="Light.vs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

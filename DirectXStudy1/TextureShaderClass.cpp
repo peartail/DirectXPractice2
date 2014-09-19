@@ -266,6 +266,8 @@ bool TextureShaderClass::SetShaderParameters(ID3D11DeviceContext* context,D3DXMA
 	
 	//텍스쳐 설정 부문
 	context->PSSetShaderResources(0,1,&texture);
+
+	return true;
 }
 
 void TextureShaderClass::RenderShader(ID3D11DeviceContext* context,int indexCnt)

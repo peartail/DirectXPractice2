@@ -89,8 +89,8 @@ bool ModelClass::InitializeBuffers(ID3D11Device* device)
 		return false;
 	}
 #elif defined __CHAPTER_SIX__
-	m_vertexCount = 3;
-	m_indexCount = 3;
+	m_vertexCount = 24;
+	m_indexCount = 36;
 
 	LightVertexType* vertice;
 	//배열 생성
@@ -242,21 +242,149 @@ bool ModelClass::InitializeBuffers(ID3D11Device* device)
 	indices[34] = 4;
 	indices[35] = 6;
 #elif defined __CHAPTER_SIX__
-	vertice[0].pos = D3DXVECTOR3(-1.0f, -1.0f, 0.0f);
-	vertice[0].tex = D3DXVECTOR2(0.0f,1.0f);
-	vertice[0].nom = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
+	vertice[0].pos = D3DXVECTOR3(-1.0f, 1.0f, -1.0f);
+	vertice[0].tex = D3DXVECTOR2(0.0f, 0.0f);
+	vertice[0].nom = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 
-	vertice[1].pos = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	vertice[1].tex = D3DXVECTOR2(0.5f, 1.0f);
-	vertice[1].nom = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
 
-	vertice[2].pos = D3DXVECTOR3(1.0f, -1.0f, 0.0f);
-	vertice[2].tex = D3DXVECTOR2(1.0f, 1.0f);
-	vertice[2].nom = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
+	vertice[1].pos = D3DXVECTOR3(1.0f, 1.0f, -1.0f);
+	vertice[1].tex = D3DXVECTOR2(0.0f, 1.0f);
+	vertice[1].nom = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 
-	indices[0] = 0;
+	vertice[2].pos = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	vertice[2].tex = D3DXVECTOR2(1.0f, 0.0f);
+	vertice[2].nom = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+
+	vertice[3].pos = D3DXVECTOR3(-1.0f, 1.0f, 1.0f);
+	vertice[3].tex = D3DXVECTOR2(1.0f, 1.0f);
+	vertice[3].nom = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+
+	//2
+	vertice[4].pos = D3DXVECTOR3(-1.0f, -1.0f, -1.0f);
+	vertice[4].tex = D3DXVECTOR2(0.0f, 0.0f);
+	vertice[4].nom = D3DXVECTOR3(0.0f, -1.0f, 0.0f);
+
+	vertice[5].pos = D3DXVECTOR3(1.0f, -1.0f, -1.0f);
+	vertice[5].tex = D3DXVECTOR2(1.0f, 0.0f);
+	vertice[5].nom = D3DXVECTOR3(0.0f, -1.0f, 0.0f);
+
+	vertice[6].pos = D3DXVECTOR3(1.0f, -1.0f, 1.0f);
+	vertice[6].tex = D3DXVECTOR2(0.0f, 1.0f);
+	vertice[6].nom = D3DXVECTOR3(0.0f, -1.0f, 0.0f);
+
+	vertice[7].pos = D3DXVECTOR3(-1.0f, -1.0f, 1.0f);
+	vertice[7].tex = D3DXVECTOR2(1.0f, 1.0f);
+	vertice[7].nom = D3DXVECTOR3(0.0f, -1.0f, 0.0f);
+
+	//3
+	vertice[8].pos = D3DXVECTOR3(-1.0f, -1.0f, 1.0f);
+	vertice[8].tex = D3DXVECTOR2(0.0f, 0.0f);
+	vertice[8].nom = D3DXVECTOR3(-1.0f, 0.0f, 0.0f);
+
+	vertice[9].pos = D3DXVECTOR3(-1.0f, -1.0f, -1.0f);
+	vertice[9].tex = D3DXVECTOR2(0.0f, 1.0f);
+	vertice[9].nom = D3DXVECTOR3(-1.0f, 0.0f, 0.0f);
+
+	vertice[10].pos = D3DXVECTOR3(-1.0f, 1.0f, -1.0f);
+	vertice[10].tex = D3DXVECTOR2(1.0f, 0.0f);
+	vertice[10].nom = D3DXVECTOR3(-1.0f, 0.0f, 0.0f);
+
+	vertice[11].pos = D3DXVECTOR3(-1.0f, 1.0f, 1.0f);
+	vertice[11].tex = D3DXVECTOR2(1.0f, 1.0f);
+	vertice[11].nom = D3DXVECTOR3(-1.0f, 0.0f, 0.0f);
+
+	//4
+	vertice[12].pos = D3DXVECTOR3(1.0f, -1.0f, 1.0f);
+	vertice[12].tex = D3DXVECTOR2(0.0f, 0.0f);
+	vertice[12].nom = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
+
+	vertice[13].pos = D3DXVECTOR3(1.0f, -1.0f, -1.0f);
+	vertice[13].tex = D3DXVECTOR2(1.0f, 0.0f);
+	vertice[13].nom = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
+
+	vertice[14].pos = D3DXVECTOR3(1.0f, 1.0f, -1.0f);
+	vertice[14].tex = D3DXVECTOR2(0.0f, 1.0f);
+	vertice[14].nom = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
+
+	vertice[15].pos = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	vertice[15].tex = D3DXVECTOR2(1.0f, 1.0f);
+	vertice[15].nom = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
+
+	//5
+	vertice[16].pos = D3DXVECTOR3(-1.0f, -1.0f, -1.0f);
+	vertice[16].tex = D3DXVECTOR2(0.0f, 0.0f);
+	vertice[16].nom = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
+
+	vertice[17].pos = D3DXVECTOR3(1.0f, -1.0f, -1.0f);
+	vertice[17].tex = D3DXVECTOR2(0.0f, 1.0f);
+	vertice[17].nom = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
+
+	vertice[18].pos = D3DXVECTOR3(1.0f, 1.0f, -1.0f);
+	vertice[18].tex = D3DXVECTOR2(1.0f, 0.0f);
+	vertice[18].nom = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
+
+	vertice[19].pos = D3DXVECTOR3(-1.0f, 1.0f, -1.0f);
+	vertice[19].tex = D3DXVECTOR2(1.0f, 1.0f);
+	vertice[19].nom = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
+
+	//
+	vertice[20].pos = D3DXVECTOR3(-1.0f, -1.0f, 1.0f);
+	vertice[20].tex = D3DXVECTOR2(0.0f, 0.0f);
+	vertice[20].nom = D3DXVECTOR3(0.0f, 0.0f, 1.0f);
+
+	vertice[21].pos = D3DXVECTOR3(1.0f, -1.0f, 1.0f);
+	vertice[21].tex = D3DXVECTOR2(1.0f, 0.0f);
+	vertice[21].nom = D3DXVECTOR3(0.0f, 0.0f, 1.0f);
+
+	vertice[22].pos = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	vertice[22].tex = D3DXVECTOR2(0.0f, 1.0f);
+	vertice[22].nom = D3DXVECTOR3(0.0f, 0.0f, 1.0f);
+
+	vertice[23].pos = D3DXVECTOR3(-1.0f, 1.0f, 1.0f);
+	vertice[23].tex = D3DXVECTOR2(1.0f, 1.0f);
+	vertice[23].nom = D3DXVECTOR3(0.0f, 0.0f, 1.0f);
+	
+	indices[0] = 3;
 	indices[1] = 1;
-	indices[2] = 2;
+	indices[2] = 0;
+	indices[3] = 2;
+	indices[4] = 1;
+	indices[5] = 3;
+
+	indices[6] = 6;
+	indices[7] = 4;
+	indices[8] = 5;
+	indices[9] = 7;
+	indices[10] = 4;
+	indices[11] = 6;
+
+	indices[12] = 11;
+	indices[13] = 9;
+	indices[14] = 8;
+	indices[15] = 10;
+	indices[16] = 9;
+	indices[17] = 11;
+
+	indices[18] = 14;
+	indices[19] = 12;
+	indices[20] = 13;
+	indices[21] = 15;
+	indices[22] = 12;
+	indices[23] = 14;
+
+	indices[24] = 19;
+	indices[25] = 17;
+	indices[26] = 16;
+	indices[27] = 18;
+	indices[28] = 17;
+	indices[29] = 19;
+
+	indices[30] = 22;
+	indices[31] = 20;
+	indices[32] = 21;
+	indices[33] = 23;
+	indices[34] = 20;
+	indices[35] = 22;
 #endif
 
 	

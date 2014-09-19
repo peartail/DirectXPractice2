@@ -92,6 +92,8 @@
     <None Include="ColorVertex.hlsl" />
     <None Include="ColorPixel.hlsl" />
     <None Include="Light.fx" />
+    <None Include="Light.vs" />
+    <None Include="Light.ps" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="texture.fx" />

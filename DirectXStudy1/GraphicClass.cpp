@@ -145,7 +145,7 @@ void GraphicClass::ShutDown()
 bool GraphicClass::Frame()
 {
 	bool result;
-#ifdef __CHAPTER_SIX__
+
 	static float rotation = 0.0f;
 
 	rotation += (float)D3DX_PI * 0.01f;
@@ -155,9 +155,7 @@ bool GraphicClass::Frame()
 	}
 
 	result = Render(rotation);
-#else
-	result = Render();
-#endif
+
 	if (!result)
 	{
 		return false;
@@ -166,11 +164,7 @@ bool GraphicClass::Frame()
 	return true;
 }
 
-#ifdef __CHAPTER_SIX__
 bool GraphicClass::Render(float rotation)
-#else
-bool GraphicClass::Render()
-#endif
 {
 	D3DXMATRIX world, view, proj;
 	bool result;
@@ -190,10 +184,7 @@ bool GraphicClass::Render()
 	_D3D->GetWorldMatrix(world);
 	_D3D->GetProjectionMatrix(proj);
 
-	
-#ifdef __CHAPTER_SIX__
-	D3DXMatrixRotationY(&world, rotation);
-#endif
+	D3DXMatrixRotationX(&world, rotation);
 
 	_model->Render(_D3D->GetDeviceContext());
 
