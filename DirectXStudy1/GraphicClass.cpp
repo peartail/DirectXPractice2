@@ -184,7 +184,7 @@ bool GraphicClass::Render(float rotation)
 	_D3D->GetWorldMatrix(world);
 	_D3D->GetProjectionMatrix(proj);
 
-	D3DXMatrixRotationX(&world, rotation);
+	D3DXMatrixRotationY(&world, rotation);
 
 	_model->Render(_D3D->GetDeviceContext());
 

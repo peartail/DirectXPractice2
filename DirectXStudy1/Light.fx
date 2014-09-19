@@ -1,11 +1,11 @@
-cbuffer MatrixBuffer
+cbuffer MatrixBuffer : register (b0)
 {
 	matrix world;
 	matrix view;
 	matrix proj;
 };
 
-cbuffer LightBuffer
+cbuffer LightBuffer : register (b1)
 {
 	float4 diffuse;
 	float3 lightdir;
@@ -65,5 +65,5 @@ float4 PS(PInput i) : SV_TARGET
 
 	color = color * texColor;
 
-	return float4(1.0f, 1.0f, 1.0f, 1.0f);
+	return color;
 }

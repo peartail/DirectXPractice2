@@ -24,7 +24,7 @@ bool LightShaderClass::Initialize(ID3D11Device* device, HWND hwnd)
 {
 	bool result;
 
-	result = InitializeShader(device, hwnd, L"Light.vs", L"Light.ps");
+	result = InitializeShader(device, hwnd, L"Light.fx", L"Light.fx");
 	if (!result)
 	{
 		return false;
@@ -308,7 +308,7 @@ bool LightShaderClass::SetShaderParameters(ID3D11DeviceContext* context, D3DXMAT
 
 	context->Unmap(_lightBuffer, 0);
 
-	bufferNum = 0;
+	bufferNum = 1;
 
 	context->PSSetConstantBuffers(bufferNum, 1, &_lightBuffer);
 

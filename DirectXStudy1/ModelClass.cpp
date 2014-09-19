@@ -476,6 +476,8 @@ void ModelClass::RenderBuffers(ID3D11DeviceContext* context)
 	stride = sizeof(VertexType);
 #elif defined __CHAPTER_FIVE__
 	stride = sizeof(TexVertexType);
+#elif defined __CHAPTER_SIX__
+	stride = sizeof(LightVertexType);
 #endif
 	
 	offset = 0;
