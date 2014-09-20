@@ -14,6 +14,9 @@
 #elif defined __CHAPTER_SIX__
 #include "LightClass.h"
 #include "LightShaderClass.h"
+#else
+#include "LightClass.h"
+#include "LightShaderClass.h"
 #endif
 
 const bool FULL_SCREEN = false;
@@ -47,7 +50,11 @@ private:
 #elif defined __CHAPTER_SIX__
 	LightShaderClass* _shader;
 	LightClass* _light;
+#else
+	LightShaderClass* _shader;
+	LightClass* _light;
 #endif
+
 };
 
 #endif

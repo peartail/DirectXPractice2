@@ -10,6 +10,8 @@ GraphicClass::GraphicClass()
 	_shader = NULL;
 #ifdef __CHAPTER_SIX__
 	_light = NULL;
+#else
+	_light = NULL;
 #endif
 }
 
@@ -79,7 +81,18 @@ bool GraphicClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	}
 
 	_shader = new LightShaderClass;
+#else
+	result = _model->Initailize(_D3D->GetDevice(), "Cube.txt",L"Texture/rocks_NM_height.dds");
+	if (!result)
+	{
+		MessageBox(hwnd, L"Could not init model", L"Error", MB_OK);
+		return false;
+	}
+
+	_shader = new LightShaderClass;
 #endif
+
+
 	if (!_shader)
 	{
 		return false;
@@ -92,28 +105,27 @@ bool GraphicClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 		return false;
 	}
 
-#ifdef __CHAPTER_SIX__
 	_light = new LightClass;
 	if (!_light)
 	{
 		return false;
 	}
 
-	_light->SetDiffuseColor(0.0f, 1.0f, 1.0f, 1.0f);
+	_light->SetDiffuseColor(1.0f, 1.0f, 1.0f, 1.0f);
 	_light->SetDirection(0.0f, 0.0f, 1.0f);
-#endif
+
 	return true;
 }
 
 void GraphicClass::ShutDown()
 {
-#ifdef __CHAPTER_SIX__
+
 	if (_light)
 	{
 		delete _light;
 		_light = NULL;
 	}
-#endif
+
 	if (_shader)
 	{
 		_shader->Shutdown();
@@ -193,6 +205,8 @@ bool GraphicClass::Render(float rotation)
 #elif defined __CHAPTER_FIVE__
 	result = _shader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj,_model->GetTexture());
 #elif defined __CHAPTER_SIX__
+	result = _shader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj, _model->GetTexture(), _light->GetDirection(), _light->GetDiffuseColor());
+#else 
 	result = _shader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj, _model->GetTexture(), _light->GetDirection(), _light->GetDiffuseColor());
 #endif
 	if (!result)

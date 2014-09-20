@@ -13,77 +13,89 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="FrameWorks">
+      <UniqueIdentifier>{39884fa5-d89a-4ef6-a7a4-141f6c625ec6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ShaderUtil">
+      <UniqueIdentifier>{6ec9c289-901e-4ca8-8582-bb328b9edc6f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="SystemClass.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="InputClass.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphicClass.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="CameraClass.cpp">
+      <Filter>FrameWorks</Filter>
     </ClCompile>
     <ClCompile Include="D3dclass.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>FrameWorks</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicClass.cpp">
+      <Filter>FrameWorks</Filter>
+    </ClCompile>
+    <ClCompile Include="InputClass.cpp">
+      <Filter>FrameWorks</Filter>
+    </ClCompile>
+    <ClCompile Include="LightClass.cpp">
+      <Filter>FrameWorks</Filter>
+    </ClCompile>
+    <ClCompile Include="SystemClass.cpp">
+      <Filter>FrameWorks</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureClass.cpp">
+      <Filter>FrameWorks</Filter>
+    </ClCompile>
+    <ClCompile Include="ColorShaderClass.cpp">
+      <Filter>ShaderUtil</Filter>
+    </ClCompile>
+    <ClCompile Include="LightShaderClass.cpp">
+      <Filter>ShaderUtil</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureShaderClass.cpp">
+      <Filter>ShaderUtil</Filter>
     </ClCompile>
     <ClCompile Include="ModelClass.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="ColorShaderClass.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="CameraClass.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="TextureClass.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="TextureShaderClass.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="LightShaderClass.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="LightClass.cpp">
+    <ClCompile Include="ShaderClass.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SystemClass.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="InputClass.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicClass.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="CameraClass.h">
+      <Filter>FrameWorks</Filter>
     </ClInclude>
     <ClInclude Include="D3dclass.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>FrameWorks</Filter>
+    </ClInclude>
+    <ClInclude Include="InputClass.h">
+      <Filter>FrameWorks</Filter>
+    </ClInclude>
+    <ClInclude Include="LightClass.h">
+      <Filter>FrameWorks</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicClass.h">
+      <Filter>FrameWorks</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemClass.h">
+      <Filter>FrameWorks</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureClass.h">
+      <Filter>FrameWorks</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorShaderClass.h">
+      <Filter>ShaderUtil</Filter>
+    </ClInclude>
+    <ClInclude Include="LightShaderClass.h">
+      <Filter>ShaderUtil</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureShaderClass.h">
+      <Filter>ShaderUtil</Filter>
     </ClInclude>
     <ClInclude Include="ModelClass.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="ColorShaderClass.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CameraClass.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="TextureClass.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="TextureShaderClass.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="LightShaderClass.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="LightClass.h">
+    <ClInclude Include="ShaderClass.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -97,5 +109,8 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="texture.fx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Cube.txt" />
   </ItemGroup>
 </Project>
