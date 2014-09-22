@@ -133,3 +133,172 @@ bool ReadFileCounts(char* filename,int& vcount,int& tcount,int& ncount,int& fcou
 
 	return true;
 }
+
+bool LoadDataStructures(char* filename, int vcount, int tcount, int ncount, int fcount)
+{
+	VertexType *vertices, *texcoords, *normals;
+	FaceType *faces;
+	ifstream fin;
+	int vertexIndex, texIndex, normIndex, faceIndex, vIndex, tIndex, nIndex;
+	char input, input2;
+	ofstream fout;
+
+	vertices = new VertexType[vcount];
+	if (!vertices)
+	{
+		return false;
+	}
+
+	texcoords = new VertexType[tcount];
+	if (!texcoords)
+	{
+		return false;
+	}
+
+	normals = new VertexType[ncount];
+	if (!normals)
+	{
+		return false;
+	}
+
+	faces = new FaceType[fcount];
+	if (!faces)
+	{
+		return false;
+	}
+
+	vertexIndex = 0;
+	texIndex = 0;
+	normIndex = 0;
+	faceIndex = 0;
+
+	fin.open(filename);
+
+	if (fin.fail() == true)
+	{
+
+		return false;
+	}
+
+	fin.get(input);
+	while (!fin.eof())
+	{
+		if (input == 'v')
+		{
+			fin.get(input);
+
+			if (input == ' ')
+			{
+				fin >> vertices[vertexIndex].x >> vertices[vertexIndex].y >> vertices[vertexIndex].z;
+
+				vertices[vertexIndex].z = vertices[vertexIndex].z * -1.0f;
+				vertexIndex++;
+			}
+
+			if (input == 't')
+			{
+				fin >> texcoords[texIndex].x >> texcoords[texIndex].y;
+
+				texcoords[texIndex].y = 1.0f - texcoords[texIndex].y;
+				texIndex++;
+			}
+
+			if (input == 'n')
+			{
+				fin >> normals[normIndex].x >> normals[normIndex].y >> normals[normIndex].z;
+
+				normals[normIndex].z = normals[normIndex].z * -1.0f;
+				normIndex++;
+			}
+		}
+
+		if (input == 'f')
+		{
+			fin.get(input);
+			if (input == ' ')
+			{
+				fin >> faces[faceIndex].vIndex3 >> input2 >> faces[faceIndex].tIndex3 >> input2 >> faces[faceIndex].nIndex3
+					>> faces[faceIndex].vIndex2 >> input2 >> faces[faceIndex].tIndex2 >> input2 >> faces[faceIndex].nIndex2
+					>> faces[faceIndex].vIndex1 >> input2 >> faces[faceIndex].tIndex1 >> input2 >> faces[faceIndex].nIndex1;
+				faceIndex++;
+			}
+		}
+		while (input != '\n')
+		{
+			fin.get(input);
+		}
+		fin.get(input);
+	}
+
+	fin.close();
+	string filestring = filename;
+	int fileIndex = filestring.rfind('.');
+	string fname = filestring.substr(0,fileIndex);
+
+	string currentDirectory = ".\\Model\\";
+	string outputFilename = currentDirectory + (fname + ".txt").c_str();
+	//printf(outputFilename);
+
+	fout.open(outputFilename);
+
+	fout << "Vertex Count: " << (fcount * 3) << endl;
+	fout << endl;
+	fout << "Data:" << endl;
+	fout << endl;
+
+	for (int i = 0; i < faceIndex; ++i)
+	{
+		vIndex = faces[i].vIndex1 - 1;
+		tIndex = faces[i].tIndex1 - 1;
+		nIndex = faces[i].nIndex1 - 1;
+
+		fout << vertices[vIndex].x << ' ' << vertices[vIndex].y << ' ' << vertices[vIndex].z << ' ' << texcoords[tIndex].x << ' ' << texcoords[tIndex].y << ' ' << normals[nIndex].x << ' ' << normals[nIndex].y
+			<< ' ' << normals[nIndex].z << endl;
+
+		vIndex = faces[i].vIndex2 - 1;
+		tIndex = faces[i].tIndex2 - 1;
+		nIndex = faces[i].nIndex2 - 1;
+
+		fout << vertices[vIndex].x << ' ' << vertices[vIndex].y << ' ' << vertices[vIndex].z << ' ' << texcoords[tIndex].x << ' ' << texcoords[tIndex].y << ' ' << normals[nIndex].x << ' ' << normals[nIndex].y
+			<< ' ' << normals[nIndex].z << endl;
+
+		vIndex = faces[i].vIndex3 - 1;
+		tIndex = faces[i].tIndex3 - 1;
+		nIndex = faces[i].nIndex3 - 1;
+
+		fout << vertices[vIndex].x << ' ' << vertices[vIndex].y << ' ' << vertices[vIndex].z << ' ' << texcoords[tIndex].x << ' ' << texcoords[tIndex].y << ' ' << normals[nIndex].x << ' ' << normals[nIndex].y
+			<< ' ' << normals[nIndex].z << endl;
+	}
+
+	fout.close();
+
+	if (vertices)
+	{
+		delete[] vertices;
+		vertices = NULL;
+	}
+
+	if (texcoords)
+	{
+		delete[] texcoords;
+		texcoords = NULL;
+	}
+
+	if (normals)
+	{
+		delete[] normals;
+		normals = NULL;
+	}
+
+	if (faces)
+	{
+		delete[] faces;
+		faces = NULL;
+	}
+
+	return true;
+
+
+
+
+}

@@ -47,8 +47,8 @@ bool GraphicClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 		return false;
 	}
 
-	_Camera->SetPosition(0.0f, 0.0f, -10.0f);
-
+	_Camera->SetPosition(-0.0f, 30.0f, -120.0f);
+	_Camera->SetRotation(10.0f, 0.0f, 10.0f);
 	_model = new ModelClass;
 	if (!_model)
 	{
@@ -82,7 +82,7 @@ bool GraphicClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 
 	_shader = new LightShaderClass;
 #else
-	result = _model->Initailize(_D3D->GetDevice(), "Cube.txt",L"Texture/rocks_NM_height.dds");
+	result = _model->Initailize(_D3D->GetDevice(), "house.txt",L"Texture/rocks_NM_height.dds");
 	if (!result)
 	{
 		MessageBox(hwnd, L"Could not init model", L"Error", MB_OK);
@@ -183,12 +183,19 @@ bool GraphicClass::Render(float rotation)
 
 	_D3D->BeginScene(0.0f, 0.0f, 0.0f, 1.0f);
 
+	/*
 	D3DXVECTOR3 rot= _Camera->GetRotation();
 
-	rot.x++;
-	rot.y++;
+	//rot.x++;
+	rot.z++;
 
-	//_Camera->SetRotation(rot.x, rot.y, rot.z);
+	_Camera->SetRotation(rot.x, rot.y, rot.z);
+	*/
+	D3DXVECTOR3 pos = _Camera->GetPosition();
+
+	pos.x--;
+
+	//_Camera->SetPosition(pos.x, pos.y, pos.z);
 
 	_Camera->Render();
 
