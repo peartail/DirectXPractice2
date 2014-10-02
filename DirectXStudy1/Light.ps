@@ -1,5 +1,6 @@
 cbuffer LightBuffer
 {
+	float4 ambientColor;
 	float4 diffuse;
 	float3 lightdir;
 	float padding;
@@ -25,11 +26,18 @@ float4 PS(PInput i) : SV_TARGET
 
 	texColor = g_tex.Sample(g_sample, i.tex);
 
+	color = ambientColor;
+
 	ld = -lightdir;
 
 	lightIntensity = saturate(dot(i.normal, ld));
 
-	color = saturate(diffuse * lightIntensity);
+	if(lightIntensity > 0.0f)
+	{
+		color += (diffuse * lightIntensity);
+	}
+
+	color = saturate(color);
 
 	color = color * texColor;
 

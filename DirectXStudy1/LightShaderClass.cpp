@@ -37,11 +37,12 @@ void LightShaderClass::Shutdown()
 	ShutdownShader();
 }
 
-bool LightShaderClass::Render(ID3D11DeviceContext* context, int indexCnt, D3DXMATRIX world, D3DXMATRIX view, D3DXMATRIX proj, ID3D11ShaderResourceView* tex, D3DXVECTOR3 lightdir, D3DXVECTOR4 diffuse)
+
+bool LightShaderClass::Render(ID3D11DeviceContext* context, int indexCnt, D3DXMATRIX world, D3DXMATRIX view, D3DXMATRIX proj, ID3D11ShaderResourceView* tex, D3DXVECTOR3 lightdir, D3DXVECTOR4 ambient,D3DXVECTOR4 diffuse)
 {
 	bool result;
 
-	result = SetShaderParameters(context, world, view, proj, tex, lightdir, diffuse);
+	result = SetShaderParameters(context, world, view, proj, tex, lightdir,ambient, diffuse);
 	if (!result)
 	{
 		return false;
@@ -261,7 +262,7 @@ void LightShaderClass::OutputShaderErrorMessage(ID3D10Blob* errorMEssage, HWND h
 	MessageBox(hwnd, L"error compile shader,check error", filename, MB_OK);
 }
 
-bool LightShaderClass::SetShaderParameters(ID3D11DeviceContext* context, D3DXMATRIX world, D3DXMATRIX view, D3DXMATRIX proj, ID3D11ShaderResourceView* tex, D3DXVECTOR3 lightdir, D3DXVECTOR4 diffuse)
+bool LightShaderClass::SetShaderParameters(ID3D11DeviceContext* context, D3DXMATRIX world, D3DXMATRIX view, D3DXMATRIX proj, ID3D11ShaderResourceView* tex, D3DXVECTOR3 lightdir, D3DXVECTOR4 ambient,D3DXVECTOR4 diffuse)
 {
 	HRESULT result;
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
@@ -302,6 +303,7 @@ bool LightShaderClass::SetShaderParameters(ID3D11DeviceContext* context, D3DXMAT
 
 	dataPtr2 = (LightBufferType*)mappedResource.pData;
 
+	dataPtr2->ambientColor = ambient;
 	dataPtr2->diffuse = diffuse;
 	dataPtr2->lightdir = lightdir;
 	dataPtr2->padding = 0.0f;

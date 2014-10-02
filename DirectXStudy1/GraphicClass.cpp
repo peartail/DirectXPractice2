@@ -47,7 +47,7 @@ bool GraphicClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 		return false;
 	}
 
-	_Camera->SetPosition(-0.0f, 30.0f, -120.0f);
+	_Camera->SetPosition(-0.0f, 30.0f, -60.0f);
 	_Camera->SetRotation(10.0f, 0.0f, 10.0f);
 	_model = new ModelClass;
 	if (!_model)
@@ -111,8 +111,9 @@ bool GraphicClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 		return false;
 	}
 
+	_light->SetAmbientColor(0.35f, 0.35f, 0.35f, 1.0f);
 	_light->SetDiffuseColor(1.0f, 1.0f, 1.0f, 1.0f);
-	_light->SetDirection(0.0f, 0.0f, 1.0f);
+	_light->SetDirection(1.0f, 0.0f, 0.0f);
 
 	return true;
 }
@@ -160,7 +161,7 @@ bool GraphicClass::Frame()
 
 	static float rotation = 0.0f;
 
-	rotation += (float)D3DX_PI * 0.01f;
+	rotation += (float)D3DX_PI * 0.005f;
 	if (rotation > 360.0f)
 	{
 		rotation -= 360.0f;
@@ -214,7 +215,7 @@ bool GraphicClass::Render(float rotation)
 #elif defined __CHAPTER_SIX__
 	result = _shader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj, _model->GetTexture(), _light->GetDirection(), _light->GetDiffuseColor());
 #else 
-	result = _shader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj, _model->GetTexture(), _light->GetDirection(), _light->GetDiffuseColor());
+	result = _shader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj, _model->GetTexture(), _light->GetDirection(),_light->GetAmbientColor(), _light->GetDiffuseColor());
 #endif
 	if (!result)
 	{
