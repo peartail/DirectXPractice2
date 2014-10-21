@@ -47,8 +47,8 @@ bool GraphicClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 		return false;
 	}
 
-	_Camera->SetPosition(-0.0f, 30.0f, -60.0f);
-	_Camera->SetRotation(10.0f, 0.0f, 10.0f);
+	_Camera->SetPosition(-0.0f, 0.0f, -10.0f);
+	_Camera->SetRotation(10.0f, 0.0f, 0.0f);
 	_model = new ModelClass;
 	if (!_model)
 	{
@@ -82,7 +82,7 @@ bool GraphicClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 
 	_shader = new LightShaderClass;
 #else
-	result = _model->Initailize(_D3D->GetDevice(), "house.txt",L"Texture/rocks_NM_height.dds");
+	result = _model->Initailize(_D3D->GetDevice(), "Cube.txt",L"Texture/rocks_NM_height.dds");
 	if (!result)
 	{
 		MessageBox(hwnd, L"Could not init model", L"Error", MB_OK);
@@ -111,9 +111,11 @@ bool GraphicClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 		return false;
 	}
 
-	_light->SetAmbientColor(0.35f, 0.35f, 0.35f, 1.0f);
+	_light->SetAmbientColor(0.15f, 0.15f, 0.15f, 1.0f);
 	_light->SetDiffuseColor(1.0f, 1.0f, 1.0f, 1.0f);
-	_light->SetDirection(1.0f, 0.0f, 0.0f);
+	_light->SetDirection(0.f, 0.0f, 1.0f);
+	_light->SetSpecularColor(1.0f, 1.0f, 1.0f, 1.0f);
+	_light->SetSpecularPower(32.f);
 
 	return true;
 }
@@ -204,8 +206,9 @@ bool GraphicClass::Render(float rotation)
 	_D3D->GetWorldMatrix(world);
 	_D3D->GetProjectionMatrix(proj);
 
-	D3DXMatrixRotationY(&world, rotation);
-
+	//D3DXMatrixRotationY(&world, rotation);
+	D3DXMatrixRotationYawPitchRoll(&world, rotation, rotation, rotation);
+	
 	_model->Render(_D3D->GetDeviceContext());
 
 #ifdef __CHATER_FOUR__
@@ -215,7 +218,7 @@ bool GraphicClass::Render(float rotation)
 #elif defined __CHAPTER_SIX__
 	result = _shader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj, _model->GetTexture(), _light->GetDirection(), _light->GetDiffuseColor());
 #else 
-	result = _shader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj, _model->GetTexture(), _light->GetDirection(),_light->GetAmbientColor(), _light->GetDiffuseColor());
+	result = _shader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj, _model->GetTexture(), _light->GetDirection(),_light->GetAmbientColor(), _light->GetDiffuseColor(),_Camera->GetPosition(),_light->GetSpecularColor(),_light->GetSpecularPower());
 #endif
 	if (!result)
 	{

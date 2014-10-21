@@ -31,6 +31,16 @@ void LightClass::SetDirection(float x, float y, float z)
 	_direction = D3DXVECTOR3(x, y, z);
 }
 
+void LightClass::SetSpecularColor(float r, float g, float b, float a)
+{
+	_specularColor = D3DXVECTOR4(r, g, b, a);
+}
+
+void LightClass::SetSpecularPower(float p)
+{
+	_specularPower = p;
+}
+
 D3DXVECTOR4 LightClass::GetAmbientColor()
 {
 	return _ambientColor;
@@ -44,4 +54,14 @@ D3DXVECTOR4 LightClass::GetDiffuseColor()
 D3DXVECTOR3 LightClass::GetDirection()
 {
 	return _direction;
+}
+
+D3DXVECTOR4 LightClass::GetSpecularColor()
+{
+	return _specularColor;
+}
+
+float LightClass::GetSpecularPower()
+{
+	return _specularPower;
 }

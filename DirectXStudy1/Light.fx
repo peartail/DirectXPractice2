@@ -5,11 +5,19 @@ cbuffer MatrixBuffer : register (b0)
 	matrix proj;
 };
 
-cbuffer LightBuffer : register (b1)
+cbuffer CameraBuffer : register(b2)
 {
+	float3 cameraPos;
+	float padding;
+};
+
+cbuffer LightBuffer : register(b1)
+{
+	float4 ambientColor;
 	float4 diffuse;
 	float3 lightdir;
-	float padding;
+	float specularPower;
+	float4 specularColor;
 };
 
 struct VInput
@@ -24,6 +32,7 @@ struct PInput
 	float4 pos : SV_POSITION;
 	float2 tex : TEXCOORD0;
 	float3 normal : NORMAL;
+	float3 viewdir : TEXCOORD1;
 };
 
 Texture2D g_tex;
@@ -36,6 +45,11 @@ PInput VS(VInput i)
 	i.pos.w = 1.0f;
 
 	o.pos = mul(i.pos, world);
+
+	o.viewdir = cameraPos.xyz - o.pos.xyz;
+
+	o.viewdir = normalize(o.viewdir);
+
 	o.pos = mul(o.pos, view);
 	o.pos = mul(o.pos, proj);
 
@@ -55,15 +69,36 @@ float4 PS(PInput i) : SV_TARGET
 	float lightIntensity;
 	float4 color;
 
+	float3 reflection;
+	float4 specular;
+
 	texColor = g_tex.Sample(g_sample, i.tex);
+
+	color = ambientColor;
+
+	specular = float4(0.0f, 0.0f, 0.0f, 0.0f);
 
 	ld = -lightdir;
 
 	lightIntensity = saturate(dot(i.normal, ld));
 
-	color = saturate(diffuse * lightIntensity);
+	if (lightIntensity > 0.0f)
+	{
+		color += (diffuse * lightIntensity);
+
+		color = saturate(color);
+
+		reflection = normalize(2 * lightIntensity * i.normal - lightdir);
+		
+		specular = pow(saturate(dot(reflection, i.viewdir)), specularPower);
+	}
+
+	//color = saturate(color);
 
 	color = color * texColor;
 
+	color = saturate(color + specular);
+
 	return color;
 }
+

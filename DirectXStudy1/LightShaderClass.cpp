@@ -8,6 +8,7 @@ LightShaderClass::LightShaderClass()
 	_layout = NULL;
 	_sampleState = NULL;
 	_matrixBuffer = NULL;
+	_cameraBuffer = NULL;
 	_lightBuffer = NULL;
 }
 
@@ -38,11 +39,11 @@ void LightShaderClass::Shutdown()
 }
 
 
-bool LightShaderClass::Render(ID3D11DeviceContext* context, int indexCnt, D3DXMATRIX world, D3DXMATRIX view, D3DXMATRIX proj, ID3D11ShaderResourceView* tex, D3DXVECTOR3 lightdir, D3DXVECTOR4 ambient,D3DXVECTOR4 diffuse)
+bool LightShaderClass::Render(ID3D11DeviceContext* context, int indexCnt, D3DXMATRIX world, D3DXMATRIX view, D3DXMATRIX proj, ID3D11ShaderResourceView* tex, D3DXVECTOR3 lightdir, D3DXVECTOR4 ambient,D3DXVECTOR4 diffuse,D3DXVECTOR3 cameraPos,D3DXVECTOR4 specularColor,float specularPower)
 {
 	bool result;
 
-	result = SetShaderParameters(context, world, view, proj, tex, lightdir,ambient, diffuse);
+	result = SetShaderParameters(context, world, view, proj, tex, lightdir,ambient, diffuse,cameraPos,specularColor,specularPower);
 	if (!result)
 	{
 		return false;
@@ -64,6 +65,7 @@ bool LightShaderClass::InitializeShader(ID3D11Device* device, HWND hwnd, WCHAR* 
 	D3D11_SAMPLER_DESC samplerDesc;
 	D3D11_BUFFER_DESC matrixBufferDesc;
 
+	D3D11_BUFFER_DESC cameraBufferDesc;
 	D3D11_BUFFER_DESC lightBufferDesc;
 
 	errormsg = NULL;
@@ -182,6 +184,19 @@ bool LightShaderClass::InitializeShader(ID3D11Device* device, HWND hwnd, WCHAR* 
 		return false;
 	}
 
+	cameraBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+	cameraBufferDesc.ByteWidth = sizeof(CameraBufferType);
+	cameraBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	cameraBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	cameraBufferDesc.MiscFlags = 0;
+	cameraBufferDesc.StructureByteStride = 0;
+
+	result = device->CreateBuffer(&cameraBufferDesc, NULL, &_cameraBuffer);
+	if (FAILED(result))
+	{
+		return false;
+	}
+
 	lightBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
 	lightBufferDesc.ByteWidth = sizeof(LightBufferType);
 	lightBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
@@ -203,6 +218,12 @@ void LightShaderClass::ShutdownShader()
 	{
 		_lightBuffer->Release();
 		_lightBuffer = NULL;
+	}
+
+	if (_cameraBuffer)
+	{
+		_cameraBuffer->Release();
+		_cameraBuffer = NULL;
 	}
 
 	if (_matrixBuffer)
@@ -262,13 +283,14 @@ void LightShaderClass::OutputShaderErrorMessage(ID3D10Blob* errorMEssage, HWND h
 	MessageBox(hwnd, L"error compile shader,check error", filename, MB_OK);
 }
 
-bool LightShaderClass::SetShaderParameters(ID3D11DeviceContext* context, D3DXMATRIX world, D3DXMATRIX view, D3DXMATRIX proj, ID3D11ShaderResourceView* tex, D3DXVECTOR3 lightdir, D3DXVECTOR4 ambient,D3DXVECTOR4 diffuse)
+bool LightShaderClass::SetShaderParameters(ID3D11DeviceContext* context, D3DXMATRIX world, D3DXMATRIX view, D3DXMATRIX proj, ID3D11ShaderResourceView* tex, D3DXVECTOR3 lightdir, D3DXVECTOR4 ambient,D3DXVECTOR4 diffuse,D3DXVECTOR3 cameraPos,D3DXVECTOR4 specularColor,float specularPow)
 {
 	HRESULT result;
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	unsigned int bufferNum;
 	MatrixBufferType* dataPtr;
 	LightBufferType* dataPtr2;
+	CameraBufferType* dataPtr3;
 
 	D3DXMatrixTranspose(&world, &world);
 	D3DXMatrixTranspose(&view, &view);
@@ -294,6 +316,22 @@ bool LightShaderClass::SetShaderParameters(ID3D11DeviceContext* context, D3DXMAT
 
 	context->PSSetShaderResources(0, 1, &tex);
 
+	result = context->Map(_cameraBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+	if (FAILED(result))
+	{
+		return false;
+	}
+
+	dataPtr3 = (CameraBufferType*)mappedResource.pData;
+
+	dataPtr3->cameraPos = cameraPos;
+	dataPtr3->padding = 0.0f;
+
+	context->Unmap(_cameraBuffer, 0);
+
+	bufferNum = 2;
+
+	context->VSSetConstantBuffers(bufferNum, 1, &_cameraBuffer);
 
 	result = context->Map(_lightBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 	if (FAILED(result))
@@ -306,7 +344,8 @@ bool LightShaderClass::SetShaderParameters(ID3D11DeviceContext* context, D3DXMAT
 	dataPtr2->ambientColor = ambient;
 	dataPtr2->diffuse = diffuse;
 	dataPtr2->lightdir = lightdir;
-	dataPtr2->padding = 0.0f;
+	dataPtr2->specularColor = specularColor;
+	dataPtr2->specularPower = specularPow;
 
 	context->Unmap(_lightBuffer, 0);
 
