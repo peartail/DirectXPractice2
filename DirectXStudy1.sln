@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio Express 2013 for Windows Desktop
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DirectXStudy1", "DirectXStudy1\DirectXStudy1.vcxproj", "{C4FC37AA-1A67-49F1-B716-47CE2F021C80}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "objTotxt", "objTotxt\objTotxt.vcxproj", "{6BD34DE6-B68E-4DD1-B373-0E33880B86F0}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DirectX2DProject", "DirectX2DProject\DirectX2DProject.vcxproj", "{CC710E99-AC0F-4915-A570-0822B58BB42B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,6 +23,10 @@ Global
 		{6BD34DE6-B68E-4DD1-B373-0E33880B86F0}.Debug|Win32.Build.0 = Debug|Win32
 		{6BD34DE6-B68E-4DD1-B373-0E33880B86F0}.Release|Win32.ActiveCfg = Release|Win32
 		{6BD34DE6-B68E-4DD1-B373-0E33880B86F0}.Release|Win32.Build.0 = Release|Win32
+		{CC710E99-AC0F-4915-A570-0822B58BB42B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{CC710E99-AC0F-4915-A570-0822B58BB42B}.Debug|Win32.Build.0 = Debug|Win32
+		{CC710E99-AC0F-4915-A570-0822B58BB42B}.Release|Win32.ActiveCfg = Release|Win32
+		{CC710E99-AC0F-4915-A570-0822B58BB42B}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
