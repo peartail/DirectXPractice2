@@ -13,6 +13,8 @@ D3dclass::D3dclass()
 
 	m_depthStencilView = NULL;
 	m_rasterState = NULL;
+
+	_depthDisabledStencilState = NULL;
 }
 
 
@@ -36,6 +38,8 @@ bool D3dclass::Initialize(int screenWidth, int screenHeight, bool vsync, HWND hw
 	D3D11_RASTERIZER_DESC rasterDesc;
 	D3D11_VIEWPORT viewport;
 	float fieldOfView, screenAspect;
+
+	D3D11_DEPTH_STENCIL_DESC depthDisabledStencilDesc;
 
 	m_vsync_enabled = vsync;
 
@@ -249,6 +253,31 @@ bool D3dclass::Initialize(int screenWidth, int screenHeight, bool vsync, HWND hw
 	//2D 렌더링용 정사용(오쏘) 행렬 생성
 	D3DXMatrixOrthoLH(&m_orthoMatrix, (float)screenWidth, (float)screenHeight, screenNear, screenDepth);
 
+	ZeroMemory(&depthDisabledStencilDesc,sizeof(depthDisabledStencilDesc));
+
+	depthDisabledStencilDesc.DepthEnable = false;
+	depthDisabledStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	depthDisabledStencilDesc.DepthFunc = D3D11_COMPARISON_LESS;
+	depthDisabledStencilDesc.StencilEnable = true;
+	depthDisabledStencilDesc.StencilReadMask = 0xff;
+	depthDisabledStencilDesc.StencilWriteMask = 0xff;
+
+	depthDisabledStencilDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+	depthDisabledStencilDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_INCR;
+	depthDisabledStencilDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+	depthDisabledStencilDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+
+	depthDisabledStencilDesc.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+	depthDisabledStencilDesc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_DECR;
+	depthDisabledStencilDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+	depthDisabledStencilDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+
+	result = m_device->CreateDepthStencilState(&depthDisabledStencilDesc, &_depthDisabledStencilState);
+	if (FAILED(result))
+	{
+		return false;
+	}
+
 	return true;
 }
 
@@ -258,6 +287,12 @@ void D3dclass::Shutdown()
 	if (m_swapChain)
 	{
 		m_swapChain->SetFullscreenState(false, NULL);
+	}
+
+	if (_depthDisabledStencilState)
+	{
+		_depthDisabledStencilState->Release();
+		_depthDisabledStencilState = NULL;
 	}
 
 	if (m_rasterState)
@@ -476,5 +511,15 @@ void D3dclass::GetVideoCardInfo(char* cardname, int& memory)
 {
 	strcpy_s(cardname, 128, m_videoCardDescription);
 	memory = m_videoCardMemory;
+}
+
+void D3dclass::TurnZBufferOn()
+{
+	m_deviceContext->OMSetDepthStencilState(m_depthStencilState, 1);
+}
+
+void D3dclass::TurnZBufferOff()
+{
+	m_deviceContext->OMSetDepthStencilState(_depthDisabledStencilState, 1);
 }
 

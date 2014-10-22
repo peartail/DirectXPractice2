@@ -10,6 +10,7 @@ GraphicClass::GraphicClass()
 	_model = NULL;
 	_shader = NULL;
 
+	_bitmap = NULL;
 }
 
 GraphicClass::GraphicClass(const GraphicClass& other)
@@ -44,52 +45,9 @@ bool GraphicClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 		return false;
 	}
 
-	_Camera->SetPosition(-0.0f, 0.0f, -10.0f);
-	_Camera->SetRotation(10.0f, 0.0f, 0.0f);
-	_model = new ModelClass;
-	if (!_model)
-	{
-		return false;
-	}
-#ifdef __CHATER__FOUR__
-	result = _model->Initailize(_D3D->GetDevice());
-	if (!result)
-	{
-		MessageBox(hwnd, L"Could not init model", L"Error", MB_OK);
-		return false;
-	}
-
-	_shader = new ColorShaderClass;
-#elif defined __CHAPTER_FIVE__
-	result = _model->Initailize(_D3D->GetDevice(),"Cube.txt",L"Texture/rocks_NM_height.dds");
-	if (!result)
-	{
-		MessageBox(hwnd, L"Could not init model", L"Error", MB_OK);
-		return false;
-	}
+	_Camera->SetPosition(0.0f, 0.0f, -10.0f);
 
 	_shader = new TextureShaderClass;
-#elif defined __CHAPTER_SIX__
-	result = _model->Initailize(_D3D->GetDevice(), L"Texture/rocks_NM_height.dds");
-	if (!result)
-	{
-		MessageBox(hwnd, L"Could not init model", L"Error", MB_OK);
-		return false;
-	}
-
-	_shader = new LightShaderClass;
-#else
-	result = _model->Initailize(_D3D->GetDevice(), "Cube.txt",L"Texture/rocks_NM_height.dds");
-	if (!result)
-	{
-		MessageBox(hwnd, L"Could not init model", L"Error", MB_OK);
-		return false;
-	}
-
-	_shader = new LightShaderClass;
-#endif
-
-
 	if (!_shader)
 	{
 		return false;
@@ -102,19 +60,19 @@ bool GraphicClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 		return false;
 	}
 
-	/*
-	_light = new LightClass;
-	if (!_light)
+	_bitmap = new BitmapClass;
+	if (!_bitmap)
 	{
 		return false;
 	}
 
-	_light->SetAmbientColor(0.15f, 0.15f, 0.15f, 1.0f);
-	_light->SetDiffuseColor(1.0f, 1.0f, 1.0f, 1.0f);
-	_light->SetDirection(0.f, 0.0f, 1.0f);
-	_light->SetSpecularColor(1.0f, 1.0f, 1.0f, 1.0f);
-	_light->SetSpecularPower(32.f);
-	*/
+	//result = _bitmap->Initialize(_D3D->GetDevice(), screenWidth, screenHeight, L"Texture/rocks_NM_height.dds", 256, 256);
+	result = _bitmap->Initialize(_D3D->GetDevice(), screenWidth, screenHeight, L"Texture/Jellyfish.jpg", 256, 256);
+	if (!result)
+	{
+		MessageBox(hwnd, L"Coud not init bitmap obj", L"ERror", MB_OK);
+	}
+
 	return true;
 }
 
@@ -126,6 +84,12 @@ void GraphicClass::ShutDown()
 		delete _light;
 		_light = NULL;
 	}*/
+	if (_bitmap)
+	{
+		_bitmap->Shutdown();
+		delete _bitmap;
+		_bitmap = NULL;
+	}
 
 	if (_shader)
 	{
@@ -179,24 +143,10 @@ bool GraphicClass::Frame()
 
 bool GraphicClass::Render(float rotation)
 {
-	D3DXMATRIX world, view, proj;
+	D3DXMATRIX world, view, proj,ortho;
 	bool result;
 
 	_D3D->BeginScene(0.0f, 0.0f, 0.0f, 1.0f);
-
-	/*
-	D3DXVECTOR3 rot= _Camera->GetRotation();
-
-	//rot.x++;
-	rot.z++;
-
-	_Camera->SetRotation(rot.x, rot.y, rot.z);
-	*/
-	D3DXVECTOR3 pos = _Camera->GetPosition();
-
-	pos.x--;
-
-	//_Camera->SetPosition(pos.x, pos.y, pos.z);
 
 	_Camera->Render();
 
@@ -205,23 +155,24 @@ bool GraphicClass::Render(float rotation)
 	_D3D->GetProjectionMatrix(proj);
 
 	//D3DXMatrixRotationY(&world, rotation);
-	D3DXMatrixRotationYawPitchRoll(&world, rotation, rotation, rotation);
+	//D3DXMatrixRotationYawPitchRoll(&world, rotation, rotation, rotation);
 	
-	_model->Render(_D3D->GetDeviceContext());
+	//_model->Render(_D3D->GetDeviceContext());
 
-#ifdef __CHATER_FOUR__
-	result = _shader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj);
-#elif defined __CHAPTER_FIVE__
-	result = _shader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj,_model->GetTexture());
-#elif defined __CHAPTER_SIX__
-	result = _shader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj, _model->GetTexture(), _light->GetDirection(), _light->GetDiffuseColor());
-#else 
-	result = _shader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj, _model->GetTexture(), _light->GetDirection(),_light->GetAmbientColor(), _light->GetDiffuseColor(),_Camera->GetPosition(),_light->GetSpecularColor(),_light->GetSpecularPower());
-#endif
+	_D3D->GetOrthoMatrix(ortho);
+
+	_D3D->TurnZBufferOff();
+
+
+	result = _bitmap->Render(_D3D->GetDeviceContext(), 100, 100);
 	if (!result)
 	{
 		return false;
 	}
+
+	result = _shader->Render(_D3D->GetDeviceContext(), _bitmap->GetIndexCount(), world, view, ortho, _bitmap->GetTexture());
+
+	_D3D->TurnZBufferOn();
 
 	_D3D->EndScene();
 	return true;

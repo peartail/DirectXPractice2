@@ -91,6 +91,7 @@ bool BitmapClass::InitializeBuffers(ID3D11Device* device)
 
 	_indexCount = _vertexCount;
 
+	vertices = new VertexType[_vertexCount];
 	if (!vertices)
 	{
 		return false;
@@ -259,7 +260,7 @@ bool BitmapClass::LoadTexture(ID3D11Device* device, WCHAR* filename)
 
 	_texture = new TextureClass;
 
-	if (_texture)
+	if (!_texture)
 	{
 		return false;
 	}

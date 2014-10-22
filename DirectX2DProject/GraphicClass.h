@@ -6,6 +6,7 @@
 #include "D3dclass.h"
 #include "CameraClass.h"
 #include "ModelClass.h"
+#include "BitmapClass.h"
 
 #define __CHAPTER_FIVE__
 
@@ -38,6 +39,7 @@ private:
 	ModelClass* _model;
 	TextureShaderClass* _shader;
 
+	BitmapClass* _bitmap;
 
 };
 
