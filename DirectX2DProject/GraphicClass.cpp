@@ -67,7 +67,7 @@ bool GraphicClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	}
 
 	//result = _bitmap->Initialize(_D3D->GetDevice(), screenWidth, screenHeight, L"Texture/rocks_NM_height.dds", 256, 256);
-	result = _bitmap->Initialize(_D3D->GetDevice(), screenWidth, screenHeight, L"Texture/Jellyfish.jpg", 256, 256);
+	result = _bitmap->Initialize(_D3D->GetDevice(), screenWidth, screenHeight, L"Texture/08SeoulNamsanB_0.ttf", 256, 256);
 	if (!result)
 	{
 		MessageBox(hwnd, L"Coud not init bitmap obj", L"ERror", MB_OK);
