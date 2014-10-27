@@ -25,7 +25,7 @@ bool TextClass::Initialize(ID3D11Device* device, ID3D11DeviceContext* context, H
 	_baseViewMatrix = baseViewMatrix;
 
 	_font = new FontClass;
-	if (_font)
+	if (!_font)
 	{
 		return false;
 	}
@@ -39,7 +39,7 @@ bool TextClass::Initialize(ID3D11Device* device, ID3D11DeviceContext* context, H
 
 
 	_fontShader = new FontShaderClass;
-	if (_fontShader)
+	if (!_fontShader)
 	{
 		return false;
 	}
@@ -57,7 +57,7 @@ bool TextClass::Initialize(ID3D11Device* device, ID3D11DeviceContext* context, H
 		return false;
 	}
 
-	result = UpdateSentence(_sentence1, "Hello", 100, 100, 1.0f, 1.0f, 1.0f, context);
+	result = UpdateSentence(_sentence1, "Hello", 100, 200, 1.0f, 1.0f, 1.0f, context);
 	if (!result)
 	{
 		return false;
@@ -69,7 +69,7 @@ bool TextClass::Initialize(ID3D11Device* device, ID3D11DeviceContext* context, H
 		return false;
 	}
 
-	result = UpdateSentence(_sentence2, "GOODBYE", 100, 200, 1.0f, 1.0f, 0.0f, context);
+	result = UpdateSentence(_sentence2, "GOODBYE", 100, 20, 1.0f, 1.0f, 0.0f, context);
 	if (!result)
 	{
 		return false;
@@ -290,7 +290,7 @@ bool TextClass::RenderSentence(ID3D11DeviceContext* context, SentenceType* sente
 	stride = sizeof(VertexType);
 	offset = 0;
 
-	context->IASetVertexBuffers(0, 1, &sentence->vertexBuffer, &stride, &offset));
+	context->IASetVertexBuffers(0, 1, &sentence->vertexBuffer, &stride, &offset);
 
 	context->IASetIndexBuffer(sentence->indexBuffer, DXGI_FORMAT_R32_UINT, 0);
 

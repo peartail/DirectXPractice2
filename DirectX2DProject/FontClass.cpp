@@ -47,7 +47,7 @@ bool FontClass::LoadFontData(char* filename)
 	char temp;
 
 	_font = new FontType[95];
-	if (_font)
+	if (!_font)
 	{
 		return false;
 	}
@@ -96,7 +96,7 @@ bool FontClass::LoadTexture(ID3D11Device* device, WCHAR* filename)
 	bool result;
 
 	_texture = new TextureClass;
-	if (_texture)
+	if (!_texture)
 	{
 		return false;
 	}
@@ -146,27 +146,31 @@ void FontClass::BuildVertexArray(void* vertices, char* sentence, float drawX, fl
 		}
 		else
 		{
+
+			float ocha = 1.7123737052044622664189985232392;
+
 			vertexPtr[index].position = D3DXVECTOR3(drawX, drawY, 0.0f);	//top left
-			vertexPtr[index].texture = D3DXVECTOR2(_font[letter].left, 0.0f);
+			vertexPtr[index].texture = D3DXVECTOR2(_font[letter].left*ocha, 0.0f);
 			index++;
 
 			vertexPtr[index].position = D3DXVECTOR3((drawX + _font[letter].size), (drawY - 16), 0.0f);	//bottom right
-			vertexPtr[index].texture = D3DXVECTOR2(_font[letter].right, 1.0f);
+			vertexPtr[index].texture = D3DXVECTOR2(_font[letter].right*ocha, 1.0f);
 			index++;
 
 			vertexPtr[index].position = D3DXVECTOR3(drawX, (drawY - 16), 0.0f); //bottom left
-			vertexPtr[index].texture = D3DXVECTOR2(_font[letter].left, 1.0f);
+			vertexPtr[index].texture = D3DXVECTOR2(_font[letter].left*ocha, 1.0f);
 			index++;
 
 			vertexPtr[index].position = D3DXVECTOR3(drawX, drawY, 0.0f); // top left
-			vertexPtr[index].texture = D3DXVECTOR2(_font[letter].left, 0.0f);
+			vertexPtr[index].texture = D3DXVECTOR2(_font[letter].left*ocha, 0.0f);
+			index++;
 
 			vertexPtr[index].position = D3DXVECTOR3(drawX + _font[letter].size, drawY, 0.0f); // top right
-			vertexPtr[index].texture = D3DXVECTOR2(_font[letter].right, 0.0f);
+			vertexPtr[index].texture = D3DXVECTOR2(_font[letter].right*ocha, 0.0f);
 			index++;
 
 			vertexPtr[index].position = D3DXVECTOR3((drawX + _font[letter].size), (drawY - 16), 0.0f);	 //bot right
-			vertexPtr[index].texture = D3DXVECTOR2(_font[letter].right, 1.0f);
+			vertexPtr[index].texture = D3DXVECTOR2(_font[letter].right*ocha, 1.0f);
 			index++;
 
 			drawX = drawX + _font[letter].size + 1.0f;

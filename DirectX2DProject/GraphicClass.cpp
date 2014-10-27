@@ -11,6 +11,7 @@ GraphicClass::GraphicClass()
 	_shader = NULL;
 
 	_bitmap = NULL;
+	_text = NULL;
 }
 
 GraphicClass::GraphicClass(const GraphicClass& other)
@@ -25,6 +26,7 @@ GraphicClass::~GraphicClass()
 bool GraphicClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 {
 	bool result;
+	D3DXMATRIX baseViewMatrix;
 
 	_D3D = new D3dclass;
 	if (!_D3D)
@@ -45,20 +47,38 @@ bool GraphicClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 		return false;
 	}
 
-	_Camera->SetPosition(0.0f, 0.0f, -10.0f);
+	_Camera->SetPosition(0.0f, 0.0f, -1.0f);
+	_Camera->Render();
+	_Camera->GetViewMatrix(baseViewMatrix);
 
-	_shader = new TextureShaderClass;
-	if (!_shader)
+	_text = new TextClass;
+	if (!_text)
 	{
 		return false;
 	}
 
+	result = _text->Initialize(_D3D->GetDevice(), _D3D->GetDeviceContext(), hwnd, screenWidth, screenHeight, baseViewMatrix);
+	if (!result)
+	{
+		MessageBox(hwnd, L"CNITTX", L"Error", MB_OK);
+		return false;
+	}
+	/*
 	result = _shader->Initialize(_D3D->GetDevice(), hwnd);
 	if (!result)
 	{
 		MessageBox(hwnd, L"Coud not init colorshader", L"Error", MB_OK);
 		return false;
 	}
+
+	
+	_shader = new TextureShaderClass;
+	if (!_shader)
+	{
+		return false;
+	}
+
+	
 
 	_bitmap = new BitmapClass;
 	if (!_bitmap)
@@ -67,12 +87,12 @@ bool GraphicClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	}
 
 	//result = _bitmap->Initialize(_D3D->GetDevice(), screenWidth, screenHeight, L"Texture/rocks_NM_height.dds", 256, 256);
-	result = _bitmap->Initialize(_D3D->GetDevice(), screenWidth, screenHeight, L"Texture/08SeoulNamsanB_0.ttf", 256, 256);
+	result = _bitmap->Initialize(_D3D->GetDevice(), screenWidth, screenHeight, L"Texture/font.gif", 256, 256);
 	if (!result)
 	{
 		MessageBox(hwnd, L"Coud not init bitmap obj", L"ERror", MB_OK);
 	}
-
+	*/
 	return true;
 }
 
@@ -84,6 +104,12 @@ void GraphicClass::ShutDown()
 		delete _light;
 		_light = NULL;
 	}*/
+	if (_text)
+	{
+		_text->Shutdown();
+		delete _text;
+		_text = NULL;
+	}
 	if (_bitmap)
 	{
 		_bitmap->Shutdown();
@@ -154,23 +180,35 @@ bool GraphicClass::Render(float rotation)
 	_D3D->GetWorldMatrix(world);
 	_D3D->GetProjectionMatrix(proj);
 
+	_D3D->GetOrthoMatrix(ortho);
+
 	//D3DXMatrixRotationY(&world, rotation);
 	//D3DXMatrixRotationYawPitchRoll(&world, rotation, rotation, rotation);
 	
 	//_model->Render(_D3D->GetDeviceContext());
 
-	_D3D->GetOrthoMatrix(ortho);
 
 	_D3D->TurnZBufferOff();
-
-
+	_D3D->TurnOnAlphaBlending();
+	/*
 	result = _bitmap->Render(_D3D->GetDeviceContext(), 100, 100);
 	if (!result)
 	{
 		return false;
 	}
-
 	result = _shader->Render(_D3D->GetDeviceContext(), _bitmap->GetIndexCount(), world, view, ortho, _bitmap->GetTexture());
+	*/
+	result = _text->Render(_D3D->GetDeviceContext(), world, ortho);
+	if (!result)
+	{
+		return false;
+	}
+	
+	
+
+	
+	
+	_D3D->TurnOffAlphaBlending();
 
 	_D3D->TurnZBufferOn();
 

@@ -38,6 +38,9 @@ public:
 	void TurnZBufferOn();
 	void TurnZBufferOff();
 
+	void TurnOnAlphaBlending();
+	void TurnOffAlphaBlending();
+
 private:
 	bool m_vsync_enabled;
 	int m_videoCardMemory;
@@ -55,6 +58,9 @@ private:
 	D3DXMATRIX m_orthoMatrix;
 
 	ID3D11DepthStencilState* _depthDisabledStencilState;
+
+	ID3D11BlendState* _alphaEnableBlendingState;
+	ID3D11BlendState* _alphaDisableBlendingState;
 
 private:
 	bool SettingDisplay(unsigned int &numerator, unsigned int &denominator, int screenWidth, int screenHeight);

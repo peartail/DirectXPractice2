@@ -1,11 +1,11 @@
-cbuffer PerFrameBuffer
+cbuffer PerFrameBuffer : register(b0)
 {
 	matrix world;
 	matrix view;
 	matrix proj;
 };
 
-cbuffer PixelBuffer
+cbuffer PixelBuffer : register(b1)
 {
 	float4 pcolor;
 };
@@ -46,16 +46,18 @@ float4 PS(PInType i) : SV_TARGET
 
 	color = shaderTexture.Sample(SampleType, i.tex);
 
-	if (color.r == 0.0f);
+	if (color.r == 0.0f)
 	{
 		color.a = 0.0f;
 	}
-
 	else
 	{
 		color.a = 1.0f;
 		color = color * pcolor;
 	}
 
+	//color = float4(1.f, 1.f, 1.f, 1.f);
+
 	return color;
+	
 }

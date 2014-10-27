@@ -15,6 +15,9 @@ D3dclass::D3dclass()
 	m_rasterState = NULL;
 
 	_depthDisabledStencilState = NULL;
+
+	_alphaDisableBlendingState = NULL;
+	_alphaEnableBlendingState = NULL;
 }
 
 
@@ -40,6 +43,7 @@ bool D3dclass::Initialize(int screenWidth, int screenHeight, bool vsync, HWND hw
 	float fieldOfView, screenAspect;
 
 	D3D11_DEPTH_STENCIL_DESC depthDisabledStencilDesc;
+	D3D11_BLEND_DESC blendStateDescription;
 
 	m_vsync_enabled = vsync;
 
@@ -278,6 +282,30 @@ bool D3dclass::Initialize(int screenWidth, int screenHeight, bool vsync, HWND hw
 		return false;
 	}
 
+	ZeroMemory(&blendStateDescription, sizeof(D3D11_BLEND_DESC));
+
+	blendStateDescription.RenderTarget[0].BlendEnable = TRUE;
+	blendStateDescription.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;
+	blendStateDescription.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+	blendStateDescription.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+	blendStateDescription.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+	blendStateDescription.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+	blendStateDescription.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+	blendStateDescription.RenderTarget[0].RenderTargetWriteMask = 0x0f;
+
+	result = m_device->CreateBlendState(&blendStateDescription, &_alphaEnableBlendingState);
+	if (FAILED(result))
+	{
+		return false;
+	}
+
+	blendStateDescription.RenderTarget[0].BlendEnable = FALSE;
+	result = m_device->CreateBlendState(&blendStateDescription, &_alphaDisableBlendingState);
+	if (FAILED(result))
+	{
+		return false;
+	}
+
 	return true;
 }
 
@@ -289,11 +317,19 @@ void D3dclass::Shutdown()
 		m_swapChain->SetFullscreenState(false, NULL);
 	}
 
-	if (_depthDisabledStencilState)
+	if (_alphaEnableBlendingState)
 	{
-		_depthDisabledStencilState->Release();
-		_depthDisabledStencilState = NULL;
+		_alphaEnableBlendingState->Release();
+		_alphaEnableBlendingState = NULL;
 	}
+
+	if (_alphaDisableBlendingState)
+	{
+		_alphaDisableBlendingState->Release();
+		_alphaDisableBlendingState = NULL;
+	}
+
+	
 
 	if (m_rasterState)
 	{
@@ -307,6 +343,12 @@ void D3dclass::Shutdown()
 		m_depthStencilView = NULL;
 	}
 
+	if (_depthDisabledStencilState)
+	{
+		_depthDisabledStencilState->Release();
+		_depthDisabledStencilState = NULL;
+
+	}
 	if (m_depthStencilState)
 	{
 		m_depthStencilState->Release();
@@ -523,3 +565,26 @@ void D3dclass::TurnZBufferOff()
 	m_deviceContext->OMSetDepthStencilState(_depthDisabledStencilState, 1);
 }
 
+void D3dclass::TurnOnAlphaBlending()
+{
+	float blendFactor[4];
+
+	blendFactor[0] = 0.0f;
+	blendFactor[1] = 0.0f;
+	blendFactor[2] = 0.0f;
+	blendFactor[3] = 0.0f;
+
+	m_deviceContext->OMSetBlendState(_alphaEnableBlendingState, blendFactor, 0xffffffff);
+}
+
+void D3dclass::TurnOffAlphaBlending()
+{
+	float blendFactor[4];
+
+	blendFactor[0] = 0.0f;
+	blendFactor[1] = 0.0f;
+	blendFactor[2] = 0.0f;
+	blendFactor[3] = 0.0f;
+
+	m_deviceContext->OMSetBlendState(_alphaDisableBlendingState, blendFactor, 0xffffffff);
+}
