@@ -28,7 +28,7 @@ public:
 
 	bool Initialize(int, int, HWND);
 	void ShutDown();
-	bool Frame();
+	bool Frame(int,int);
 
 private:
 	bool Render(float);
@@ -42,6 +42,11 @@ private:
 
 	BitmapClass* _bitmap;
 	TextClass *_text;
+
+
+private:
+	//°Á ¸¸µçº¯¼ö
+	int mX, mY;
 };
 
 #endif

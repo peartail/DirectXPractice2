@@ -17,15 +17,31 @@ public:
 	InputClass(const InputClass&);
 	~InputClass();
 
-	void Initialize();
+	bool Initialize(HINSTANCE,HWND,int,int);
+	void Shutdown();
+	bool Frame();
 
-	void KeyDown(unsigned int);
-	void KeyUp(unsigned int);
-
-	bool IsKeyDown(unsigned int);
+	bool IsEscapePressed();
+	void GetMouseLocation(int&, int&);
 
 private:
-	bool m_keys[256];
+	bool ReadKeyboard();
+	bool ReadMouse();
+	void ProcessInput();
+
+private:
+	IDirectInput8* _directInput;
+	IDirectInputDevice8* _keyboard;
+	IDirectInputDevice8* _mouse;
+
+	unsigned char _keyboardState[256];
+	DIMOUSESTATE _mouseState;
+
+	int _screenWidth, _screenHeight;
+	int _mouseX, _mouseY;
+
+	//내가 걍 만든거
+	int _vmouseX, _vmouseY;
 };
 
 #endif

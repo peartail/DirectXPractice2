@@ -63,14 +63,6 @@ bool GraphicClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 		MessageBox(hwnd, L"CNITTX", L"Error", MB_OK);
 		return false;
 	}
-	/*
-	result = _shader->Initialize(_D3D->GetDevice(), hwnd);
-	if (!result)
-	{
-		MessageBox(hwnd, L"Coud not init colorshader", L"Error", MB_OK);
-		return false;
-	}
-
 	
 	_shader = new TextureShaderClass;
 	if (!_shader)
@@ -78,6 +70,12 @@ bool GraphicClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 		return false;
 	}
 
+	result = _shader->Initialize(_D3D->GetDevice(), hwnd);
+	if (!result)
+	{
+		MessageBox(hwnd, L"Coud not init colorshader", L"Error", MB_OK);
+		return false;
+	}
 	
 
 	_bitmap = new BitmapClass;
@@ -87,12 +85,12 @@ bool GraphicClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	}
 
 	//result = _bitmap->Initialize(_D3D->GetDevice(), screenWidth, screenHeight, L"Texture/rocks_NM_height.dds", 256, 256);
-	result = _bitmap->Initialize(_D3D->GetDevice(), screenWidth, screenHeight, L"Texture/font.gif", 256, 256);
+	result = _bitmap->Initialize(_D3D->GetDevice(), screenWidth, screenHeight, L"Texture/128.png", 12, 12);
 	if (!result)
 	{
 		MessageBox(hwnd, L"Coud not init bitmap obj", L"ERror", MB_OK);
 	}
-	*/
+	
 	return true;
 }
 
@@ -145,7 +143,7 @@ void GraphicClass::ShutDown()
 	}
 }
 
-bool GraphicClass::Frame()
+bool GraphicClass::Frame(int mouseX,int mouseY)
 {
 	bool result;
 
@@ -155,6 +153,14 @@ bool GraphicClass::Frame()
 	if (rotation > 360.0f)
 	{
 		rotation -= 360.0f;
+	}
+
+	mX = mouseX;
+	mY = mouseY;
+	result = _text->SetMousePosition(mouseX, mouseY, _D3D->GetDeviceContext());
+	if (!result)
+	{
+		return false;
 	}
 
 	result = Render(rotation);
@@ -189,15 +195,17 @@ bool GraphicClass::Render(float rotation)
 
 
 	_D3D->TurnZBufferOff();
-	_D3D->TurnOnAlphaBlending();
-	/*
-	result = _bitmap->Render(_D3D->GetDeviceContext(), 100, 100);
+	
+	
+	result = _bitmap->Render(_D3D->GetDeviceContext(), mX, mY);
 	if (!result)
 	{
 		return false;
 	}
 	result = _shader->Render(_D3D->GetDeviceContext(), _bitmap->GetIndexCount(), world, view, ortho, _bitmap->GetTexture());
-	*/
+	
+	_D3D->TurnOnAlphaBlending();
+
 	result = _text->Render(_D3D->GetDeviceContext(), world, ortho);
 	if (!result)
 	{

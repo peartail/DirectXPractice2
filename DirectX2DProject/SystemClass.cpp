@@ -28,7 +28,13 @@ bool SystemClass::Initialize()
 		return false;
 	}
 
-	m_Input->Initialize();
+	result = m_Input->Initialize(m_hinstance,m_hwnd,screenWidth,screenHeight);
+	if (!result)
+	{
+		MessageBox(m_hwnd, L"C n i t i o ", L"E", MB_OK);
+		return false;
+	}
+
 
 	m_Graphics = new GraphicClass;
 	if (!m_Graphics)
@@ -56,6 +62,7 @@ void SystemClass::ShutDown()
 
 	if (m_Input)
 	{
+		m_Input->Shutdown();
 		delete m_Input;
 		m_Input = NULL;
 	}
@@ -91,19 +98,28 @@ void SystemClass::Run()
 				done = true;
 			}
 		}
+
+		if (m_Input->IsEscapePressed())
+		{
+			done = true;
+		}
 	}
 }
 
 bool SystemClass::Frame()
 {
 	bool result;
-
-	if (m_Input->IsKeyDown(VK_ESCAPE))
+	int mouseX, mouseY;
+	
+	result = m_Input->Frame();
+	if (!result)
 	{
 		return false;
 	}
 
-	result = m_Graphics->Frame();
+	m_Input->GetMouseLocation(mouseX, mouseY);
+
+	result = m_Graphics->Frame(mouseX,mouseY);
 	if (!result)
 	{
 		return false;
@@ -114,25 +130,7 @@ bool SystemClass::Frame()
 
 LRESULT CALLBACK SystemClass::MEssageHandler(HWND hwnd, UINT umsg, WPARAM wparam, LPARAM lparam)
 {
-	switch (umsg)
-	{
-	case WM_KEYDOWN:
-	{
-					   m_Input->KeyDown((unsigned int)wparam);
-					   return 0;
-	}
-	case WM_KEYUP:
-	{
-					 m_Input->KeyUp((unsigned int)wparam);
-					 return 0;
-	}
-
-	default:
-	{
-			   return DefWindowProc(hwnd, umsg, wparam, lparam);
-	}
-		break;
-	}
+	return DefWindowProc(hwnd, umsg, wparam, lparam);
 }
 
 void SystemClass::InitializeWindows(int& screenWidth, int& screenHeight)

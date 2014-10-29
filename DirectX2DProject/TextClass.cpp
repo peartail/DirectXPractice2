@@ -307,5 +307,33 @@ bool TextClass::RenderSentence(ID3D11DeviceContext* context, SentenceType* sente
 	return true;
 }
 
+bool TextClass::SetMousePosition(int mouseX, int mouseY, ID3D11DeviceContext* deviceContext)
+{
+	char tempString[16];
+	char mouseString[16];
+	bool result;
 
+	_itoa_s(mouseX, tempString, 10);
 
+	strcpy_s(mouseString, "Mouse X: ");
+	strcat_s(mouseString, tempString);
+
+	result = UpdateSentence(_sentence1, mouseString, 20, 20, 1.0f, 1.0f, 1.0f, deviceContext);
+	if (!result)
+	{
+		return false;
+	}
+
+	_itoa_s(mouseY, tempString, 10);
+
+	strcpy_s(mouseString, "Mouse Y: ");
+	strcat_s(mouseString, tempString);
+
+	result = UpdateSentence(_sentence2, mouseString, 20, 40, 1.0f, 1.0f, 1.0f, deviceContext);
+	if (!result)
+	{
+		return false;
+	}
+	
+	return true;
+}
