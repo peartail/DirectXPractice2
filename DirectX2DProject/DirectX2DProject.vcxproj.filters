@@ -16,6 +16,15 @@
     <Filter Include="D3D">
       <UniqueIdentifier>{199df277-96c5-4064-9a10-40069e8e1721}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2d">
+      <UniqueIdentifier>{5926172a-b104-460c-bcc1-66194a9d5be9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sound">
+      <UniqueIdentifier>{88a946ba-81b3-4ef9-8eee-26f034c7d8fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System">
+      <UniqueIdentifier>{f3aed796-940f-458b-9244-ba76bc674ceb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CameraClass.h">
@@ -49,15 +58,27 @@
       <Filter>D3D</Filter>
     </ClInclude>
     <ClInclude Include="BitmapClass.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="FontClass.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>2d</Filter>
     </ClInclude>
     <ClInclude Include="FontShaderClass.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>2d</Filter>
+    </ClInclude>
+    <ClInclude Include="FontClass.h">
+      <Filter>2d</Filter>
     </ClInclude>
     <ClInclude Include="TextClass.h">
+      <Filter>2d</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundClass.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="FpsClass.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CpuClass.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="TimerClass.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -96,15 +117,27 @@
       <Filter>D3D</Filter>
     </ClCompile>
     <ClCompile Include="BitmapClass.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>2d</Filter>
     </ClCompile>
     <ClCompile Include="FontClass.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>2d</Filter>
     </ClCompile>
     <ClCompile Include="FontShaderClass.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>2d</Filter>
     </ClCompile>
     <ClCompile Include="TextClass.cpp">
+      <Filter>2d</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundClass.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="FpsClass.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CpuClass.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="TimerClass.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

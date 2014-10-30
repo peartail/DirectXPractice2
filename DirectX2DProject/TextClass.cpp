@@ -337,3 +337,45 @@ bool TextClass::SetMousePosition(int mouseX, int mouseY, ID3D11DeviceContext* de
 	
 	return true;
 }
+
+
+bool TextClass::SetFps(int fps, ID3D11DeviceContext* context)
+{
+	char tempString[16];
+	char fpsString[16];
+	float r, g, b;
+	bool result;
+
+	if (fps > 9999)
+	{
+		fps = 9999;
+	}
+
+	_itoa_s(fps, tempString, 10);
+
+	strcpy_s(fpsString, "Fps : ");
+	strcat_s(fpsString, tempString);
+
+	if (fps >= 60)
+	{
+		r = 0.0f;
+		g = 1.0f;
+		b = 0.0f;
+	}
+
+	if (fps < 60)
+	{
+		r = 1.0f;
+		g = 1.0f;
+		b = 0.0f;
+	}
+
+	if (fps < 60)
+	{
+		r = 1.0f;
+		g = 0.0f;
+		b = 0.0f;
+	}
+
+	result = UpdateSentence(_sentence1,fpsString,20,20,)
+}

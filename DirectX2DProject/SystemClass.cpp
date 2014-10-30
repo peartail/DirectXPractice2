@@ -5,6 +5,11 @@ SystemClass::SystemClass()
 {
 	m_Input = NULL;
 	m_Graphics = NULL;
+	_sound = NULL;
+
+	_fps = NULL;
+	_cpu = NULL;
+	_timer = NULL;
 }
 
 
@@ -48,11 +53,81 @@ bool SystemClass::Initialize()
 		return false;
 	}
 
+	_sound = new SoundClass;
+	if (!_sound)
+	{
+		return false;
+	}
+
+	result = _sound->Initialize(m_hwnd);
+	if (!result)
+	{
+		MessageBox(m_hwnd, L"CN Sound", L"Err", MB_OK);
+		return false;
+	}
+
+	_fps = new FpsClass;
+	if (!_fps)
+	{
+		return false;
+	}
+
+	_fps->Initialize();
+
+	_cpu = new CpuClass;
+	if (!_cpu)
+	{
+		return false;
+	}
+
+	_cpu->Initialize();
+
+	_timer = new TimerClass;
+	if (!_timer)
+	{
+		return false;
+	}
+
+	result = _timer->Initialize();
+
+	if (!result)
+	{
+		MessageBox(m_hwnd, L"N timer", L"ER", MB_OK);
+		return false;
+	}
+
+
 	return true;
 }
 
 void SystemClass::ShutDown()
 {
+	if (_timer)
+	{
+		delete _timer;
+		_timer = NULL;
+	}
+
+	if (_cpu)
+	{
+		_cpu->Shutdown();
+		delete _cpu;
+		_cpu = NULL;
+	}
+
+	if (_fps)
+	{
+		delete _fps;
+		_fps = NULL;
+	}
+
+	if (_sound)
+	{
+		_sound->Shutdown();
+		delete _sound;
+		_sound = NULL;
+	}
+
 	if (m_Graphics)
 	{
 		m_Graphics->ShutDown();
@@ -103,6 +178,11 @@ void SystemClass::Run()
 		{
 			done = true;
 		}
+
+		if (m_Input->IsMouseLeftClick())
+		{
+			_sound->PlayWaveFileofKey("catapult_w.wav");
+		}
 	}
 }
 
@@ -111,6 +191,10 @@ bool SystemClass::Frame()
 	bool result;
 	int mouseX, mouseY;
 	
+	_timer->Frame();
+	_fps->Frame();
+	_cpu->Frame();
+
 	result = m_Input->Frame();
 	if (!result)
 	{
@@ -119,7 +203,7 @@ bool SystemClass::Frame()
 
 	m_Input->GetMouseLocation(mouseX, mouseY);
 
-	result = m_Graphics->Frame(mouseX,mouseY);
+	result = m_Graphics->Frame(mouseX,mouseY,_fps->GetFps(),_cpu->GetCpuPercentage(),_timer->GetTime());
 	if (!result)
 	{
 		return false;

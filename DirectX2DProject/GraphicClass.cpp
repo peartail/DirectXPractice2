@@ -143,7 +143,7 @@ void GraphicClass::ShutDown()
 	}
 }
 
-bool GraphicClass::Frame(int mouseX,int mouseY)
+bool GraphicClass::Frame(int mouseX, int mouseY, int fps, int cpu, float ftime)
 {
 	bool result;
 
@@ -163,8 +163,9 @@ bool GraphicClass::Frame(int mouseX,int mouseY)
 		return false;
 	}
 
-	result = Render(rotation);
+	
 
+	result = Render(rotation);
 	if (!result)
 	{
 		return false;

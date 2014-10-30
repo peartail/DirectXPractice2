@@ -23,7 +23,7 @@ public:
 
 	bool IsEscapePressed();
 	void GetMouseLocation(int&, int&);
-
+	bool IsMouseLeftClick();
 private:
 	bool ReadKeyboard();
 	bool ReadMouse();
@@ -42,6 +42,7 @@ private:
 
 	//내가 걍 만든거
 	int _vmouseX, _vmouseY;
+	bool _isLeftClicked;
 };
 
 #endif

@@ -1,11 +1,15 @@
 #include "InputClass.h"
 
+#include <string>
+#include <iostream>
 
 InputClass::InputClass()
 {
 	_directInput = NULL;
 	_keyboard = NULL;
 	_mouse = NULL;
+
+	_isLeftClicked = false;
 }
 
 
@@ -71,7 +75,7 @@ bool InputClass::Initialize(HINSTANCE hinst,HWND hwnd,int screenWidth,int screen
 		return false;
 	}
 
-	result = _mouse->SetCooperativeLevel(hwnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
+	result = _mouse->SetCooperativeLevel(hwnd, DISCL_FOREGROUND | DISCL_EXCLUSIVE);
 	if (FAILED(result))
 	{
 		return false;
@@ -208,9 +212,34 @@ bool InputClass::IsEscapePressed()
 	return false;
 }
 
+bool InputClass::IsMouseLeftClick()
+{
+	
+	bool result = false;
+
+	if (_mouseState.rgbButtons[0] != NULL && !_isLeftClicked)
+	{
+		result = true;
+		
+		/*std::string data = "\n1 : " + std::to_string(_mouseState.rgbButtons[0]) + " | 2 : " + std::to_string(_mouseState.rgbButtons[1]) + " | 3 : " + std::to_string(_mouseState.rgbButtons[2]) + " | 4 : " + std::to_string(_mouseState.rgbButtons[3]);
+		OutputDebugStringA(data.c_str());*/
+	}
+
+	if (_mouseState.rgbButtons[0] != NULL)
+	{
+		_isLeftClicked = true;
+	}
+	else
+	{
+		_isLeftClicked = false;
+	}
+	
+	
+	return result;
+}
+
 void InputClass::GetMouseLocation(int& mouseX, int& mouseY)
 {
 	mouseX = _vmouseX;
 	mouseY = _vmouseY;
 }
-
