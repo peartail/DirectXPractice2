@@ -58,7 +58,7 @@ void CpuClass::Frame()
 
 			PdhCollectQueryData(_queryHandle);
 
-			PdhGetFormattedCounterValue(_counterHandle, PDH_FMT_LONG, NULL, &value);
+			PdhGetFormattedCounterValue(_counterHandle, PDH_FMT_LONG, NULL, &val);
 
 			_cpuUsage = val.longValue;
 		}

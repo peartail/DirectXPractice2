@@ -49,6 +49,9 @@ private:
 	SentenceType* _sentence1;
 	SentenceType* _sentence2;
 
+	SentenceType* _fpsentence;
+	SentenceType* _cpusentence;
+
 };
 
 

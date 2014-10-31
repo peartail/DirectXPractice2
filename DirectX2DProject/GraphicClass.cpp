@@ -163,7 +163,17 @@ bool GraphicClass::Frame(int mouseX, int mouseY, int fps, int cpu, float ftime)
 		return false;
 	}
 
-	
+	result = _text->SetFps(fps, _D3D->GetDeviceContext());
+	if (!result)
+	{
+		return false;
+	}
+
+	result = _text->SetCpu(cpu, _D3D->GetDeviceContext());
+	if (!result)
+	{
+		return false;
+	}
 
 	result = Render(rotation);
 	if (!result)

@@ -75,11 +75,27 @@ bool TextClass::Initialize(ID3D11Device* device, ID3D11DeviceContext* context, H
 		return false;
 	}
 
+	result = InitializeSentence(&_fpsentence, 16, device);
+	if (!result)
+	{
+		return false;
+	}
+
+	result = InitializeSentence(&_cpusentence, 16, device);
+	if (!result)
+	{
+		return false;
+	}
+
 	return true;
 }
 
 void TextClass::Shutdown()
 {
+	ReleaseSentence(&_cpusentence);
+
+	ReleaseSentence(&_fpsentence);
+
 	ReleaseSentence(&_sentence1);
 
 	ReleaseSentence(&_sentence2);
@@ -111,6 +127,18 @@ bool TextClass::Render(ID3D11DeviceContext* context, D3DXMATRIX world, D3DXMATRI
 	}
 
 	result = RenderSentence(context, _sentence2, world, ortho);
+	if (!result)
+	{
+		return false;
+	}
+
+	result = RenderSentence(context, _fpsentence, world, ortho);
+	if (!result)
+	{
+		return false;
+	}
+
+	result = RenderSentence(context, _cpusentence, world, ortho);
 	if (!result)
 	{
 		return false;
@@ -377,5 +405,32 @@ bool TextClass::SetFps(int fps, ID3D11DeviceContext* context)
 		b = 0.0f;
 	}
 
-	result = UpdateSentence(_sentence1,fpsString,20,20,)
+	result = UpdateSentence(_fpsentence, fpsString, 100, 20, r, g, b, context);
+	if (!result)
+	{
+		return false;
+	}
+
+	return true;
+}
+
+bool TextClass::SetCpu(int cpu, ID3D11DeviceContext* context)
+{
+	char tempString[16];
+	char cpustring[16];
+	bool result;
+
+	_itoa_s(cpu, tempString, 10);
+
+	strcpy_s(cpustring, "Cpu : ");
+	strcat_s(cpustring, tempString);
+	strcat_s(cpustring, "%");
+
+	result = UpdateSentence(_cpusentence, cpustring, 100, 40, 0.0f, 1.f, 0.f, context);
+	if (!result)
+	{
+		return false;
+	}
+
+	return true;
 }
