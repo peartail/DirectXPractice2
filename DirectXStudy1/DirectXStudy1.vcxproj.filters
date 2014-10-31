@@ -19,6 +19,12 @@
     <Filter Include="ShaderUtil">
       <UniqueIdentifier>{6ec9c289-901e-4ca8-8582-bb328b9edc6f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2D">
+      <UniqueIdentifier>{f4d8f1be-158c-4def-9f96-b769e1395b61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System">
+      <UniqueIdentifier>{b9b2ed4c-d7e8-48d8-b69b-b20a242d294e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -60,6 +66,27 @@
     <ClCompile Include="ShaderClass.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="FontClass.cpp">
+      <Filter>2D</Filter>
+    </ClCompile>
+    <ClCompile Include="FontShaderClass.cpp">
+      <Filter>2D</Filter>
+    </ClCompile>
+    <ClCompile Include="TextClass.cpp">
+      <Filter>2D</Filter>
+    </ClCompile>
+    <ClCompile Include="TimerClass.cpp">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="FpsClass.cpp">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="CpuClass.cpp">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="BitmapClass.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CameraClass.h">
@@ -96,6 +123,27 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="ShaderClass.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CpuClass.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="FpsClass.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="TimerClass.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="TextClass.h">
+      <Filter>2D</Filter>
+    </ClInclude>
+    <ClInclude Include="FontShaderClass.h">
+      <Filter>2D</Filter>
+    </ClInclude>
+    <ClInclude Include="FontClass.h">
+      <Filter>2D</Filter>
+    </ClInclude>
+    <ClInclude Include="BitmapClass.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

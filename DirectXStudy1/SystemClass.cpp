@@ -5,6 +5,10 @@ SystemClass::SystemClass()
 {
 	m_Input = NULL;
 	m_Graphics = NULL;
+
+	_fps = NULL;
+	_cpu = NULL;
+	_timer = NULL;
 }
 
 
@@ -28,7 +32,12 @@ bool SystemClass::Initialize()
 		return false;
 	}
 
-	m_Input->Initialize();
+	result = m_Input->Initialize(m_hinstance, m_hwnd, screenWidth, screenHeight);
+	if (!result)
+	{
+		MessageBox(m_hwnd, L"C n i t i o ", L"E", MB_OK);
+		return false;
+	}
 
 	m_Graphics = new GraphicClass;
 	if (!m_Graphics)
@@ -42,11 +51,61 @@ bool SystemClass::Initialize()
 		return false;
 	}
 
+	_fps = new FpsClass;
+	if (!_fps)
+	{
+		return false;
+	}
+
+	_fps->Initialize();
+
+	_cpu = new CpuClass;
+	if (!_cpu)
+	{
+		return false;
+	}
+
+	_cpu->Initialize();
+
+	_timer = new TimerClass;
+	if (!_timer)
+	{
+		return false;
+	}
+
+	result = _timer->Initialize();
+
+	if (!result)
+	{
+		MessageBox(m_hwnd, L"N timer", L"ER", MB_OK);
+		return false;
+	}
+
 	return true;
 }
 
 void SystemClass::ShutDown()
 {
+
+	if (_timer)
+	{
+		delete _timer;
+		_timer = NULL;
+	}
+
+	if (_cpu)
+	{
+		_cpu->Shutdown();
+		delete _cpu;
+		_cpu = NULL;
+	}
+
+	if (_fps)
+	{
+		delete _fps;
+		_fps = NULL;
+	}
+
 	if (m_Graphics)
 	{
 		m_Graphics->ShutDown();
@@ -91,19 +150,33 @@ void SystemClass::Run()
 				done = true;
 			}
 		}
+
+		if (m_Input->IsEscapePressed())
+		{
+			done = true;
+		}
+
 	}
 }
 
 bool SystemClass::Frame()
 {
 	bool result;
+	int mouseX, mouseY;
 
-	if (m_Input->IsKeyDown(VK_ESCAPE))
+	_timer->Frame();
+	_fps->Frame();
+	_cpu->Frame();
+
+	result = m_Input->Frame();
+	if (!result)
 	{
 		return false;
 	}
 
-	result = m_Graphics->Frame();
+	m_Input->GetMouseLocation(mouseX, mouseY);
+
+	result = m_Graphics->Frame(mouseX, mouseY, _fps->GetFps(), _cpu->GetCpuPercentage(), _timer->GetTime());
 	if (!result)
 	{
 		return false;
@@ -114,25 +187,7 @@ bool SystemClass::Frame()
 
 LRESULT CALLBACK SystemClass::MEssageHandler(HWND hwnd, UINT umsg, WPARAM wparam, LPARAM lparam)
 {
-	switch (umsg)
-	{
-	case WM_KEYDOWN:
-	{
-					   m_Input->KeyDown((unsigned int)wparam);
-					   return 0;
-	}
-	case WM_KEYUP:
-	{
-					 m_Input->KeyUp((unsigned int)wparam);
-					 return 0;
-	}
-
-	default:
-	{
-			   return DefWindowProc(hwnd, umsg, wparam, lparam);
-	}
-		break;
-	}
+	return DefWindowProc(hwnd, umsg, wparam, lparam);
 }
 
 void SystemClass::InitializeWindows(int& screenWidth, int& screenHeight)

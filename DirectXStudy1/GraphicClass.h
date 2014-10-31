@@ -10,7 +10,7 @@
 #ifdef __CHATER_FOUR__
 #include "ColorShaderClass.h"
 #elif defined __CHAPTER_FIVE__
-#include "TextureShaderClass.h"
+
 #elif defined __CHAPTER_SIX__
 #include "LightClass.h"
 #include "LightShaderClass.h"
@@ -18,6 +18,10 @@
 #include "LightClass.h"
 #include "LightShaderClass.h"
 #endif
+
+#include "TextureShaderClass.h"
+#include "BitmapClass.h"
+#include "TextClass.h"
 
 const bool FULL_SCREEN = false;
 const bool VSYNC_ENABLED = true;
@@ -33,7 +37,7 @@ public:
 
 	bool Initialize(int, int, HWND);
 	void ShutDown();
-	bool Frame();
+	bool Frame(int, int, int, int, float);
 
 private:
 	bool Render(float);
@@ -55,6 +59,14 @@ private:
 	LightClass* _light;
 #endif
 
+
+	TextureShaderClass* _2dshader;
+	TextClass *_text;
+	BitmapClass* _bitmap;
+
+private:
+	//°Á ¸¸µçº¯¼ö
+	int mX, mY;
 };
 
 #endif

@@ -223,10 +223,6 @@ bool GraphicClass::Render(float rotation)
 		return false;
 	}
 	
-	
-
-	
-	
 	_D3D->TurnOffAlphaBlending();
 
 	_D3D->TurnZBufferOn();
