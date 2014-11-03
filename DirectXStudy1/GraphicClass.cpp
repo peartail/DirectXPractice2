@@ -17,6 +17,9 @@ GraphicClass::GraphicClass()
 	_2dshader = NULL;
 	_bitmap = NULL;
 	_text = NULL;
+
+	_modelist = NULL;
+	_frustum = NULL;
 }
 
 GraphicClass::GraphicClass(const GraphicClass& other)
@@ -168,11 +171,43 @@ bool GraphicClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	_light->SetSpecularColor(1.0f, 1.0f, 1.0f, 1.0f);
 	_light->SetSpecularPower(32.f);
 
+	_modelist = new ModellistClass;
+	if (!_modelist)
+	{
+		return false;
+	}
+
+	result = _modelist->Initialize(25);
+	if (!result)
+	{
+		MessageBox(hwnd, L"N modelist", L"Err", MB_OK);
+		return false;
+	}
+
+	_frustum = new FrustumClass;
+	if (!_frustum)
+	{
+		return false;
+	}
+
 	return true;
 }
 
 void GraphicClass::ShutDown()
 {
+
+	if (_frustum)
+	{
+		delete _frustum;
+		_frustum = NULL;
+	}
+
+	if (_modelist)
+	{
+		_modelist->Shutdown();
+		delete _modelist;
+		_modelist = NULL;
+	}
 
 	if (_bitmap)
 	{

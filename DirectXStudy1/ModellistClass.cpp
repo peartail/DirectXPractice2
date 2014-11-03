@@ -44,4 +44,29 @@ bool ModellistClass::Initialize(int numModels)
 		_modelInfoList[i].posy = (((float)rand() - (float)rand()) / RAND_MAX) * 10.f;
 		_modelInfoList[i].posz = (((float)rand() - (float)rand()) / RAND_MAX) * 10.f;
 	}
+
+	return true;
+}
+
+void ModellistClass::Shutdown()
+{
+	if (_modelInfoList)
+	{
+		delete[] _modelInfoList;
+		_modelInfoList = NULL;
+	}
+}
+
+int ModellistClass::GetModelCount()
+{
+	return _modelCount;
+}
+
+void ModellistClass::GetData(int index, float& posx, float& posy, float& posz, D3DXVECTOR4& color)
+{
+	posx = _modelInfoList[index].posx;
+	posy = _modelInfoList[index].posy;
+	posz = _modelInfoList[index].posz;
+
+	color = _modelInfoList[index].color;
 }
