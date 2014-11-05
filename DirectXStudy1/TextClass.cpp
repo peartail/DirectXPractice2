@@ -87,11 +87,19 @@ bool TextClass::Initialize(ID3D11Device* device, ID3D11DeviceContext* context, H
 		return false;
 	}
 
+	result = InitializeSentence(&_renderCount, 16, device);
+	if (!result)
+	{
+		return false;
+	}
+
 	return true;
 }
 
 void TextClass::Shutdown()
 {
+	ReleaseSentence(&_renderCount);
+
 	ReleaseSentence(&_cpusentence);
 
 	ReleaseSentence(&_fpsentence);
@@ -139,6 +147,12 @@ bool TextClass::Render(ID3D11DeviceContext* context, D3DXMATRIX world, D3DXMATRI
 	}
 
 	result = RenderSentence(context, _cpusentence, world, ortho);
+	if (!result)
+	{
+		return false;
+	}
+
+	result = RenderSentence(context, _renderCount, world, ortho);
 	if (!result)
 	{
 		return false;
@@ -433,4 +447,26 @@ bool TextClass::SetCpu(int cpu, ID3D11DeviceContext* context)
 	}
 
 	return true;
+}
+
+bool TextClass::SetRenderCount(int cnt,ID3D11DeviceContext* context)
+{
+	char tempString[16];
+	char cpustring[16];
+	bool result;
+
+	_itoa_s(cnt, tempString, 10);
+
+	strcpy_s(cpustring, "Count : ");
+	strcat_s(cpustring, tempString);
+	strcat_s(cpustring, "%");
+
+	result = UpdateSentence(_renderCount, cpustring, 100, 80, 0.0f, 1.f, 0.f, context);
+	if (!result)
+	{
+		return false;
+	}
+
+	return true;
+
 }

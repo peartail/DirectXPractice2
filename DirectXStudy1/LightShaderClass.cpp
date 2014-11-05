@@ -11,7 +11,7 @@ LightShaderClass::LightShaderClass()
 	_cameraBuffer = NULL;
 	_lightBuffer = NULL;
 
-	yaw = pitch = roll = 0;
+	yaw = pitch = roll = posx = posy = posz = 0;
 }
 
 LightShaderClass::LightShaderClass(const LightShaderClass& other)
@@ -46,13 +46,27 @@ void LightShaderClass::RotationYawPitchRoll(float y, float p, float r)
 	yaw = y; pitch = p; roll = r;
 }
 
+void LightShaderClass::TranslationMatrix(float x,float y,float z)
+{
+	posx = x; posy = y; posz = z;
+}
+
 bool LightShaderClass::Render(ID3D11DeviceContext* context, int indexCnt, D3DXMATRIX world, D3DXMATRIX view, D3DXMATRIX proj, ID3D11ShaderResourceView* tex, D3DXVECTOR3 lightdir, D3DXVECTOR4 ambient,D3DXVECTOR4 diffuse,D3DXVECTOR3 cameraPos,D3DXVECTOR4 specularColor,float specularPower)
 {
 	bool result;
 
-	D3DXMatrixRotationYawPitchRoll(&world, yaw, pitch, roll);
+	D3DXMATRIX rolworld = world;
+	D3DXMATRIX transworld = world;
 
-	result = SetShaderParameters(context, world, view, proj, tex, lightdir,ambient, diffuse,cameraPos,specularColor,specularPower);
+	D3DXMatrixRotationYawPitchRoll(&rolworld, yaw, pitch, roll);
+	
+	D3DXMatrixTranslation(&transworld, posx, posy, posz);
+
+	D3DXMatrixMultiply(&world, &rolworld, &transworld);
+
+	result = SetShaderParameters(context, world, view, proj, tex, lightdir, ambient, diffuse, cameraPos, specularColor, specularPower);
+
+	
 	if (!result)
 	{
 		return false;

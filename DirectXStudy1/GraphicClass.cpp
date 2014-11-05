@@ -1,6 +1,10 @@
 #include "GraphicClass.h"
 
 
+#include <string>
+#include <iostream>
+
+
 GraphicClass::GraphicClass()
 {
 	_D3D = NULL;
@@ -86,14 +90,14 @@ bool GraphicClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	}
 
 
-	_bitmap = new BitmapClass;
+	_bitmap = new UIClass;
 	if (!_bitmap)
 	{
 		return false;
 	}
 
 	//result = _bitmap->Initialize(_D3D->GetDevice(), screenWidth, screenHeight, L"Texture/rocks_NM_height.dds", 256, 256);
-	result = _bitmap->Initialize(_D3D->GetDevice(), screenWidth, screenHeight, L"Texture/128.png", 12, 12);
+	result = _bitmap->Initialize(_D3D->GetDevice(), screenWidth, screenHeight, L"Texture/128.png", 12, 12,baseViewMatrix);
 	if (!result)
 	{
 		MessageBox(hwnd, L"Coud not init bitmap obj", L"ERror", MB_OK);
@@ -177,7 +181,7 @@ bool GraphicClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 		return false;
 	}
 
-	result = _modelist->Initialize(25);
+	result = _modelist->Initialize(2000);
 	if (!result)
 	{
 		MessageBox(hwnd, L"N modelist", L"Err", MB_OK);
@@ -264,16 +268,19 @@ void GraphicClass::ShutDown()
 	}
 }
 
-bool GraphicClass::Frame(int mouseX, int mouseY, int fps, int cpu, float ftime)
+bool GraphicClass::Frame(D3DXVECTOR3 rotation,int mouseX, int mouseY, int fps, int cpu, float ftime)
 {
 	bool result;
 
-	static float rotation = 0.0f;
+	static float rot = 0.0f;
 
-	rotation += (float)D3DX_PI * 0.005f;
-	if (rotation > 360.0f)
+	_Camera->SetRotation(0.0f, rotation.y, 0.0f);
+	_Camera->SetPosition(_Camera->GetPosition().x, _Camera->GetPosition().y, rotation.z);
+
+	rot += (float)D3DX_PI * 0.005f;
+	if (rot > 360.0f)
 	{
-		rotation -= 360.0f;
+		rot -= 360.0f;
 	}
 
 	mX = mouseX;
@@ -297,7 +304,7 @@ bool GraphicClass::Frame(int mouseX, int mouseY, int fps, int cpu, float ftime)
 		return false;
 	}
 
-	result = Render(rotation);
+	result = Render(rot);
 
 	if (!result)
 	{
@@ -311,6 +318,11 @@ bool GraphicClass::Render(float rotation)
 {
 	D3DXMATRIX world, view, proj, ortho;
 	bool result;
+
+	int modelCnt, renderCnt, index;
+	D3DXVECTOR4 color;
+	bool renderModel;
+	float posx, posy, posz, rad;
 
 	_D3D->BeginScene(0.0f, 0.0f, 0.0f, 1.0f);
 
@@ -335,8 +347,51 @@ bool GraphicClass::Render(float rotation)
 	_D3D->GetProjectionMatrix(proj);
 
 	_D3D->GetOrthoMatrix(ortho);
-	
-	_model->Render(_D3D->GetDeviceContext());
+
+	/*std::string data = "\n1 : " + std::to_string((int)view._11) + ":" + std::to_string((int)view._21) + ":" + std::to_string((int)view._31) + ":" + std::to_string((int)view._41);
+	OutputDebugStringA(data.c_str());
+	data = "\n1 : " + std::to_string((int)view._12) + ":" + std::to_string((int)view._22) + ":" + std::to_string((int)view._32) + ":" + std::to_string((int)view._42);
+	OutputDebugStringA(data.c_str());
+	data = "\n1 : " + std::to_string((int)view._13) + ":" + std::to_string((int)view._23) + ":" + std::to_string((int)view._33) + ":" + std::to_string((int)view._43);
+	OutputDebugStringA(data.c_str());
+	data = "\n1 : " + std::to_string((int)view._14) + ":" + std::to_string((int)view._24) + ":" + std::to_string((int)view._34) + ":" + std::to_string((int)view._44);
+	OutputDebugStringA(data.c_str());*/
+
+	_frustum->ConstructFrustum(SCREEN_DEPTH, proj, view);
+
+	modelCnt = _modelist->GetModelCount();
+
+	renderCnt = 0;
+
+	for (index = 0; index < modelCnt; index++)
+	{
+		_modelist->GetData(index, posx, posy, posz, color);
+
+		rad = 1.0f;
+
+		renderModel = _frustum->CheckSphere(posx, posy, posz, rad);
+
+		if (renderModel)
+		{
+			//D3DXMatrixTranslation(&world, posx, posy, posz);
+
+			_model->Render(_D3D->GetDeviceContext());
+			_shader->RotationYawPitchRoll(rotation, rotation, rotation);
+			_shader->TranslationMatrix(posx, posy, posz);
+			result = _shader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj, _model->GetTexture(), _light->GetDirection(), _light->GetAmbientColor(), color, _Camera->GetPosition(), _light->GetSpecularColor(), _light->GetSpecularPower());
+
+			if (!result)
+			{
+				return false;
+			}
+
+			_D3D->GetWorldMatrix(world);
+
+			renderCnt++;
+		}
+	}
+
+	//_model->Render(_D3D->GetDeviceContext());
 
 #ifdef __CHATER_FOUR__
 	result = _shader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj);
@@ -345,15 +400,16 @@ bool GraphicClass::Render(float rotation)
 #elif defined __CHAPTER_SIX__
 	result = _shader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj, _model->GetTexture(), _light->GetDirection(), _light->GetDiffuseColor());
 #else 
-	_shader->RotationYawPitchRoll(rotation, rotation, rotation);
-	result = _shader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj, _model->GetTexture(), _light->GetDirection(), _light->GetAmbientColor(), _light->GetDiffuseColor(), _Camera->GetPosition(), _light->GetSpecularColor(), _light->GetSpecularPower());
+	
+	//result = _shader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj, _model->GetTexture(), _light->GetDirection(), _light->GetAmbientColor(), _light->GetDiffuseColor(), _Camera->GetPosition(), _light->GetSpecularColor(), _light->GetSpecularPower());
 #endif
+	
+
+	result = _text->SetRenderCount(renderCnt, _D3D->GetDeviceContext());
 	if (!result)
 	{
 		return false;
 	}
-
-
 
 	_D3D->TurnZBufferOff();
 
@@ -362,10 +418,11 @@ bool GraphicClass::Render(float rotation)
 	{
 		return false;
 	}
-	result = _2dshader->Render(_D3D->GetDeviceContext(), _bitmap->GetIndexCount(), world, view, ortho, _bitmap->GetTexture());
+	result = _2dshader->Render(_D3D->GetDeviceContext(), _bitmap->GetIndexCount(), world, _bitmap->GetBaseViewMatrix(), ortho, _bitmap->GetTexture());
 
 	_D3D->TurnOnAlphaBlending();
 
+	
 	result = _text->Render(_D3D->GetDeviceContext(), world, ortho);
 	if (!result)
 	{

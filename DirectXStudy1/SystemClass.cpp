@@ -9,6 +9,7 @@ SystemClass::SystemClass()
 	_fps = NULL;
 	_cpu = NULL;
 	_timer = NULL;
+	_position = NULL;
 }
 
 
@@ -81,11 +82,23 @@ bool SystemClass::Initialize()
 		return false;
 	}
 
+	_position = new PositionClass;
+	if (!_position)
+	{
+		return false;
+	}
+
 	return true;
 }
 
 void SystemClass::ShutDown()
 {
+	if (_position)
+	{
+		delete _position;
+		_position = NULL;
+	}
+
 
 	if (_timer)
 	{
@@ -161,7 +174,8 @@ void SystemClass::Run()
 
 bool SystemClass::Frame()
 {
-	bool result;
+	bool keydown,result;
+	float rotationY;
 	int mouseX, mouseY;
 
 	_timer->Frame();
@@ -174,9 +188,29 @@ bool SystemClass::Frame()
 		return false;
 	}
 
+	D3DXVECTOR3 rot(0.0f, 0.0f, 0.0f);
+
+	_position->SetFrameTime(_timer->GetTime());
+
+	keydown = m_Input->IsLeftArrowPressed();
+	_position->TurnLeft(keydown);
+
+	keydown = m_Input->IsRightArrowPressed();
+	_position->TurnRight(keydown);
+
+	_position->GetRotation(rot.y);
+
+	keydown = m_Input->IsFronArrowPressed();
+	_position->TurnFront(keydown);
+
+	keydown = m_Input->IsBackendArrowPressed();
+	_position->TurnBack(keydown);
+
+	_position->GetPositionZ(rot.z);
+
 	m_Input->GetMouseLocation(mouseX, mouseY);
 
-	result = m_Graphics->Frame(mouseX, mouseY, _fps->GetFps(), _cpu->GetCpuPercentage(), _timer->GetTime());
+	result = m_Graphics->Frame(rot, mouseX, mouseY, _fps->GetFps(), _cpu->GetCpuPercentage(), _timer->GetTime());
 	if (!result)
 	{
 		return false;

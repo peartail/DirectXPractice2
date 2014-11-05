@@ -13,7 +13,7 @@
 #include "FpsClass.h"
 #include "CpuClass.h"
 #include "TimerClass.h"
-
+#include "PositionClass.h"
 
 
 
@@ -46,6 +46,8 @@ private:
 	FpsClass* _fps;
 	CpuClass* _cpu;
 	TimerClass* _timer;
+
+	PositionClass* _position;
 };
 
 static LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);

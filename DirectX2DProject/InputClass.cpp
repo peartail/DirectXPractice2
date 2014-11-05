@@ -243,3 +243,4 @@ void InputClass::GetMouseLocation(int& mouseX, int& mouseY)
 	mouseX = _vmouseX;
 	mouseY = _vmouseY;
 }
+

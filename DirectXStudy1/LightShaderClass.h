@@ -50,6 +50,7 @@ public:
 	bool Render(ID3D11DeviceContext*, int, D3DXMATRIX, D3DXMATRIX, D3DXMATRIX, ID3D11ShaderResourceView*, D3DXVECTOR3, D3DXVECTOR4, D3DXVECTOR4,D3DXVECTOR3,D3DXVECTOR4,float);
 
 	void RotationYawPitchRoll(float, float, float);
+	void TranslationMatrix(float, float, float);
 private:
 	bool InitializeShader(ID3D11Device*, HWND, WCHAR*, WCHAR*);
 	void ShutdownShader();
@@ -71,6 +72,7 @@ private:
 	//내맘대로 변수들
 	//회전 한번 해보게
 	float yaw, pitch, roll;
+	float posx, posy, posz;
 };
 
 #endif

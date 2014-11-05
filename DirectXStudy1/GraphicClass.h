@@ -21,6 +21,7 @@
 
 #include "TextureShaderClass.h"
 #include "BitmapClass.h"
+#include "UIClass.h"
 #include "TextClass.h"
 
 #include "ModellistClass.h"
@@ -41,7 +42,7 @@ public:
 
 	bool Initialize(int, int, HWND);
 	void ShutDown();
-	bool Frame(int, int, int, int, float);
+	bool Frame(D3DXVECTOR3, int, int, int, int, float);
 
 private:
 	bool Render(float);
@@ -66,7 +67,7 @@ private:
 
 	TextureShaderClass* _2dshader;
 	TextClass *_text;
-	BitmapClass* _bitmap;
+	UIClass* _bitmap;
 	ModellistClass* _modelist;
 	FrustumClass* _frustum;
 

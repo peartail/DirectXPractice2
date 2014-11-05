@@ -139,6 +139,8 @@ bool InputClass::ReadKeyboard()
 	HRESULT result;
 
 	result = _keyboard->GetDeviceState(sizeof(_keyboardState), (LPVOID)&_keyboardState);
+
+	
 	if (FAILED(result))
 	{
 		if ((result == DIERR_INPUTLOST) || (result == DIERR_NOTACQUIRED))
@@ -242,4 +244,40 @@ void InputClass::GetMouseLocation(int& mouseX, int& mouseY)
 {
 	mouseX = _vmouseX;
 	mouseY = _vmouseY;
+}
+
+bool InputClass::IsLeftArrowPressed()
+{
+	if (_keyboardState[DIK_LEFT] & 0x80)
+	{
+		return true;
+	}
+	return false;
+}
+
+bool InputClass::IsRightArrowPressed()
+{
+	if (_keyboardState[DIK_RIGHT] & 0x80)
+	{
+		return true;
+	}
+	return false;
+}
+
+bool InputClass::IsFronArrowPressed()
+{
+	if (_keyboardState[DIK_UP] & 0x80)
+	{
+		return true;
+	}
+	return false;
+}
+
+bool InputClass::IsBackendArrowPressed()
+{
+	if (_keyboardState[DIK_DOWN] & 0x80)
+	{
+		return true;
+	}
+	return false;
 }

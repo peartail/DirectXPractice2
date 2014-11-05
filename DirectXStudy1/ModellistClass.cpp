@@ -40,9 +40,9 @@ bool ModellistClass::Initialize(int numModels)
 
 		_modelInfoList[i].color = D3DXVECTOR4(r, g, b, 1.0f);
 
-		_modelInfoList[i].posx = (((float)rand() - (float)rand()) / RAND_MAX) * 10.f;
-		_modelInfoList[i].posy = (((float)rand() - (float)rand()) / RAND_MAX) * 10.f;
-		_modelInfoList[i].posz = (((float)rand() - (float)rand()) / RAND_MAX) * 10.f;
+		_modelInfoList[i].posx = (((float)rand() - (float)rand()) / RAND_MAX) * 100.f;
+		_modelInfoList[i].posy = (((float)rand() - (float)rand()) / RAND_MAX) * 100.f;
+		_modelInfoList[i].posz = (((float)rand() - (float)rand()) / RAND_MAX) * 100.f;
 	}
 
 	return true;
