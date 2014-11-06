@@ -11,6 +11,7 @@ using namespace std;
 
 #include "TextureClass.h"
 
+#include "TextureArray.h"
 
 class ModelClass
 {
@@ -32,25 +33,29 @@ private:
 
 	TextureClass* _texture;
 	ModelType* _model;
+
+	TextureArray* _texarr;
 public:
 	ModelClass(void);
 	ModelClass(const ModelClass&);
 	~ModelClass(void);
 
 	bool Initailize(ID3D11Device*,char*,WCHAR*);
+	bool Initailize(ID3D11Device*, char*, WCHAR*,WCHAR*);
 	void Shutdown();
 	void Render(ID3D11DeviceContext*);
 
 	int GetIndexCount();
 	ID3D11ShaderResourceView* GetTexture();
 
-
+	ID3D11ShaderResourceView** GetTextureArr();
 private:
 	bool InitializeBuffers(ID3D11Device*);
 	void ShutdownBuffers();
 	void RenderBuffers(ID3D11DeviceContext*);
 
 	bool LoadTexture(ID3D11Device*, WCHAR*);
+	bool LoadTexture(ID3D11Device*, WCHAR*,WCHAR*);
 	void ReleaseTexture();
 	bool LoadModel(char*);
 	void ReleaseModel();

@@ -8,6 +8,8 @@ ModelClass::ModelClass(void)
 
 	_texture = NULL;
 
+	_texarr = NULL;
+
 	_model = NULL;
 }
 
@@ -44,6 +46,32 @@ bool ModelClass::Initailize(ID3D11Device* device,char* modelfilename, WCHAR* tex
 	return true;
 }
 
+bool ModelClass::Initailize(ID3D11Device* device, char* modelfilename, WCHAR* tex1,WCHAR* tex2)
+{
+	bool result;
+
+	result = LoadModel(modelfilename);
+	if (!result)
+	{
+		return false;
+	}
+
+	result = InitializeBuffers(device);
+	if (!result)
+	{
+		return false;
+	}
+
+	result = LoadTexture(device, tex1,tex2);
+	if (!result)
+	{
+		return false;
+	}
+
+	return true;
+}
+
+
 void ModelClass::Shutdown()
 {
 	ReleaseTexture();
@@ -65,6 +93,12 @@ ID3D11ShaderResourceView* ModelClass::GetTexture()
 {
 	return _texture->GetTexture();
 }
+
+ID3D11ShaderResourceView** ModelClass::GetTextureArr()
+{
+	return _texarr->GetTextureArray();
+}
+
 
 bool ModelClass::InitializeBuffers(ID3D11Device* device)
 {
@@ -195,8 +229,33 @@ bool ModelClass::LoadTexture(ID3D11Device* device, WCHAR* filename)
 	return true;
 }
 
+bool ModelClass::LoadTexture(ID3D11Device* device, WCHAR* tex1,WCHAR* tex2)
+{
+	bool result;
+
+	_texarr = new TextureArray;
+	if (!_texarr)
+	{
+		return false;
+	}
+
+	result = _texarr->Initialize(device, tex1,tex2);
+	if (!result)
+	{
+		return false;
+	}
+	return true;
+}
+
 void ModelClass::ReleaseTexture()
 {
+	if (_texarr)
+	{
+		_texarr->Shutdown();
+		delete _texarr;
+		_texarr = NULL;
+	}
+
 	if (_texture)
 	{
 		_texture->Shutdown();

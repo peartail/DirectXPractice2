@@ -84,19 +84,25 @@
     <ClCompile Include="CpuClass.cpp">
       <Filter>System</Filter>
     </ClCompile>
-    <ClCompile Include="BitmapClass.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="FrustumClass.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="ModellistClass.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="PositionClass.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="BitmapClass.cpp">
+      <Filter>2D</Filter>
     </ClCompile>
     <ClCompile Include="UIClass.cpp">
+      <Filter>2D</Filter>
+    </ClCompile>
+    <ClCompile Include="PositionClass.cpp">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="FrustumClass.cpp">
+      <Filter>FrameWorks</Filter>
+    </ClCompile>
+    <ClCompile Include="MultiTextureShaderClass.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureArray.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -155,19 +161,25 @@
     <ClInclude Include="FontClass.h">
       <Filter>2D</Filter>
     </ClInclude>
-    <ClInclude Include="BitmapClass.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="FrustumClass.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="ModellistClass.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="PositionClass.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="BitmapClass.h">
+      <Filter>2D</Filter>
     </ClInclude>
     <ClInclude Include="UIClass.h">
+      <Filter>2D</Filter>
+    </ClInclude>
+    <ClInclude Include="FrustumClass.h">
+      <Filter>FrameWorks</Filter>
+    </ClInclude>
+    <ClInclude Include="PositionClass.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="MultiTextureShaderClass.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureArray.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -178,6 +190,9 @@
     <None Include="Light.fx" />
     <None Include="Light.vs" />
     <None Include="Light.ps" />
+    <None Include="multitexture.fx">
+      <Filter>리소스 파일</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="texture.fx" />

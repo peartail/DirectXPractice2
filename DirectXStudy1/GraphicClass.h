@@ -27,6 +27,8 @@
 #include "ModellistClass.h"
 #include "FrustumClass.h"
 
+#include "MultiTextureShaderClass.h"
+
 
 const bool FULL_SCREEN = false;
 const bool VSYNC_ENABLED = true;
@@ -64,7 +66,7 @@ private:
 	LightClass* _light;
 #endif
 
-
+	MultiTextureShaderClass* _multitexshader;
 	TextureShaderClass* _2dshader;
 	TextClass *_text;
 	UIClass* _bitmap;

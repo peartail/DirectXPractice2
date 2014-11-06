@@ -24,6 +24,8 @@ GraphicClass::GraphicClass()
 
 	_modelist = NULL;
 	_frustum = NULL;
+
+	_multitexshader = NULL;
 }
 
 GraphicClass::GraphicClass(const GraphicClass& other)
@@ -140,6 +142,11 @@ bool GraphicClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 
 	_shader = new LightShaderClass;
 #else
+
+#endif
+
+	/*
+
 	result = _model->Initailize(_D3D->GetDevice(), "Cube.txt",L"Texture/rocks_NM_height.dds");
 	if (!result)
 	{
@@ -148,7 +155,7 @@ bool GraphicClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	}
 
 	_shader = new LightShaderClass;
-#endif
+
 
 
 	if (!_shader)
@@ -175,6 +182,28 @@ bool GraphicClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	_light->SetSpecularColor(1.0f, 1.0f, 1.0f, 1.0f);
 	_light->SetSpecularPower(32.f);
 
+	*/
+
+	result = _model->Initailize(_D3D->GetDevice(), "Cube.txt", L"Texture/Column.jpg", L"Texture/rocks_NM_height.dds");
+	if (!result)
+	{
+		MessageBox(hwnd, L"Not model obj", L"Err", MB_OK);
+		return false;
+	}
+
+	_multitexshader = new MultiTextureShaderClass;
+	if (!_multitexshader)
+	{
+		return false;
+	}
+
+	result = _multitexshader->Initialize(_D3D->GetDevice(), hwnd);
+	if (!result)
+	{
+		MessageBox(hwnd, L"Not multitex", L"Err", MB_OK);
+		return false;
+	}
+
 	_modelist = new ModellistClass;
 	if (!_modelist)
 	{
@@ -199,7 +228,13 @@ bool GraphicClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 
 void GraphicClass::ShutDown()
 {
+	if (_multitexshader)
+	{
+		delete _multitexshader;
+		_multitexshader = NULL;
+	}
 
+	
 	if (_frustum)
 	{
 		delete _frustum;
@@ -373,12 +408,14 @@ bool GraphicClass::Render(float rotation)
 
 		if (renderModel)
 		{
-			//D3DXMatrixTranslation(&world, posx, posy, posz);
+			D3DXMatrixTranslation(&world, posx, posy, posz);
 
 			_model->Render(_D3D->GetDeviceContext());
-			_shader->RotationYawPitchRoll(rotation, rotation, rotation);
-			_shader->TranslationMatrix(posx, posy, posz);
-			result = _shader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj, _model->GetTexture(), _light->GetDirection(), _light->GetAmbientColor(), color, _Camera->GetPosition(), _light->GetSpecularColor(), _light->GetSpecularPower());
+			//_shader->RotationYawPitchRoll(rotation, rotation, rotation);
+			//_shader->TranslationMatrix(posx, posy, posz);
+			//result = _shader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj, _model->GetTexture(), _light->GetDirection(), _light->GetAmbientColor(), color, _Camera->GetPosition(), _light->GetSpecularColor(), _light->GetSpecularPower());
+
+			result = _multitexshader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj, _model->GetTextureArr());
 
 			if (!result)
 			{
