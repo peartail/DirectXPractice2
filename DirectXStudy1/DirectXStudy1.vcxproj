@@ -81,6 +81,7 @@
     <ClCompile Include="GraphicClass.cpp" />
     <ClCompile Include="InputClass.cpp" />
     <ClCompile Include="LightClass.cpp" />
+    <ClCompile Include="LightmapShaderClass.cpp" />
     <ClCompile Include="LightShaderClass.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ModelClass.cpp" />
@@ -109,6 +110,7 @@
     <ClInclude Include="GraphicClass.h" />
     <ClInclude Include="InputClass.h" />
     <ClInclude Include="LightClass.h" />
+    <ClInclude Include="LightmapShaderClass.h" />
     <ClInclude Include="LightShaderClass.h" />
     <ClInclude Include="ModelClass.h" />
     <ClInclude Include="ModellistClass.h" />
@@ -154,6 +156,9 @@
       <FileType>Document</FileType>
     </None>
     <None Include="multitexture.fx">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="lightmap.fx">
       <FileType>Document</FileType>
     </None>
     <FxCompile Include="texture.fx">

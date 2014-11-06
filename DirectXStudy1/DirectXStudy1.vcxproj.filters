@@ -105,6 +105,9 @@
     <ClCompile Include="TextureArray.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="LightmapShaderClass.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CameraClass.h">
@@ -182,6 +185,9 @@
     <ClInclude Include="TextureArray.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="LightmapShaderClass.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Color.hlsl" />
@@ -190,9 +196,8 @@
     <None Include="Light.fx" />
     <None Include="Light.vs" />
     <None Include="Light.ps" />
-    <None Include="multitexture.fx">
-      <Filter>리소스 파일</Filter>
-    </None>
+    <None Include="multitexture.fx" />
+    <None Include="lightmap.fx" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="texture.fx" />
