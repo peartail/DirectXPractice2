@@ -71,6 +71,30 @@ bool ModelClass::Initailize(ID3D11Device* device, char* modelfilename, WCHAR* te
 	return true;
 }
 
+bool ModelClass::Initailize(ID3D11Device* device, char* modelfilename, WCHAR* tex1, WCHAR* tex2,WCHAR* tex3)
+{
+	bool result;
+
+	result = LoadModel(modelfilename);
+	if (!result)
+	{
+		return false;
+	}
+
+	result = InitializeBuffers(device);
+	if (!result)
+	{
+		return false;
+	}
+
+	result = LoadTexture(device, tex1, tex2,tex3);
+	if (!result)
+	{
+		return false;
+	}
+
+	return true;
+}
 
 void ModelClass::Shutdown()
 {
@@ -240,6 +264,24 @@ bool ModelClass::LoadTexture(ID3D11Device* device, WCHAR* tex1,WCHAR* tex2)
 	}
 
 	result = _texarr->Initialize(device, tex1,tex2);
+	if (!result)
+	{
+		return false;
+	}
+	return true;
+}
+
+bool ModelClass::LoadTexture(ID3D11Device* device, WCHAR* tex1, WCHAR* tex2,WCHAR* tex3)
+{
+	bool result;
+
+	_texarr = new TextureArray;
+	if (!_texarr)
+	{
+		return false;
+	}
+
+	result = _texarr->Initialize(device, tex1, tex2,tex3);
 	if (!result)
 	{
 		return false;

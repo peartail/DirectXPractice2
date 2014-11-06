@@ -108,6 +108,9 @@
     <ClCompile Include="LightmapShaderClass.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="AlphamapShaderClass.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CameraClass.h">
@@ -188,6 +191,9 @@
     <ClInclude Include="LightmapShaderClass.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="AlphamapShaderClass.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Color.hlsl" />
@@ -201,6 +207,7 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="texture.fx" />
+    <FxCompile Include="alphamap.fx" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Cube.txt" />

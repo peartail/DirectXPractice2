@@ -42,6 +42,7 @@ public:
 
 	bool Initailize(ID3D11Device*,char*,WCHAR*);
 	bool Initailize(ID3D11Device*, char*, WCHAR*,WCHAR*);
+	bool Initailize(ID3D11Device*, char*, WCHAR*, WCHAR*,WCHAR*);
 	void Shutdown();
 	void Render(ID3D11DeviceContext*);
 
@@ -56,6 +57,7 @@ private:
 
 	bool LoadTexture(ID3D11Device*, WCHAR*);
 	bool LoadTexture(ID3D11Device*, WCHAR*,WCHAR*);
+	bool LoadTexture(ID3D11Device*, WCHAR*, WCHAR*,WCHAR*);
 	void ReleaseTexture();
 	bool LoadModel(char*);
 	void ReleaseModel();

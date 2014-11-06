@@ -27,6 +27,7 @@ GraphicClass::GraphicClass()
 
 	_multitexshader = NULL;
 	_lightmapshader = NULL;
+	_alphamapshader = NULL;
 }
 
 GraphicClass::GraphicClass(const GraphicClass& other)
@@ -208,6 +209,8 @@ bool GraphicClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	}
 	*/
 
+	/*
+	//라이트맵
 	result = _model->Initailize(_D3D->GetDevice(), "Cube.txt", L"Texture/block.gif", L"Texture/lightmaptex.gif");
 	if (!result)
 	{
@@ -226,6 +229,28 @@ bool GraphicClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	{
 		MessageBox(hwnd, L"Not lightmap", L"Err", MB_OK);
 		return false;
+	}
+	*/
+
+	result = _model->Initailize(_D3D->GetDevice(), "Cube.txt", L"Texture/block.gif", L"Texture/rocks_NM_height.dds", L"Texture/gradiant.gif");
+	if (!result)
+	{
+		MessageBox(hwnd, L"Not model obj", L"Err", MB_OK);
+		return false;
+	}
+
+	_alphamapshader = new AlphamapShaderClass;
+	if (!_alphamapshader)
+	{
+		return false;
+	}
+
+	result = _alphamapshader->Initialize(_D3D->GetDevice(), hwnd);
+	if (!result)
+	{
+		MessageBox(hwnd, L"Not alpha", L"Err", MB_OK);
+		return false;
+
 	}
 
 	_modelist = new ModellistClass;
@@ -252,6 +277,13 @@ bool GraphicClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 
 void GraphicClass::ShutDown()
 {
+
+	if (_alphamapshader)
+	{
+		_alphamapshader->Shutdown();
+		delete _alphamapshader;
+		_alphamapshader = NULL;
+	}
 
 	if (_lightmapshader)
 	{
@@ -444,11 +476,14 @@ bool GraphicClass::Render(float rotation)
 			_model->Render(_D3D->GetDeviceContext());
 			//_shader->RotationYawPitchRoll(rotation, rotation, rotation);
 			//_shader->TranslationMatrix(posx, posy, posz);
+			//라이트 다엮은거
 			//result = _shader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj, _model->GetTexture(), _light->GetDirection(), _light->GetAmbientColor(), color, _Camera->GetPosition(), _light->GetSpecularColor(), _light->GetSpecularPower());
-
+			//멀티텍스쳐
 			//result = _multitexshader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj, _model->GetTextureArr());
-
-			result = _lightmapshader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj, _model->GetTextureArr());
+			//라이트맵
+			//result = _lightmapshader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj, _model->GetTextureArr());
+			
+			result = _alphamapshader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj, _model->GetTextureArr());
 
 			if (!result)
 			{
