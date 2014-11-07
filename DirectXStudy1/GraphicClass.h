@@ -30,6 +30,8 @@
 #include "MultiTextureShaderClass.h"
 #include "LightmapShaderClass.h"
 #include "AlphamapShaderClass.h"
+#include "BumpmapShaderClass.h"
+#include "SpecmapShaderClass.h"
 
 const bool FULL_SCREEN = false;
 const bool VSYNC_ENABLED = true;
@@ -78,6 +80,9 @@ private:
 
 	LightmapShaderClass* _lightmapshader;
 	AlphamapShaderClass* _alphamapshader;
+
+	BumpmapShaderClass* _bumpmapshader;
+	SpecmapShaderClass* _specmapshader;
 private:
 	//°Á ¸¸µçº¯¼ö
 	int mX, mY;

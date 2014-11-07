@@ -28,6 +28,8 @@ GraphicClass::GraphicClass()
 	_multitexshader = NULL;
 	_lightmapshader = NULL;
 	_alphamapshader = NULL;
+	_bumpmapshader = NULL;
+	_specmapshader = NULL;
 }
 
 GraphicClass::GraphicClass(const GraphicClass& other)
@@ -232,6 +234,8 @@ bool GraphicClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	}
 	*/
 
+/*
+//알파매핑
 	result = _model->Initailize(_D3D->GetDevice(), "Cube.txt", L"Texture/block.gif", L"Texture/rocks_NM_height.dds", L"Texture/gradiant.gif");
 	if (!result)
 	{
@@ -252,6 +256,70 @@ bool GraphicClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 		return false;
 
 	}
+	*/
+
+/*
+//범프매핑
+	result = _model->Initailize(_D3D->GetDevice(), "Cube.txt", L"Texture/block.gif", L"Texture/bumpmap.gif");
+	if (!result)
+	{
+		MessageBox(hwnd, L"Not model obj", L"Err", MB_OK);
+		return false;
+	}
+
+	_bumpmapshader = new BumpmapShaderClass;
+	if (!_bumpmapshader)
+	{
+		return false;
+	}
+
+	result = _bumpmapshader->Initialize(_D3D->GetDevice(), hwnd);
+	if (!result)
+	{
+		MessageBox(hwnd, L"Not bump", L"Err", MB_OK);
+		return false;
+	}
+
+	_light = new LightClass;
+	if (!_light)
+	{
+		return false;
+	}
+
+	_light->SetDiffuseColor(1.0f, 1.f, 1.f, 1.f);
+	_light->SetDirection(0.f, 0.f, 1.f);
+	*/
+
+result = _model->Initailize(_D3D->GetDevice(), "Cube.txt", L"Texture/stone.gif", L"Texture/bump02.gif", L"Texture/spec02.gif");
+	if (!result)
+	{
+		MessageBox(hwnd, L"Not model obj", L"Err", MB_OK);
+		return false;
+	}
+
+	_specmapshader = new SpecmapShaderClass;
+	if (!_specmapshader)
+	{
+		return false;
+	}
+
+	result = _specmapshader->Initialize(_D3D->GetDevice(), hwnd);
+	if (!result)
+	{
+		MessageBox(hwnd, L"Not specmap", L"Err", MB_OK);
+		return false;
+	}
+
+	_light = new LightClass;
+	if (!_light)
+	{
+		return false;
+	}
+
+	_light->SetDiffuseColor(1.0f, 1.f, 1.f, 1.f);
+	_light->SetDirection(1.f, 0.f, 1.f);
+	_light->SetSpecularColor(1.0f, 1.0f, 1.0f, 1.0f);
+	_light->SetSpecularPower(1.f);
 
 	_modelist = new ModellistClass;
 	if (!_modelist)
@@ -259,7 +327,7 @@ bool GraphicClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 		return false;
 	}
 
-	result = _modelist->Initialize(2000);
+	result = _modelist->Initialize(2500);
 	if (!result)
 	{
 		MessageBox(hwnd, L"N modelist", L"Err", MB_OK);
@@ -277,6 +345,12 @@ bool GraphicClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 
 void GraphicClass::ShutDown()
 {
+	if (_specmapshader)
+	{
+		_specmapshader->Shutdown();
+		delete _specmapshader;
+		_specmapshader = NULL;
+	}
 
 	if (_alphamapshader)
 	{
@@ -471,7 +545,7 @@ bool GraphicClass::Render(float rotation)
 
 		if (renderModel)
 		{
-			D3DXMatrixTranslation(&world, posx, posy, posz);
+			//D3DXMatrixTranslation(&world, posx, posy, posz);
 
 			_model->Render(_D3D->GetDeviceContext());
 			//_shader->RotationYawPitchRoll(rotation, rotation, rotation);
@@ -483,7 +557,15 @@ bool GraphicClass::Render(float rotation)
 			//라이트맵
 			//result = _lightmapshader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj, _model->GetTextureArr());
 			
-			result = _alphamapshader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj, _model->GetTextureArr());
+			//알파맵
+			//result = _alphamapshader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj, _model->GetTextureArr());
+			
+			//_bumpmapshader->RotationYawPitchRoll(rotation, rotation, rotation);
+			//_bumpmapshader->TranslationMatrix(posx, posy, posz);
+			//result = _bumpmapshader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj, _model->GetTextureArr(), _light->GetDirection(), _light->GetDiffuseColor());
+
+			_specmapshader->TranslationMatrix(posx, posy, posz);
+			result = _specmapshader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj, _model->GetTextureArr(), _light->GetDirection(), _light->GetDiffuseColor(), _Camera->GetPosition(), _light->GetSpecularColor(), _light->GetSpecularPower());
 
 			if (!result)
 			{

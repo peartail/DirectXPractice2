@@ -99,16 +99,22 @@
     <ClCompile Include="FrustumClass.cpp">
       <Filter>FrameWorks</Filter>
     </ClCompile>
-    <ClCompile Include="MultiTextureShaderClass.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="TextureArray.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="AlphamapShaderClass.cpp">
+      <Filter>ShaderUtil</Filter>
     </ClCompile>
     <ClCompile Include="LightmapShaderClass.cpp">
+      <Filter>ShaderUtil</Filter>
+    </ClCompile>
+    <ClCompile Include="MultiTextureShaderClass.cpp">
+      <Filter>ShaderUtil</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureArray.cpp">
+      <Filter>FrameWorks</Filter>
+    </ClCompile>
+    <ClCompile Include="BumpmapShaderClass.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="AlphamapShaderClass.cpp">
+    <ClCompile Include="SpecmapShaderClass.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -182,16 +188,22 @@
     <ClInclude Include="PositionClass.h">
       <Filter>System</Filter>
     </ClInclude>
-    <ClInclude Include="MultiTextureShaderClass.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="TextureArray.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="AlphamapShaderClass.h">
+      <Filter>ShaderUtil</Filter>
     </ClInclude>
     <ClInclude Include="LightmapShaderClass.h">
+      <Filter>ShaderUtil</Filter>
+    </ClInclude>
+    <ClInclude Include="MultiTextureShaderClass.h">
+      <Filter>ShaderUtil</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureArray.h">
+      <Filter>FrameWorks</Filter>
+    </ClInclude>
+    <ClInclude Include="BumpmapShaderClass.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="AlphamapShaderClass.h">
+    <ClInclude Include="SpecmapShaderClass.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -204,6 +216,8 @@
     <None Include="Light.ps" />
     <None Include="multitexture.fx" />
     <None Include="lightmap.fx" />
+    <None Include="bumpmap.fx" />
+    <None Include="specmap.fx" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="texture.fx" />

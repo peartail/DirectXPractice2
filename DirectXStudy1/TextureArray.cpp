@@ -19,6 +19,10 @@ bool TextureArray::Initialize(ID3D11Device* device, WCHAR* file1, WCHAR* file2)
 {
 	count = 2;
 	_textures = new ID3D11ShaderResourceView*[count];
+	for (int i = 0; i < count; i++)
+	{
+		_textures[i] = NULL;
+	}
 
 	bool result;
 
@@ -41,6 +45,10 @@ bool TextureArray::Initialize(ID3D11Device* device, WCHAR* file1, WCHAR* file2, 
 {
 	count = 3;
 	_textures = new ID3D11ShaderResourceView*[count];
+	for (int i = 0; i < count; i++)
+	{
+		_textures[i] = NULL;
+	}
 
 	bool result;
 
@@ -69,8 +77,11 @@ void TextureArray::Shutdown()
 {
 	for (int i = 0; i < count; i++)
 	{
-		_textures[i]->Release();
-		_textures[i] = NULL;
+		if (_textures[i])
+		{
+			_textures[i]->Release();
+			_textures[i] = NULL;
+		}
 	}
 	
 }

@@ -71,6 +71,7 @@
   <ItemGroup>
     <ClCompile Include="AlphamapShaderClass.cpp" />
     <ClCompile Include="BitmapClass.cpp" />
+    <ClCompile Include="BumpmapShaderClass.cpp" />
     <ClCompile Include="CameraClass.cpp" />
     <ClCompile Include="ColorShaderClass.cpp" />
     <ClCompile Include="CpuClass.cpp" />
@@ -90,6 +91,7 @@
     <ClCompile Include="MultiTextureShaderClass.cpp" />
     <ClCompile Include="PositionClass.cpp" />
     <ClCompile Include="ShaderClass.cpp" />
+    <ClCompile Include="SpecmapShaderClass.cpp" />
     <ClCompile Include="SystemClass.cpp" />
     <ClCompile Include="TextClass.cpp" />
     <ClCompile Include="TextureArray.cpp" />
@@ -101,6 +103,7 @@
   <ItemGroup>
     <ClInclude Include="AlphamapShaderClass.h" />
     <ClInclude Include="BitmapClass.h" />
+    <ClInclude Include="BumpmapShaderClass.h" />
     <ClInclude Include="CameraClass.h" />
     <ClInclude Include="ColorShaderClass.h" />
     <ClInclude Include="CpuClass.h" />
@@ -119,6 +122,7 @@
     <ClInclude Include="MultiTextureShaderClass.h" />
     <ClInclude Include="PositionClass.h" />
     <ClInclude Include="ShaderClass.h" />
+    <ClInclude Include="SpecmapShaderClass.h" />
     <ClInclude Include="SystemClass.h" />
     <ClInclude Include="TextClass.h" />
     <ClInclude Include="TextureArray.h" />
@@ -166,6 +170,12 @@
     <FxCompile Include="alphamap.fx">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </FxCompile>
+    <None Include="bumpmap.fx">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="specmap.fx">
+      <FileType>Document</FileType>
+    </None>
     <FxCompile Include="texture.fx">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </FxCompile>
