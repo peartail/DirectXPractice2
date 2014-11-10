@@ -76,6 +76,7 @@
     <ClCompile Include="ColorShaderClass.cpp" />
     <ClCompile Include="CpuClass.cpp" />
     <ClCompile Include="D3dclass.cpp" />
+    <ClCompile Include="DebugWindowsClass.cpp" />
     <ClCompile Include="FontClass.cpp" />
     <ClCompile Include="FontShaderClass.cpp" />
     <ClCompile Include="FpsClass.cpp" />
@@ -90,6 +91,7 @@
     <ClCompile Include="ModellistClass.cpp" />
     <ClCompile Include="MultiTextureShaderClass.cpp" />
     <ClCompile Include="PositionClass.cpp" />
+    <ClCompile Include="RenderTextureClass.cpp" />
     <ClCompile Include="ShaderClass.cpp" />
     <ClCompile Include="SpecmapShaderClass.cpp" />
     <ClCompile Include="SystemClass.cpp" />
@@ -108,6 +110,7 @@
     <ClInclude Include="ColorShaderClass.h" />
     <ClInclude Include="CpuClass.h" />
     <ClInclude Include="D3dclass.h" />
+    <ClInclude Include="DebugWindowsClass.h" />
     <ClInclude Include="FontClass.h" />
     <ClInclude Include="FontShaderClass.h" />
     <ClInclude Include="FpsClass.h" />
@@ -121,6 +124,7 @@
     <ClInclude Include="ModellistClass.h" />
     <ClInclude Include="MultiTextureShaderClass.h" />
     <ClInclude Include="PositionClass.h" />
+    <ClInclude Include="RenderTextureClass.h" />
     <ClInclude Include="ShaderClass.h" />
     <ClInclude Include="SpecmapShaderClass.h" />
     <ClInclude Include="SystemClass.h" />

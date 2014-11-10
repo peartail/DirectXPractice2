@@ -33,6 +33,10 @@
 #include "BumpmapShaderClass.h"
 #include "SpecmapShaderClass.h"
 
+#include "RenderTextureClass.h"
+#include "DebugWindowsClass.h"
+
+
 const bool FULL_SCREEN = false;
 const bool VSYNC_ENABLED = true;
 const float SCREEN_DEPTH = 1000.0f;
@@ -50,7 +54,11 @@ public:
 	bool Frame(D3DXVECTOR3, int, int, int, int, float);
 
 private:
+
+	bool RenderToTexture();
+	bool RenderScene(float rad = 0);
 	bool Render(float);
+
 
 private:
 	D3dclass* _D3D;
@@ -83,6 +91,9 @@ private:
 
 	BumpmapShaderClass* _bumpmapshader;
 	SpecmapShaderClass* _specmapshader;
+
+	RenderTextureClass *_rendertexture;
+	DebugWindowsClass* _debugwindow;
 private:
 	//°Á ¸¸µçº¯¼ö
 	int mX, mY;
