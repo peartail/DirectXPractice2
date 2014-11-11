@@ -77,6 +77,7 @@
     <ClCompile Include="CpuClass.cpp" />
     <ClCompile Include="D3dclass.cpp" />
     <ClCompile Include="DebugWindowsClass.cpp" />
+    <ClCompile Include="FogShaderClass.cpp" />
     <ClCompile Include="FontClass.cpp" />
     <ClCompile Include="FontShaderClass.cpp" />
     <ClCompile Include="FpsClass.cpp" />
@@ -111,6 +112,7 @@
     <ClInclude Include="CpuClass.h" />
     <ClInclude Include="D3dclass.h" />
     <ClInclude Include="DebugWindowsClass.h" />
+    <ClInclude Include="FogShaderClass.h" />
     <ClInclude Include="FontClass.h" />
     <ClInclude Include="FontShaderClass.h" />
     <ClInclude Include="FpsClass.h" />
@@ -178,6 +180,9 @@
       <FileType>Document</FileType>
     </None>
     <None Include="specmap.fx">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="fog.fx">
       <FileType>Document</FileType>
     </None>
     <FxCompile Include="texture.fx">

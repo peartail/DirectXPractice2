@@ -36,6 +36,8 @@
 #include "RenderTextureClass.h"
 #include "DebugWindowsClass.h"
 
+#include "FogShaderClass.h"
+
 
 const bool FULL_SCREEN = false;
 const bool VSYNC_ENABLED = true;
@@ -56,7 +58,7 @@ public:
 private:
 
 	bool RenderToTexture();
-	bool RenderScene(float rad = 0);
+	bool RenderScene(int&,float rad = 0);
 	bool Render(float);
 
 
@@ -94,6 +96,8 @@ private:
 
 	RenderTextureClass *_rendertexture;
 	DebugWindowsClass* _debugwindow;
+
+	FogShaderClass* _fogShader;
 private:
 	//°Á ¸¸µçº¯¼ö
 	int mX, mY;

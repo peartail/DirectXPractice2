@@ -33,6 +33,8 @@ GraphicClass::GraphicClass()
 
 	_rendertexture = NULL;
 	_debugwindow = NULL;
+
+	_fogShader = NULL;
 }
 
 GraphicClass::GraphicClass(const GraphicClass& other)
@@ -293,6 +295,8 @@ bool GraphicClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	_light->SetDirection(0.f, 0.f, 1.f);
 	*/
 
+/*
+//스페큘러 매핑 
 result = _model->Initailize(_D3D->GetDevice(), "Cube.txt", L"Texture/stone.gif", L"Texture/bump02.gif", L"Texture/spec02.gif");
 	if (!result)
 	{
@@ -324,6 +328,29 @@ result = _model->Initailize(_D3D->GetDevice(), "Cube.txt", L"Texture/stone.gif",
 	_light->SetSpecularColor(1.0f, 1.0f, 1.0f, 1.0f);
 	_light->SetSpecularPower(1.f);
 	
+	*/
+	
+	result = _model->Initailize(_D3D->GetDevice(), "Cube.txt", L"Texture/rocks.jpg");
+	if (!result)
+	{
+		MessageBox(hwnd, L"Not model obj", L"Err", MB_OK);
+		return false;
+	}
+
+	_fogShader = new FogShaderClass;
+	if (!_fogShader)
+	{
+		return false;
+	}
+
+	result = _fogShader->Initialize(_D3D->GetDevice(), hwnd);
+	if (!result)
+	{
+		MessageBox(hwnd, L"Not Fogshader", L"Err", MB_OK);
+		return false;
+	}
+	
+
 	_rendertexture = new RenderTextureClass;
 	if (!_rendertexture)
 	{
@@ -373,6 +400,12 @@ result = _model->Initailize(_D3D->GetDevice(), "Cube.txt", L"Texture/stone.gif",
 
 void GraphicClass::ShutDown()
 {
+	if (_fogShader)
+	{
+		_fogShader->Shutdown();
+		delete _fogShader;
+		_fogShader = NULL;
+	}
 
 	if (_rendertexture)
 	{
@@ -538,8 +571,8 @@ bool GraphicClass::RenderToTexture()
 	_rendertexture->SetRenderTarget(_D3D->GetDeviceContext(), _D3D->GetDepthStencilView());
 
 	_rendertexture->ClearRenderTarget(_D3D->GetDeviceContext(), _D3D->GetDepthStencilView(), 0.0f, 0.f, 1.f, 1.f);
-
-	result = RenderScene(180);
+	int rendercnt = 0;
+	result = RenderScene(rendercnt,180);
 	if (!result)
 	{
 		return false;
@@ -550,8 +583,9 @@ bool GraphicClass::RenderToTexture()
 	return true;
 }
 
-bool GraphicClass::RenderScene(float rotation)
+bool GraphicClass::RenderScene(int &rendercnt,float rotation)
 {
+	float fogstart, fogend;
 	D3DXMATRIX world, view, proj;
 	int modelCnt, renderCnt = 0, index;
 	bool result;
@@ -572,6 +606,10 @@ bool GraphicClass::RenderScene(float rotation)
 	_Camera->GetViewMatrix(view);
 	_D3D->GetWorldMatrix(world);
 	_D3D->GetProjectionMatrix(proj);
+
+	
+	fogstart = 0.0f;
+	fogend = 100.f;
 
 	/*std::string data = "\n1 : " + std::to_string((int)view._11) + ":" + std::to_string((int)view._21) + ":" + std::to_string((int)view._31) + ":" + std::to_string((int)view._41);
 	OutputDebugStringA(data.c_str());
@@ -601,6 +639,7 @@ bool GraphicClass::RenderScene(float rotation)
 			//D3DXMatrixTranslation(&world, posx, posy, posz);
 
 			_model->Render(_D3D->GetDeviceContext());
+			//result = _2dshader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj, _model->GetTexture());
 			//_shader->RotationYawPitchRoll(rotation, rotation, rotation);
 			//_shader->TranslationMatrix(posx, posy, posz);
 			//라이트 다엮은거
@@ -617,8 +656,11 @@ bool GraphicClass::RenderScene(float rotation)
 			//_bumpmapshader->TranslationMatrix(posx, posy, posz);
 			//result = _bumpmapshader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj, _model->GetTextureArr(), _light->GetDirection(), _light->GetDiffuseColor());
 
-			_specmapshader->TranslationMatrix(posx, posy, posz);
-			result = _specmapshader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj, _model->GetTextureArr(), _light->GetDirection(), _light->GetDiffuseColor(), _Camera->GetPosition(), _light->GetSpecularColor(), _light->GetSpecularPower());
+			//_specmapshader->TranslationMatrix(posx, posy, posz);
+			//result = _specmapshader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj, _model->GetTextureArr(), _light->GetDirection(), _light->GetDiffuseColor(), _Camera->GetPosition(), _light->GetSpecularColor(), _light->GetSpecularPower());
+			
+			_fogShader->TranslationMatrix(posx, posy, posz);
+			result = _fogShader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj, _model->GetTexture(), fogstart, fogend);
 
 			if (!result)
 			{
@@ -630,6 +672,8 @@ bool GraphicClass::RenderScene(float rotation)
 			renderCnt++;
 		}
 	}
+
+	rendercnt = renderCnt;
 
 	//_model->Render(_D3D->GetDeviceContext());
 
@@ -661,10 +705,10 @@ bool GraphicClass::Render(float rotation)
 	{
 		return false;
 	}
+	float fogcolor = 0.5f;
+	_D3D->BeginScene(fogcolor, fogcolor, fogcolor, 1.0f);
 
-	_D3D->BeginScene(0.0f, 0.0f, 0.0f, 1.0f);
-
-	result = RenderScene();
+	result = RenderScene(renderCnt);
 	if (!result)
 	{
 		return false;
@@ -675,6 +719,7 @@ bool GraphicClass::Render(float rotation)
 	_D3D->GetProjectionMatrix(proj);
 
 	_D3D->GetOrthoMatrix(ortho);
+
 	/*
 	D3DXVECTOR3 rot= _Camera->GetRotation();
 

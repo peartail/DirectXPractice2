@@ -10,6 +10,7 @@ BumpmapShaderClass::BumpmapShaderClass()
 	_sampleState = NULL;
 	_lightBuffer = NULL;
 
+
 	yaw = pitch = roll = posx = posy = posz = 0;
 }
 

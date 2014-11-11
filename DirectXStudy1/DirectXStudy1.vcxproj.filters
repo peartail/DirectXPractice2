@@ -111,16 +111,19 @@
     <ClCompile Include="TextureArray.cpp">
       <Filter>FrameWorks</Filter>
     </ClCompile>
-    <ClCompile Include="BumpmapShaderClass.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="SpecmapShaderClass.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="DebugWindowsClass.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="RenderTextureClass.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="BumpmapShaderClass.cpp">
+      <Filter>ShaderUtil</Filter>
+    </ClCompile>
+    <ClCompile Include="SpecmapShaderClass.cpp">
+      <Filter>ShaderUtil</Filter>
+    </ClCompile>
+    <ClCompile Include="FogShaderClass.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -206,16 +209,19 @@
     <ClInclude Include="TextureArray.h">
       <Filter>FrameWorks</Filter>
     </ClInclude>
-    <ClInclude Include="BumpmapShaderClass.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="SpecmapShaderClass.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="DebugWindowsClass.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="RenderTextureClass.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="BumpmapShaderClass.h">
+      <Filter>ShaderUtil</Filter>
+    </ClInclude>
+    <ClInclude Include="SpecmapShaderClass.h">
+      <Filter>ShaderUtil</Filter>
+    </ClInclude>
+    <ClInclude Include="FogShaderClass.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -230,6 +236,7 @@
     <None Include="lightmap.fx" />
     <None Include="bumpmap.fx" />
     <None Include="specmap.fx" />
+    <None Include="fog.fx" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="texture.fx" />
