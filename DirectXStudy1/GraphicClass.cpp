@@ -35,6 +35,10 @@ GraphicClass::GraphicClass()
 	_debugwindow = NULL;
 
 	_fogShader = NULL;
+
+	_clipplaneshader = NULL;
+
+	_transshader = NULL;
 }
 
 GraphicClass::GraphicClass(const GraphicClass& other)
@@ -337,6 +341,39 @@ result = _model->Initailize(_D3D->GetDevice(), "Cube.txt", L"Texture/stone.gif",
 		return false;
 	}
 
+	_transshader = new TranslateShaderClass;
+	if (!_transshader)
+	{
+		return false;
+	}
+
+	result = _transshader->Initialize(_D3D->GetDevice(), hwnd);
+	if (!result)
+	{
+		MessageBox(hwnd, L"Not trans shader", L"Err", MB_OK);
+		return false;
+	}
+
+
+
+	/*
+	//플레인 쉐이더
+	_clipplaneshader = new ClipPlaneShaderClass;
+	if (!_clipplaneshader)
+	{
+		return false;
+	}
+
+	result = _clipplaneshader->Initialize(_D3D->GetDevice(), hwnd);
+	if (!result)
+	{
+		MessageBox(hwnd, L"Not clipplane", L"ERR", MB_OK);
+		return false;
+	}
+	*/
+
+	/*
+	//안개쉐이더
 	_fogShader = new FogShaderClass;
 	if (!_fogShader)
 	{
@@ -349,7 +386,7 @@ result = _model->Initailize(_D3D->GetDevice(), "Cube.txt", L"Texture/stone.gif",
 		MessageBox(hwnd, L"Not Fogshader", L"Err", MB_OK);
 		return false;
 	}
-	
+	*/
 
 	_rendertexture = new RenderTextureClass;
 	if (!_rendertexture)
@@ -400,6 +437,20 @@ result = _model->Initailize(_D3D->GetDevice(), "Cube.txt", L"Texture/stone.gif",
 
 void GraphicClass::ShutDown()
 {
+	if (_transshader)
+	{
+		_transshader->Shutdown();
+		delete _transshader;
+		_transshader = NULL;
+	}
+
+	if (_clipplaneshader)
+	{
+		_clipplaneshader->Shutdown();
+		delete _clipplaneshader;
+		_clipplaneshader = NULL;
+	}
+
 	if (_fogShader)
 	{
 		_fogShader->Shutdown();
@@ -592,8 +643,16 @@ bool GraphicClass::RenderScene(int &rendercnt,float rotation)
 	D3DXVECTOR4 color;
 	bool renderModel;
 	float posx, posy, posz, rad;
-
+	
+	D3DXVECTOR4 clipPlane;
 	D3DXVECTOR3 pos = _Camera->GetPosition();
+
+	static float textureTrans = 0.0f;
+	textureTrans += 0.01f;
+	if (textureTrans > 1.0f)
+	{
+		textureTrans -= 1.0f;
+	}
 
 	//pos.x--;
 
@@ -610,6 +669,8 @@ bool GraphicClass::RenderScene(int &rendercnt,float rotation)
 	
 	fogstart = 0.0f;
 	fogend = 100.f;
+
+	clipPlane = D3DXVECTOR4(1.0f, 0.f, 0.f, 0.f);
 
 	/*std::string data = "\n1 : " + std::to_string((int)view._11) + ":" + std::to_string((int)view._21) + ":" + std::to_string((int)view._31) + ":" + std::to_string((int)view._41);
 	OutputDebugStringA(data.c_str());
@@ -636,7 +697,7 @@ bool GraphicClass::RenderScene(int &rendercnt,float rotation)
 
 		if (renderModel)
 		{
-			//D3DXMatrixTranslation(&world, posx, posy, posz);
+			D3DXMatrixTranslation(&world, posx, posy, posz);
 
 			_model->Render(_D3D->GetDeviceContext());
 			//result = _2dshader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj, _model->GetTexture());
@@ -659,8 +720,14 @@ bool GraphicClass::RenderScene(int &rendercnt,float rotation)
 			//_specmapshader->TranslationMatrix(posx, posy, posz);
 			//result = _specmapshader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj, _model->GetTextureArr(), _light->GetDirection(), _light->GetDiffuseColor(), _Camera->GetPosition(), _light->GetSpecularColor(), _light->GetSpecularPower());
 			
-			_fogShader->TranslationMatrix(posx, posy, posz);
+			/*_fogShader->TranslationMatrix(posx, posy, posz);
 			result = _fogShader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj, _model->GetTexture(), fogstart, fogend);
+			*/
+
+			//클립플레인
+			//result = _clipplaneshader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj, _model->GetTexture(), clipPlane);
+
+			result = _transshader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj, _model->GetTexture(), textureTrans);
 
 			if (!result)
 			{

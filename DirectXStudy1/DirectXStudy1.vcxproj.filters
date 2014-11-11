@@ -126,6 +126,12 @@
     <ClCompile Include="FogShaderClass.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="ClipPlaneShaderClass.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="TranslateShaderClass.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CameraClass.h">
@@ -224,6 +230,12 @@
     <ClInclude Include="FogShaderClass.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="ClipPlaneShaderClass.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="TranslateShaderClass.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Color.hlsl" />
@@ -237,6 +249,8 @@
     <None Include="bumpmap.fx" />
     <None Include="specmap.fx" />
     <None Include="fog.fx" />
+    <None Include="clipplane.fx" />
+    <None Include="translate.fx" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="texture.fx" />

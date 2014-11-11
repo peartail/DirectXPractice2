@@ -37,7 +37,8 @@
 #include "DebugWindowsClass.h"
 
 #include "FogShaderClass.h"
-
+#include "ClipPlaneShaderClass.h"
+#include "TranslateShaderClass.h"
 
 const bool FULL_SCREEN = false;
 const bool VSYNC_ENABLED = true;
@@ -98,6 +99,8 @@ private:
 	DebugWindowsClass* _debugwindow;
 
 	FogShaderClass* _fogShader;
+	ClipPlaneShaderClass* _clipplaneshader;
+	TranslateShaderClass* _transshader;
 private:
 	//°Á ¸¸µçº¯¼ö
 	int mX, mY;
