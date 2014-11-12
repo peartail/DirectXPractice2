@@ -8,14 +8,15 @@
 #include <windows.h>
 
 #include "InputClass.h"
-#include "GraphicClass.h"
+//#include "GraphicClass.h"
+#include "GraphicClass27.h"
 
 #include "FpsClass.h"
 #include "CpuClass.h"
 #include "TimerClass.h"
 #include "PositionClass.h"
 
-
+#define GraphicClass GraphicClass27
 
 class SystemClass
 {

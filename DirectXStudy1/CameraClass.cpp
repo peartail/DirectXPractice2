@@ -84,3 +84,32 @@ void CameraClass::GetViewMatrix(D3DXMATRIX& viewMat)
 {
 	viewMat = _viewMatrix;
 }
+
+void CameraClass::RenderReflection(float h)
+{
+	D3DXVECTOR3 up, pos, lookat;
+	float rad;
+
+	up.x = 0.f;
+	up.y = 1.f;
+	up.z = 0.f;
+
+	pos.x = _posX;
+	pos.y = _posY + (h + 2.0f);
+	pos.z = _posZ;
+
+	rad = _rotY * 0.0174532925f;
+
+	lookat.x = sinf(rad) + _posX;
+	lookat.y = pos.y;
+	lookat.z = cosf(rad) + _posZ;
+
+	D3DXMatrixLookAtLH(&_reflectionViewmat, &pos, &lookat, &up);
+
+
+}
+
+D3DXMATRIX CameraClass::GetReflectionViewMatrix()
+{
+	return _reflectionViewmat;
+}

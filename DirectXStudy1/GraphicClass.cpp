@@ -136,6 +136,12 @@ bool GraphicClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	{
 		return false;
 	}
+
+	_floormodel = new ModelClass;
+	if(!_floormodel)
+	{
+		return false;
+	}
 #ifdef __CHATER__FOUR__
 	result = _model->Initailize(_D3D->GetDevice());
 	if (!result)
@@ -350,10 +356,30 @@ result = _model->Initailize(_D3D->GetDevice(), "Cube.txt", L"Texture/stone.gif",
 		return false;
 	}
 
-	result = _model2->Initailize(_D3D->GetDevice(), "planet.txt", L"Texture/clouds.bmp");
+	result = _model2->Initailize(_D3D->GetDevice(), "planet.txt", L"Texture/rocks.jpg");
 	if (!result)
 	{
 		MessageBox(hwnd, L"Not model obj2", L"Err", MB_OK);
+		return false;
+	}
+
+	result = _floormodel->Initailize(_D3D->GetDevice(), "plane.txt", L"Texture/clouds.bmp");
+	if (!result)
+	{
+		MessageBox(hwnd, L"Not model floor", L"Err", MB_OK);
+	}
+
+	
+	_refshader = new ReflectionShaderClass;
+	if (!_refshader)
+	{
+		return false;
+	}
+
+	result = _refshader->Initialize(_D3D->GetDevice(), hwnd);
+	if (!result)
+	{
+		MessageBox(hwnd, L"Not refshader", L"err", MB_OK);
 		return false;
 	}
 
@@ -467,6 +493,13 @@ result = _model->Initailize(_D3D->GetDevice(), "Cube.txt", L"Texture/stone.gif",
 
 void GraphicClass::ShutDown()
 {
+	if (_refshader)
+	{
+		_refshader->Shutdown();
+		delete _refshader;
+		_refshader = NULL;
+
+	}
 	if (_transparentshader)
 	{
 		_transparentshader->Shutdown();
@@ -662,13 +695,26 @@ bool GraphicClass::Frame(D3DXVECTOR3 rotation,int mouseX, int mouseY, int fps, i
 
 bool GraphicClass::RenderToTexture()
 {
+	D3DXMATRIX world, refview, proj;
 	bool result;
 
 	_rendertexture->SetRenderTarget(_D3D->GetDeviceContext(), _D3D->GetDepthStencilView());
 
 	_rendertexture->ClearRenderTarget(_D3D->GetDeviceContext(), _D3D->GetDepthStencilView(), 0.0f, 0.f, 1.f, 1.f);
+
+	_Camera->RenderReflection(-1.5f);
+
+	refview = _Camera->GetReflectionViewMatrix();
+
+	_D3D->GetWorldMatrix(world);
+	_D3D->GetProjectionMatrix(proj);
+
+	_model2->Render(_D3D->GetDeviceContext());
+
+	_2dshader->Render(_D3D->GetDeviceContext(), _model2->GetIndexCount(), world, refview, proj, _model->GetTexture());
+	
 	int rendercnt = 0;
-	result = RenderScene(rendercnt,180);
+	result = RenderScene(rendercnt);
 	if (!result)
 	{
 		return false;
@@ -682,7 +728,7 @@ bool GraphicClass::RenderToTexture()
 bool GraphicClass::RenderScene(int &rendercnt,float rotation)
 {
 	float fogstart, fogend;
-	D3DXMATRIX world, view, proj;
+	D3DXMATRIX world, view, proj, refview;
 	int modelCnt, renderCnt = 0, index;
 	bool result;
 	D3DXVECTOR4 color;
@@ -733,7 +779,7 @@ bool GraphicClass::RenderScene(int &rendercnt,float rotation)
 
 	renderCnt = 0;
 
-	for (index = 0; index < modelCnt; index++)
+	for (index = 0; index < 1; index++)
 	{
 		_modelist->GetData(index, posx, posy, posz, color);
 
@@ -748,7 +794,7 @@ bool GraphicClass::RenderScene(int &rendercnt,float rotation)
 			D3DXMATRIX tempworld = world;
 			D3DXMATRIX transworld = world;
 
-			D3DXMatrixTranslation(&transworld, posx, posy, posz);
+			//D3DXMatrixTranslation(&transworld, posx, posy, posz);
 
 			D3DXMatrixScaling(&tempworld, 0.01, 0.01, 0.01);
 
@@ -791,16 +837,27 @@ bool GraphicClass::RenderScene(int &rendercnt,float rotation)
 			{
 				_model2->Render(_D3D->GetDeviceContext());
 				result = _transparentshader->Render(_D3D->GetDeviceContext(), _model2->GetIndexCount(), world, view, proj, _model2->GetTexture(), blendAmount);
+				if (!result)
+				{
+					return false;
+				}
+
+				_D3D->GetWorldMatrix(world);
+				D3DXMatrixTranslation(&world, 0.0f, -1.5f, 0.0f);
+
+				refview = _Camera->GetReflectionViewMatrix();
+
+				_floormodel->Render(_D3D->GetDeviceContext());
+
+				result = _refshader->Render(_D3D->GetDeviceContext(), _floormodel->GetIndexCount(), world, view, proj, _floormodel->GetTexture(), _rendertexture->GetShaderResourceView(),refview);
 			}
+
 
 			
 			
 			_D3D->TurnOffAlphaBlending();
 
-			if (!result)
-			{
-				return false;
-			}
+			
 
 			_D3D->GetWorldMatrix(world);
 
@@ -873,6 +930,7 @@ bool GraphicClass::Render(float rotation)
 
 	_D3D->TurnZBufferOff();
 
+	/*
 	result = _debugwindow->Render(_D3D->GetDeviceContext(), 600, 300);
 	if (!result)
 	{
@@ -884,7 +942,8 @@ bool GraphicClass::Render(float rotation)
 	{
 		return false;
 	}
-	
+	*/
+
 	result = _bitmap->Render(_D3D->GetDeviceContext(), mX, mY);
 	if (!result)
 	{

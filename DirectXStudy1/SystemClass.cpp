@@ -210,7 +210,8 @@ bool SystemClass::Frame()
 
 	m_Input->GetMouseLocation(mouseX, mouseY);
 
-	result = m_Graphics->Frame(rot, mouseX, mouseY, _fps->GetFps(), _cpu->GetCpuPercentage(), _timer->GetTime());
+	//result = m_Graphics->Frame(rot, mouseX, mouseY, _fps->GetFps(), _cpu->GetCpuPercentage(), _timer->GetTime());
+	result = m_Graphics->Frame();
 	if (!result)
 	{
 		return false;

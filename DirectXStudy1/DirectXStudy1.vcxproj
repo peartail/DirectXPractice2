@@ -84,6 +84,7 @@
     <ClCompile Include="FpsClass.cpp" />
     <ClCompile Include="FrustumClass.cpp" />
     <ClCompile Include="GraphicClass.cpp" />
+    <ClCompile Include="GraphicClass27.cpp" />
     <ClCompile Include="InputClass.cpp" />
     <ClCompile Include="LightClass.cpp" />
     <ClCompile Include="LightmapShaderClass.cpp" />
@@ -93,6 +94,7 @@
     <ClCompile Include="ModellistClass.cpp" />
     <ClCompile Include="MultiTextureShaderClass.cpp" />
     <ClCompile Include="PositionClass.cpp" />
+    <ClCompile Include="ReflectionShaderClass.cpp" />
     <ClCompile Include="RenderTextureClass.cpp" />
     <ClCompile Include="ShaderClass.cpp" />
     <ClCompile Include="SpecmapShaderClass.cpp" />
@@ -122,6 +124,7 @@
     <ClInclude Include="FpsClass.h" />
     <ClInclude Include="FrustumClass.h" />
     <ClInclude Include="GraphicClass.h" />
+    <ClInclude Include="GraphicClass27.h" />
     <ClInclude Include="InputClass.h" />
     <ClInclude Include="LightClass.h" />
     <ClInclude Include="LightmapShaderClass.h" />
@@ -130,6 +133,7 @@
     <ClInclude Include="ModellistClass.h" />
     <ClInclude Include="MultiTextureShaderClass.h" />
     <ClInclude Include="PositionClass.h" />
+    <ClInclude Include="ReflectionShaderClass.h" />
     <ClInclude Include="RenderTextureClass.h" />
     <ClInclude Include="ShaderClass.h" />
     <ClInclude Include="SpecmapShaderClass.h" />
@@ -198,6 +202,9 @@
       <FileType>Document</FileType>
     </None>
     <None Include="clipplane.fx">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="refection.fx">
       <FileType>Document</FileType>
     </None>
     <FxCompile Include="texture.fx">

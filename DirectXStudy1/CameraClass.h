@@ -21,10 +21,14 @@ public:
 	void Render();
 	void GetViewMatrix(D3DXMATRIX&);
 
+	void RenderReflection(float);
+	D3DXMATRIX GetReflectionViewMatrix();
 private:
 	float _posX, _posY, _posZ;
 	float _rotX, _rotY, _rotZ;
 	D3DXMATRIX _viewMatrix;
+
+	D3DXMATRIX _reflectionViewmat;
 };
 
 #endif

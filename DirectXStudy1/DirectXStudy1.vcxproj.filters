@@ -111,12 +111,6 @@
     <ClCompile Include="TextureArray.cpp">
       <Filter>FrameWorks</Filter>
     </ClCompile>
-    <ClCompile Include="DebugWindowsClass.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderTextureClass.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="BumpmapShaderClass.cpp">
       <Filter>ShaderUtil</Filter>
     </ClCompile>
@@ -134,6 +128,18 @@
     </ClCompile>
     <ClCompile Include="TransparentShaderClass.cpp">
       <Filter>ShaderUtil</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugWindowsClass.cpp">
+      <Filter>2D</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderTextureClass.cpp">
+      <Filter>2D</Filter>
+    </ClCompile>
+    <ClCompile Include="ReflectionShaderClass.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicClass27.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -218,12 +224,6 @@
     <ClInclude Include="TextureArray.h">
       <Filter>FrameWorks</Filter>
     </ClInclude>
-    <ClInclude Include="DebugWindowsClass.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderTextureClass.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="BumpmapShaderClass.h">
       <Filter>ShaderUtil</Filter>
     </ClInclude>
@@ -242,6 +242,18 @@
     <ClInclude Include="FogShaderClass.h">
       <Filter>ShaderUtil</Filter>
     </ClInclude>
+    <ClInclude Include="RenderTextureClass.h">
+      <Filter>2D</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugWindowsClass.h">
+      <Filter>2D</Filter>
+    </ClInclude>
+    <ClInclude Include="ReflectionShaderClass.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicClass27.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Color.hlsl" />
@@ -258,6 +270,7 @@
     <None Include="clipplane.fx" />
     <None Include="translate.fx" />
     <None Include="transparent.fx" />
+    <None Include="refection.fx" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="texture.fx" />

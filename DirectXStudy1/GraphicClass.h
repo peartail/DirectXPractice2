@@ -41,6 +41,8 @@
 #include "TranslateShaderClass.h"
 
 #include "TransparentShaderClass.h"
+#include "ReflectionShaderClass.h"
+
 
 const bool FULL_SCREEN = false;
 const bool VSYNC_ENABLED = true;
@@ -106,6 +108,9 @@ private:
 	TranslateShaderClass* _transshader;
 
 	TransparentShaderClass* _transparentshader;
+
+	ModelClass* _floormodel;
+	ReflectionShaderClass* _refshader;
 private:
 	//°Á ¸¸µçº¯¼ö
 	int mX, mY;

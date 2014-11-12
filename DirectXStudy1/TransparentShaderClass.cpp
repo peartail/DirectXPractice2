@@ -3,6 +3,7 @@
 
 TransparentShaderClass::TransparentShaderClass()
 {
+	TextureShaderClass::TextureShaderClass();
 	_transparentBuffer = NULL;
 }
 
