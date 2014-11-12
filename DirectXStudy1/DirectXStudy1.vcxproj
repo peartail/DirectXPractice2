@@ -78,6 +78,7 @@
     <ClCompile Include="CpuClass.cpp" />
     <ClCompile Include="D3dclass.cpp" />
     <ClCompile Include="DebugWindowsClass.cpp" />
+    <ClCompile Include="FadeShaderClass.cpp" />
     <ClCompile Include="FogShaderClass.cpp" />
     <ClCompile Include="FontClass.cpp" />
     <ClCompile Include="FontShaderClass.cpp" />
@@ -118,6 +119,7 @@
     <ClInclude Include="CpuClass.h" />
     <ClInclude Include="D3dclass.h" />
     <ClInclude Include="DebugWindowsClass.h" />
+    <ClInclude Include="FadeShaderClass.h" />
     <ClInclude Include="FogShaderClass.h" />
     <ClInclude Include="FontClass.h" />
     <ClInclude Include="FontShaderClass.h" />
@@ -205,6 +207,9 @@
       <FileType>Document</FileType>
     </None>
     <None Include="refection.fx">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="fade.fx">
       <FileType>Document</FileType>
     </None>
     <FxCompile Include="texture.fx">

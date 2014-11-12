@@ -16,6 +16,11 @@ GraphicClass27::GraphicClass27()
 	_rendertex = NULL;
 	_floor = NULL;
 	_refshader = NULL;
+
+	_bitmap = NULL;
+	_fadeShader = NULL;
+
+	
 }
 
 
@@ -49,6 +54,20 @@ bool GraphicClass27::Initialize(int sw, int sh, HWND hwnd)
 	NEW_CLASS(_refshader, ReflectionShaderClass);
 	V_RETURN(_refshader->Initialize(GETDEVICE, hwnd), L"Not Refshader");
 
+	NEW_CLASS(_bitmap, BitmapClass);
+	V_RETURN(_bitmap->Initialize(GETDEVICE, sw, sh, L"Texture/128.png", sw, sh), L"Not Bitmap");
+
+	_fadeInTime = 3000.0f;
+	_accumTime = 0.f;
+	_fadePer = 0.f;
+
+	_fadeDone = false;
+
+	NEW_CLASS(_fadeShader, FadeShaderClass);
+	V_RETURN(_fadeShader->Initialize(GETDEVICE, hwnd), L"Not fadeshade");
+
+
+
 	return true;
 
 
@@ -56,6 +75,8 @@ bool GraphicClass27::Initialize(int sw, int sh, HWND hwnd)
 
 void GraphicClass27::ShutDown()
 {
+	SHUTDOWN_OBJ(_fadeShader);
+	SHUTDOWN_OBJ(_bitmap);
 	SHUTDOWN_OBJ(_refshader);
 	SHUTDOWN_OBJ(_floor);
 	SHUTDOWN_OBJ(_rendertex);
@@ -66,10 +87,24 @@ void GraphicClass27::ShutDown()
 	SHUTDOWN_OBJ(_D3D);
 }
 
-bool GraphicClass27::Frame()
+bool GraphicClass27::Frame(float frametime)
 {
-	_camera->SetPosition(0,-1 , -2.f);
+	if (!_fadeDone)
+	{
+		_accumTime += frametime;
+		if (_accumTime < _fadeInTime)
+		{
+			_fadePer = (float)(_accumTime / (float)_fadeInTime);
+		}
+		else
+		{
+			_fadeDone = true;
+			_fadePer = 1.0f;
+		}
+	}
+	_camera->SetPosition(0,-1 , -42.f);
 	_camera->SetRotation(10, 0, 0);
+
 	Render();
 	return true;
 }
@@ -78,28 +113,52 @@ bool GraphicClass27::Render()
 {
 	bool result;
 
-	result = RenderToTexture();
-	IS_V(result);
+	static float rot = 0.0f;
 
-	IS_V(RenderScene());
+	rot += (float)D3DX_PI*0.005f;
+	if (rot > 360)
+	{
+		rot -= 360;
+	}
+
+	if (_fadeDone)
+	{
+		RenderNormalScene(rot);
+	}
+	else
+	{
+		result = RenderToTexture();
+		IS_V(result);
+
+		IS_V(RenderFadingScene());
+	}
+
+	
+	
+
+	//IS_V(RenderScene());
 
 	return true;
 }
 
 bool GraphicClass27::RenderToTexture()
 {
-	D3DXMATRIX world, refv, proj;
+	bool result;
+	D3DXMATRIX world, refv,view, proj;
 	static float rot = 0.f;
 
 	_rendertex->SetRenderTarget(_D3D->GetDeviceContext(), _D3D->GetDepthStencilView());
 
 	_rendertex->ClearRenderTarget(_D3D->GetDeviceContext(), _D3D->GetDepthStencilView(), 0.f, 0.f, 0.f, 1.f);
 
-	_camera->RenderReflection(-1.5f);
+	_camera->Render();
 
-	refv = _camera->GetReflectionViewMatrix();
+	//_camera->RenderReflection(-1.5f);
+
+	//refv = _camera->GetReflectionViewMatrix();
 
 	_D3D->GetWorldMatrix(world);
+	_camera->GetViewMatrix(view);
 	_D3D->GetProjectionMatrix(proj);
 
 	rot += (float)D3DX_PI*0.005f;
@@ -113,7 +172,7 @@ bool GraphicClass27::RenderToTexture()
 
 	D3DXMATRIX tempworld = world, scaleworld = world,rota = world;
 	
-	D3DXMatrixRotationY(&world, rot);
+	//D3DXMatrixRotationY(&world, rot);
 
 	//D3DXMatrixScaling(&scaleworld, 10.0, 10.0, 10.0);
 
@@ -121,7 +180,12 @@ bool GraphicClass27::RenderToTexture()
 
 	_model->Render(_D3D->GetDeviceContext());
 
-	_texShader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, refv, proj, _model->GetTexture());
+	result = _texShader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj, _model->GetTexture());
+
+	if (!result)
+	{
+		return false;
+	}
 
 	_D3D->SetBackBufferRenderTarget();
 
@@ -129,6 +193,54 @@ bool GraphicClass27::RenderToTexture()
 
 }
 
+bool GraphicClass27::RenderFadingScene()
+{
+	D3DXMATRIX world, view, ortho;
+	bool result;
+
+	_D3D->BeginScene(0, 0, 0, 1);
+	_camera->Render();
+
+	_D3D->GetWorldMatrix(world);
+	_camera->GetViewMatrix(view);
+	_D3D->GetOrthoMatrix(ortho);
+
+	_D3D->TurnZBufferOff();
+
+	IS_V(_bitmap->Render(_D3D->GetDeviceContext(), 0, 0));
+	
+
+	IS_V(_fadeShader->Render(_D3D->GetDeviceContext(), _bitmap->GetIndexCount(), world, view, ortho, _rendertex->GetShaderResourceView(), _fadePer));
+
+	_D3D->TurnZBufferOn();
+	_D3D->EndScene();
+
+	return true;
+}
+
+bool GraphicClass27::RenderNormalScene(float rot)
+{
+	D3DXMATRIX world, view, proj;
+	bool result;
+
+	_D3D->BeginScene(0, 0, 0, 1);
+
+	_camera->Render();
+
+	_D3D->GetWorldMatrix(world);
+	_camera->GetViewMatrix(view);
+	_D3D->GetProjectionMatrix(proj);
+
+	_model->Render(_D3D->GetDeviceContext());
+
+	result = _texShader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj, _model->GetTexture());
+
+	IS_V(result);
+
+	_D3D->EndScene();
+
+	return true;
+}
 
 bool GraphicClass27::RenderScene()
 {
