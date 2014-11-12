@@ -5,6 +5,8 @@
 
 #include <iostream>
 
+#include "tiny_obj_loader.h"
+
 using namespace std;
 
 typedef struct
@@ -14,25 +16,51 @@ typedef struct
 
 typedef struct
 {
+	float u, v;
+}TexType;
+
+typedef struct
+{
+	float x, y, z;
+	float u, v;
+	float nx, ny, nz;
+}OutputType;
+
+typedef struct
+{
 	int vIndex1,vIndex2,vIndex3;
 	int tIndex1,tIndex2,tIndex3;
 	int nIndex1,nIndex2,nIndex3;
 }FaceType;
 
+typedef std::vector<tinyobj::shape_t> Shape;
+typedef std::vector<tinyobj::material_t> Material;
+
+
+
 void GetModelFilename(char*);
 bool ReadFileCounts(char*,int&,int&,int&,int&);
 bool LoadDataStructures(char*,int,int,int,int);
+bool LoadObjStructure(tinyobj::shape_t,std::string);
+
 
 
 int main()
 {
-	bool result;
+	//bool result;
 	char filename[256];
-	int vertexCount,textureCount,normalCount,faceCount;
-	char garbage;
+	//int vertexCount,textureCount,normalCount,faceCount;
+	//char garbage;
 
 	GetModelFilename(filename);
 
+	Shape shapes;
+	Material materials;
+
+	
+
+	std::string err = tinyobj::LoadObj(shapes, materials, filename);
+	/*
 	result = ReadFileCounts(filename,vertexCount,textureCount,normalCount,faceCount);
 	if(!result)
 	{
@@ -54,6 +82,17 @@ int main()
 	cout << "\nFile has been converted." << endl;
 	cout << "\nDo you wish to exit(y/n)? ";
 	cin >> garbage;
+	*/
+	if (!err.empty())
+	{
+		exit(1);
+	}
+
+	for (int i = 0; i < (int)shapes.size(); i++)
+	{
+		LoadObjStructure(shapes[i], filename);
+	}
+	
 
 	return 0;
 
@@ -299,6 +338,96 @@ bool LoadDataStructures(char* filename, int vcount, int tcount, int ncount, int 
 	return true;
 
 
+
+
+}
+
+bool LoadObjStructure(tinyobj::shape_t shape,std::string filename)
+{
+	ofstream fout;
+	std::vector<OutputType> faces;
+	std::vector<VertexType> vertices;
+	std::vector<VertexType> normals;
+	std::vector<TexType> texs;
+
+	auto poss = shape.mesh.positions;
+	for (int i = 0; i < (int)(poss.size() / 3); i++)
+	{
+		VertexType tempv{ poss[i * 3 + 0], poss[i * 3 + 1], poss[i * 3 + 2] };
+		vertices.push_back(tempv);
+	}
+	
+	auto norms = shape.mesh.normals;
+	for (int i = 0; i < (int)(norms.size() / 3); i++)
+	{
+		VertexType tempv{ norms[i * 3 + 0], norms[i * 3 + 1], norms[i * 3 + 2] };
+		normals.push_back(tempv);
+	}
+
+	auto texx = shape.mesh.texcoords;
+	for (int i = 0; i < (int)(texx.size() / 2); i++)
+	{
+		TexType tempv{ texx[i * 2 + 0], texx[i * 2 + 1] };
+		texs.push_back(tempv);
+	}
+
+	auto indicss = shape.mesh.indices;
+	for (int i = 0; i < (int)indicss.size(); i++)
+	{
+		OutputType face;
+
+		face.x = face.y = face.z = face.nx = face.ny = face.nz = 0;
+		face.u = face.v = 0;
+
+		if (vertices.size() > 0)
+		{
+			face.x = vertices[indicss[i]].x;
+			face.y = vertices[indicss[i]].y;
+			face.z = vertices[indicss[i]].z;
+		}
+		
+		if (texs.size() > 0)
+		{
+			face.u = texs[indicss[i]].u;
+			face.v = texs[indicss[i]].v;
+		}
+		
+		if (normals.size() > 0)
+		{
+			face.nx = normals[indicss[i]].x;
+			face.ny = normals[indicss[i]].y;
+			face.nz = normals[indicss[i]].z;
+		}
+		
+
+		faces.push_back(face);
+	}
+
+	string filestring = filename;
+	int fileIndex = filestring.rfind('.');
+	string fname = filestring.substr(0, fileIndex);
+
+	string currentDirectory = ".\\Model\\";
+	string outputFilename = currentDirectory + (fname + ".txt").c_str();
+	//printf(outputFilename);
+
+	fout.open(outputFilename);
+
+	fout << "Vertex Count: " << (indicss.size()) << endl;
+	fout << endl;
+	fout << "Data:" << endl;
+	fout << endl;
+
+	for (int i = 0; i < (int)faces.size(); ++i)
+	{
+		fout << faces[i].x << ' ' << faces[i].y << ' ' << faces[i].z << ' ' << faces[i].u << ' ' << faces[i].v << ' ' << faces[i].nx << ' ' << faces[i].ny
+			<< ' ' << faces[i].nz << endl;
+	}
+
+	fout.close();
+
+
+	return true;
 
 
 }

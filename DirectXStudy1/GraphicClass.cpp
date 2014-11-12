@@ -11,6 +11,7 @@ GraphicClass::GraphicClass()
 
 	_Camera = NULL;
 	_model = NULL;
+	_model2 = NULL;
 	_shader = NULL;
 #ifdef __CHAPTER_SIX__
 	_light = NULL;
@@ -39,6 +40,8 @@ GraphicClass::GraphicClass()
 	_clipplaneshader = NULL;
 
 	_transshader = NULL;
+
+	_transparentshader = NULL;
 }
 
 GraphicClass::GraphicClass(const GraphicClass& other)
@@ -124,6 +127,12 @@ bool GraphicClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	//_Camera->SetRotation(10.0f, 0.0f, 0.0f);
 	_model = new ModelClass;
 	if (!_model)
+	{
+		return false;
+	}
+
+	_model2 = new ModelClass;
+	if(!_model2)
 	{
 		return false;
 	}
@@ -334,10 +343,17 @@ result = _model->Initailize(_D3D->GetDevice(), "Cube.txt", L"Texture/stone.gif",
 	
 	*/
 	
-	result = _model->Initailize(_D3D->GetDevice(), "Cube.txt", L"Texture/rocks.jpg");
+	result = _model->Initailize(_D3D->GetDevice(), "planet.txt", L"Texture/rocks.jpg");
 	if (!result)
 	{
 		MessageBox(hwnd, L"Not model obj", L"Err", MB_OK);
+		return false;
+	}
+
+	result = _model2->Initailize(_D3D->GetDevice(), "planet.txt", L"Texture/clouds.bmp");
+	if (!result)
+	{
+		MessageBox(hwnd, L"Not model obj2", L"Err", MB_OK);
 		return false;
 	}
 
@@ -388,6 +404,20 @@ result = _model->Initailize(_D3D->GetDevice(), "Cube.txt", L"Texture/stone.gif",
 	}
 	*/
 
+	//투명쉐이더
+	_transparentshader = new TransparentShaderClass;
+	if (!_transparentshader)
+	{
+		return false;
+	}
+
+	result = _transparentshader->Initialize(_D3D->GetDevice(), hwnd);
+	if (!result)
+	{
+		MessageBox(hwnd, L"Not transp ", L"Err", MB_OK);
+		return false;
+	}
+
 	_rendertexture = new RenderTextureClass;
 	if (!_rendertexture)
 	{
@@ -437,6 +467,14 @@ result = _model->Initailize(_D3D->GetDevice(), "Cube.txt", L"Texture/stone.gif",
 
 void GraphicClass::ShutDown()
 {
+	if (_transparentshader)
+	{
+		_transparentshader->Shutdown();
+		delete _transparentshader;
+		_transparentshader = NULL;
+	}
+
+
 	if (_transshader)
 	{
 		_transshader->Shutdown();
@@ -546,6 +584,13 @@ void GraphicClass::ShutDown()
 		_shader->Shutdown();
 		delete _shader;
 		_shader = NULL;
+	}
+
+	if (_model2)
+	{
+		_model2->Shutdown();
+		delete _model2;
+		_model2 = NULL;
 	}
 
 	if (_model)
@@ -670,6 +715,7 @@ bool GraphicClass::RenderScene(int &rendercnt,float rotation)
 	fogstart = 0.0f;
 	fogend = 100.f;
 
+	float blendAmount = 0.5f;
 	clipPlane = D3DXVECTOR4(1.0f, 0.f, 0.f, 0.f);
 
 	/*std::string data = "\n1 : " + std::to_string((int)view._11) + ":" + std::to_string((int)view._21) + ":" + std::to_string((int)view._31) + ":" + std::to_string((int)view._41);
@@ -697,9 +743,17 @@ bool GraphicClass::RenderScene(int &rendercnt,float rotation)
 
 		if (renderModel)
 		{
-			D3DXMatrixTranslation(&world, posx, posy, posz);
+			_D3D->TurnOnAlphaBlending();
 
-			_model->Render(_D3D->GetDeviceContext());
+			D3DXMATRIX tempworld = world;
+			D3DXMATRIX transworld = world;
+
+			D3DXMatrixTranslation(&transworld, posx, posy, posz);
+
+			D3DXMatrixScaling(&tempworld, 0.01, 0.01, 0.01);
+
+			D3DXMatrixMultiply(&world, &tempworld, &transworld);
+			
 			//result = _2dshader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj, _model->GetTexture());
 			//_shader->RotationYawPitchRoll(rotation, rotation, rotation);
 			//_shader->TranslationMatrix(posx, posy, posz);
@@ -727,7 +781,21 @@ bool GraphicClass::RenderScene(int &rendercnt,float rotation)
 			//클립플레인
 			//result = _clipplaneshader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj, _model->GetTexture(), clipPlane);
 
-			result = _transshader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj, _model->GetTexture(), textureTrans);
+			if (false)
+			//if (index%2)
+			{
+				//_model->Render(_D3D->GetDeviceContext());
+				//result = _transshader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj, _model->GetTexture(), textureTrans);
+			}
+			else
+			{
+				_model2->Render(_D3D->GetDeviceContext());
+				result = _transparentshader->Render(_D3D->GetDeviceContext(), _model2->GetIndexCount(), world, view, proj, _model2->GetTexture(), blendAmount);
+			}
+
+			
+			
+			_D3D->TurnOffAlphaBlending();
 
 			if (!result)
 			{

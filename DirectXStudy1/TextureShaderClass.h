@@ -13,7 +13,7 @@ using namespace std;
 
 class TextureShaderClass
 {
-private:
+protected:
 	struct MatrixBufferType
 	{
 		D3DXMATRIX world;
@@ -25,19 +25,23 @@ public:
 	TextureShaderClass(const TextureShaderClass&);
 	~TextureShaderClass();
 
-	bool Initialize(ID3D11Device*, HWND);
-	void Shutdown();
-	bool Render(ID3D11DeviceContext*, int, D3DXMATRIX, D3DXMATRIX, D3DXMATRIX, ID3D11ShaderResourceView*);
+	virtual bool Initialize(ID3D11Device*, HWND);
+	virtual void Shutdown();
+	virtual bool Render(ID3D11DeviceContext*, int, D3DXMATRIX, D3DXMATRIX, D3DXMATRIX, ID3D11ShaderResourceView*);
 
-private:
-	bool InitializeShader(ID3D11Device*, HWND, WCHAR*, WCHAR*);
-	void ShutdownShader();
+protected:
+	virtual bool InitializeShader(ID3D11Device*, HWND, WCHAR*, WCHAR*);
+
+	virtual bool SetShaderParameters(ID3D11DeviceContext*, D3DXMATRIX, D3DXMATRIX, D3DXMATRIX, ID3D11ShaderResourceView*);
+	virtual void ShutdownShader();
 	void OutputShaderErrorMessage(ID3D10Blob*, HWND, WCHAR*);
 
-	bool SetShaderParameters(ID3D11DeviceContext*, D3DXMATRIX, D3DXMATRIX, D3DXMATRIX, ID3D11ShaderResourceView*);
+
 	void RenderShader(ID3D11DeviceContext*, int);
+private:
 
 private:
+protected:
 	ID3D11VertexShader* _vertexShader;
 	ID3D11PixelShader* _pixelShader;
 	ID3D11InputLayout* _layout;

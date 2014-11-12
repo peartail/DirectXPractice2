@@ -40,6 +40,8 @@
 #include "ClipPlaneShaderClass.h"
 #include "TranslateShaderClass.h"
 
+#include "TransparentShaderClass.h"
+
 const bool FULL_SCREEN = false;
 const bool VSYNC_ENABLED = true;
 const float SCREEN_DEPTH = 1000.0f;
@@ -68,6 +70,7 @@ private:
 
 	CameraClass* _Camera;
 	ModelClass* _model;
+	ModelClass* _model2;
 #ifdef __CHATER_FOUR__
 	ColorShaderClass* _shader;
 #elif defined __CHAPTER_FIVE__
@@ -101,6 +104,8 @@ private:
 	FogShaderClass* _fogShader;
 	ClipPlaneShaderClass* _clipplaneshader;
 	TranslateShaderClass* _transshader;
+
+	TransparentShaderClass* _transparentshader;
 private:
 	//°Á ¸¸µçº¯¼ö
 	int mX, mY;

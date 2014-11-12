@@ -123,14 +123,17 @@
     <ClCompile Include="SpecmapShaderClass.cpp">
       <Filter>ShaderUtil</Filter>
     </ClCompile>
-    <ClCompile Include="FogShaderClass.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="ClipPlaneShaderClass.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>ShaderUtil</Filter>
+    </ClCompile>
+    <ClCompile Include="FogShaderClass.cpp">
+      <Filter>ShaderUtil</Filter>
     </ClCompile>
     <ClCompile Include="TranslateShaderClass.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>ShaderUtil</Filter>
+    </ClCompile>
+    <ClCompile Include="TransparentShaderClass.cpp">
+      <Filter>ShaderUtil</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -227,14 +230,17 @@
     <ClInclude Include="SpecmapShaderClass.h">
       <Filter>ShaderUtil</Filter>
     </ClInclude>
-    <ClInclude Include="FogShaderClass.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="ClipPlaneShaderClass.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>ShaderUtil</Filter>
     </ClInclude>
     <ClInclude Include="TranslateShaderClass.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>ShaderUtil</Filter>
+    </ClInclude>
+    <ClInclude Include="TransparentShaderClass.h">
+      <Filter>ShaderUtil</Filter>
+    </ClInclude>
+    <ClInclude Include="FogShaderClass.h">
+      <Filter>ShaderUtil</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -251,6 +257,7 @@
     <None Include="fog.fx" />
     <None Include="clipplane.fx" />
     <None Include="translate.fx" />
+    <None Include="transparent.fx" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="texture.fx" />
