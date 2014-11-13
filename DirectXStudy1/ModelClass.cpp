@@ -1,6 +1,7 @@
 #include "ModelClass.h"
 
 
+
 ModelClass::ModelClass(void)
 {
 	m_vertexBuffer = NULL;
@@ -11,6 +12,14 @@ ModelClass::ModelClass(void)
 	_texarr = NULL;
 
 	_model = NULL;
+	_isSdkMesh = false;
+
+	
+}
+
+ModelClass::ModelClass(bool issdkmesh)
+{
+	_isSdkMesh = issdkmesh;
 }
 
 ModelClass::ModelClass(const ModelClass& other)
@@ -25,7 +34,7 @@ bool ModelClass::Initailize(ID3D11Device* device,char* modelfilename, WCHAR* tex
 {
 	bool result;
 
-	result = LoadModel(modelfilename);
+	result = LoadModel(device,modelfilename);
 	if(!result)
 	{
 		return false;
@@ -50,7 +59,7 @@ bool ModelClass::Initailize(ID3D11Device* device, char* modelfilename, WCHAR* te
 {
 	bool result;
 
-	result = LoadModel(modelfilename);
+	result = LoadModel(device, modelfilename);
 	if (!result)
 	{
 		return false;
@@ -77,7 +86,7 @@ bool ModelClass::Initailize(ID3D11Device* device, char* modelfilename, WCHAR* te
 {
 	bool result;
 
-	result = LoadModel(modelfilename);
+	result = LoadModel(device, modelfilename);
 	if (!result)
 	{
 		return false;
@@ -308,51 +317,61 @@ void ModelClass::ReleaseTexture()
 	}
 }
 
-bool ModelClass::LoadModel(char* filename)
+bool ModelClass::LoadModel(ID3D11Device* device, char* filename)
 {
-	ifstream fin;
-	char input;
-	int i;
-
-	fin.open(filename);
-
-	if(fin.fail())
+	if (_isSdkMesh)
 	{
-		return false;
+		const char * tempfile = filename;
+		//_mesh11.Create(device, tempfile, true);
+		
 	}
-
-	fin.get(input);
-	while(input != ':')
+	else
 	{
+		ifstream fin;
+		char input;
+		int i;
+
+		fin.open(filename);
+
+		if (fin.fail())
+		{
+			return false;
+		}
+
 		fin.get(input);
-	}
+		while (input != ':')
+		{
+			fin.get(input);
+		}
 
-	fin >> m_vertexCount;
+		fin >> m_vertexCount;
 
-	m_indexCount = m_vertexCount;
+		m_indexCount = m_vertexCount;
 
-	_model = new ModelType[m_vertexCount];
-	if(!_model)
-	{
-		return false;
-	}
+		_model = new ModelType[m_vertexCount];
+		if (!_model)
+		{
+			return false;
+		}
 
-	fin.get(input);
-	while(input != ':')
-	{
 		fin.get(input);
-	}
-	fin.get(input);
-	fin.get(input);
+		while (input != ':')
+		{
+			fin.get(input);
+		}
+		fin.get(input);
+		fin.get(input);
 
-	for(i=0;i<m_vertexCount;i++)
-	{
-		fin >> _model[i].x >> _model[i].y >> _model[i].z;
-		fin >> _model[i].tu >> _model[i].tv;
-		fin >> _model[i].nx >> _model[i].ny >> _model[i].nz;
-	}
+		for (i = 0; i<m_vertexCount; i++)
+		{
+			fin >> _model[i].x >> _model[i].y >> _model[i].z;
+			fin >> _model[i].tu >> _model[i].tv;
+			fin >> _model[i].nx >> _model[i].ny >> _model[i].nz;
+		}
 
-	fin.close();
+		fin.close();
+	}
+	
 
 	return true;
 }

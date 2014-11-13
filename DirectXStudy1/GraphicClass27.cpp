@@ -102,8 +102,8 @@ bool GraphicClass27::Frame(float frametime)
 			_fadePer = 1.0f;
 		}
 	}
-	_camera->SetPosition(0,-1 , -42.f);
-	_camera->SetRotation(10, 0, 0);
+	_camera->SetPosition(0,0 , -5.f);
+	_camera->SetRotation(0, 0, 0);
 
 	Render();
 	return true;

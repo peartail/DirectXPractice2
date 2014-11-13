@@ -3,6 +3,7 @@
 
 FadeShaderClass::FadeShaderClass()
 {
+	TextureShaderClass::TextureShaderClass();
 	_fadebuffer = NULL;
 }
 

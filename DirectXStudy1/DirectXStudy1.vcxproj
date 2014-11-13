@@ -86,6 +86,7 @@
     <ClCompile Include="FrustumClass.cpp" />
     <ClCompile Include="GraphicClass.cpp" />
     <ClCompile Include="GraphicClass27.cpp" />
+    <ClCompile Include="GraphicClass29.cpp" />
     <ClCompile Include="InputClass.cpp" />
     <ClCompile Include="LightClass.cpp" />
     <ClCompile Include="LightmapShaderClass.cpp" />
@@ -108,6 +109,7 @@
     <ClCompile Include="TranslateShaderClass.cpp" />
     <ClCompile Include="TransparentShaderClass.cpp" />
     <ClCompile Include="UIClass.cpp" />
+    <ClCompile Include="WaterShaderClass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AlphamapShaderClass.h" />
@@ -127,6 +129,7 @@
     <ClInclude Include="FrustumClass.h" />
     <ClInclude Include="GraphicClass.h" />
     <ClInclude Include="GraphicClass27.h" />
+    <ClInclude Include="GraphicClass29.h" />
     <ClInclude Include="InputClass.h" />
     <ClInclude Include="LightClass.h" />
     <ClInclude Include="LightmapShaderClass.h" />
@@ -148,6 +151,7 @@
     <ClInclude Include="TranslateShaderClass.h" />
     <ClInclude Include="TransparentShaderClass.h" />
     <ClInclude Include="UIClass.h" />
+    <ClInclude Include="WaterShaderClass.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Color.hlsl">
@@ -176,6 +180,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="water.fx">
+      <FileType>Document</FileType>
+    </None>
     <None Include="transparent.fx">
       <FileType>Document</FileType>
     </None>

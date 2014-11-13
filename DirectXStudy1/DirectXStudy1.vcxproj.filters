@@ -25,6 +25,9 @@
     <Filter Include="System">
       <UniqueIdentifier>{b9b2ed4c-d7e8-48d8-b69b-b20a242d294e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DXUT">
+      <UniqueIdentifier>{ca3d2ee0-1ebb-48fa-92a7-5cf411f58663}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -144,6 +147,12 @@
     <ClCompile Include="FadeShaderClass.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="WaterShaderClass.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicClass29.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CameraClass.h">
@@ -260,6 +269,12 @@
     <ClInclude Include="FadeShaderClass.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="WaterShaderClass.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicClass29.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Color.hlsl" />
@@ -278,6 +293,7 @@
     <None Include="transparent.fx" />
     <None Include="refection.fx" />
     <None Include="fade.fx" />
+    <None Include="water.fx" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="texture.fx" />

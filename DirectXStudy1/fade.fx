@@ -50,6 +50,6 @@ float4 PS(PInType i) : SV_TARGET
 
 	color = color * fadeAmount;
 
-	return (1,1,1,1);
+	return color;
 }
 

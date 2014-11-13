@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "objTotxt", "objTotxt\objTot
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DirectX2DProject", "DirectX2DProject\DirectX2DProject.vcxproj", "{CC710E99-AC0F-4915-A570-0822B58BB42B}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xmeshtotxt", "xmeshtotxt\xmeshtotxt.vcxproj", "{00793EDF-5704-4A11-9585-42E1B9C5105A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -27,6 +29,10 @@ Global
 		{CC710E99-AC0F-4915-A570-0822B58BB42B}.Debug|Win32.Build.0 = Debug|Win32
 		{CC710E99-AC0F-4915-A570-0822B58BB42B}.Release|Win32.ActiveCfg = Release|Win32
 		{CC710E99-AC0F-4915-A570-0822B58BB42B}.Release|Win32.Build.0 = Release|Win32
+		{00793EDF-5704-4A11-9585-42E1B9C5105A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{00793EDF-5704-4A11-9585-42E1B9C5105A}.Debug|Win32.Build.0 = Debug|Win32
+		{00793EDF-5704-4A11-9585-42E1B9C5105A}.Release|Win32.ActiveCfg = Release|Win32
+		{00793EDF-5704-4A11-9585-42E1B9C5105A}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -13,6 +13,7 @@ using namespace std;
 
 #include "TextureArray.h"
 
+
 class ModelClass
 {
 private:
@@ -53,6 +54,7 @@ private:
 	TextureArray* _texarr;
 public:
 	ModelClass(void);
+	ModelClass(bool);
 	ModelClass(const ModelClass&);
 	~ModelClass(void);
 
@@ -75,12 +77,16 @@ private:
 	bool LoadTexture(ID3D11Device*, WCHAR*,WCHAR*);
 	bool LoadTexture(ID3D11Device*, WCHAR*, WCHAR*,WCHAR*);
 	void ReleaseTexture();
-	bool LoadModel(char*);
+	bool LoadModel(ID3D11Device*, char*);
 	void ReleaseModel();
 
 	void CalculateModelVectors();
 	void CalculateTangentBinormal(TempVertexType, TempVertexType, TempVertexType, VectorType&, VectorType&);
 	void CalculateNormal(VectorType, VectorType, VectorType&);
+
+private:
+	bool _isSdkMesh;
+	
 };
 
 #endif
