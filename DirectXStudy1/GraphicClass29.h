@@ -13,9 +13,12 @@ const float SCREEN_NEAR = 0.1f;
 #include "TextureShaderClass.h"
 #include "LightShaderClass.h"
 #include "ReflectionShaderClass.h"
+
 #include "WaterShaderClass.h"
 
 #include "RenderTextureClass.h"
+
+#include "RefractionShaderClass.h"
 
 class GraphicClass29
 {
@@ -25,26 +28,29 @@ public:
 
 	bool Initialize(int, int, HWND);
 	void ShutDown();
-	bool Frame(float);
+	bool Frame(D3DXVECTOR3 rotation);
 	bool Render();
 
 private:
-	bool RenderToTexture();
+	bool RenderReflectionToTexture();
+	bool RenderRefractionToTexture();
 	bool RenderScene();
-	bool RenderNormalScene(float);
-	bool RenderFadingScene();
+	
 
 private:
 	D3dclass* _D3D;
 	CameraClass* _camera;
 	ModelClass* _groundmodel,*_wallmodel,*_bathmodel,*_watermodel;
-	TextureShaderClass* _texShader;
 
-	RenderTextureClass* _rendertex;
-	ModelClass* _floor;
+	RenderTextureClass* _reftex,*_refractex;
 
-	ReflectionShaderClass* _refshader;
+	LightClass* _light;
+	LightShaderClass* _lightshader;
 
+	RefractionShaderClass* _refractShader;
 
+	WaterShaderClass* _watershader;
+
+	float _waterh, _waterTrans;
 };
 

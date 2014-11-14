@@ -39,7 +39,7 @@ bool GraphicClass27::Initialize(int sw, int sh, HWND hwnd)
 	NEW_CLASS(_camera, CameraClass);
 	NEW_CLASS(_model, ModelClass);
 
-	result = _model->Initailize(GETDEVICE, "Cube2.txt", L"Texture/rocks.jpg");
+	result = _model->Initailize(GETDEVICE, "Tree.txt", L"Texture/rocks.jpg");
 	V_RETURN(result, L"Not model");
 
 	NEW_CLASS(_texShader, TextureShaderClass);
@@ -102,7 +102,7 @@ bool GraphicClass27::Frame(float frametime)
 			_fadePer = 1.0f;
 		}
 	}
-	_camera->SetPosition(0,0 , -5.f);
+	_camera->SetPosition(0,0 , -5.5f);
 	_camera->SetRotation(0, 0, 0);
 
 	Render();
