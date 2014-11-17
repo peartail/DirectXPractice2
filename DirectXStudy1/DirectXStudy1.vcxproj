@@ -79,15 +79,23 @@
     <ClCompile Include="D3dclass.cpp" />
     <ClCompile Include="DebugWindowsClass.cpp" />
     <ClCompile Include="FadeShaderClass.cpp" />
+    <ClCompile Include="FireShaderClass.cpp" />
     <ClCompile Include="FogShaderClass.cpp" />
     <ClCompile Include="FontClass.cpp" />
     <ClCompile Include="FontShaderClass.cpp" />
     <ClCompile Include="FpsClass.cpp" />
     <ClCompile Include="FrustumClass.cpp" />
+    <ClCompile Include="GlassShaderClass.cpp" />
     <ClCompile Include="GraphicClass.cpp" />
     <ClCompile Include="GraphicClass27.cpp" />
     <ClCompile Include="GraphicClass29.cpp" />
+    <ClCompile Include="GraphicClass30.cpp" />
+    <ClCompile Include="GraphicClass32.cpp" />
+    <ClCompile Include="GraphicClass34.cpp" />
+    <ClCompile Include="GraphicsClass33.cpp" />
     <ClCompile Include="InputClass.cpp" />
+    <ClCompile Include="Light4Class.cpp" />
+    <ClCompile Include="Light4ShaderClass.cpp" />
     <ClCompile Include="LightClass.cpp" />
     <ClCompile Include="LightmapShaderClass.cpp" />
     <ClCompile Include="LightShaderClass.cpp" />
@@ -97,8 +105,10 @@
     <ClCompile Include="MultiTextureShaderClass.cpp" />
     <ClCompile Include="PositionClass.cpp" />
     <ClCompile Include="ReflectionShaderClass.cpp" />
+    <ClCompile Include="RefractionShaderClass.cpp" />
     <ClCompile Include="RenderTextureClass.cpp" />
     <ClCompile Include="ShaderClass.cpp" />
+    <ClCompile Include="SoundClass.cpp" />
     <ClCompile Include="SpecmapShaderClass.cpp" />
     <ClCompile Include="SystemClass.cpp" />
     <ClCompile Include="TextClass.cpp" />
@@ -122,15 +132,23 @@
     <ClInclude Include="D3dclass.h" />
     <ClInclude Include="DebugWindowsClass.h" />
     <ClInclude Include="FadeShaderClass.h" />
+    <ClInclude Include="FireShaderClass.h" />
     <ClInclude Include="FogShaderClass.h" />
     <ClInclude Include="FontClass.h" />
     <ClInclude Include="FontShaderClass.h" />
     <ClInclude Include="FpsClass.h" />
     <ClInclude Include="FrustumClass.h" />
+    <ClInclude Include="GlassShaderClass.h" />
     <ClInclude Include="GraphicClass.h" />
     <ClInclude Include="GraphicClass27.h" />
     <ClInclude Include="GraphicClass29.h" />
+    <ClInclude Include="GraphicClass30.h" />
+    <ClInclude Include="GraphicClass32.h" />
+    <ClInclude Include="GraphicClass34.h" />
+    <ClInclude Include="GraphicsClass33.h" />
     <ClInclude Include="InputClass.h" />
+    <ClInclude Include="Light4Class.h" />
+    <ClInclude Include="Light4ShaderClass.h" />
     <ClInclude Include="LightClass.h" />
     <ClInclude Include="LightmapShaderClass.h" />
     <ClInclude Include="LightShaderClass.h" />
@@ -139,8 +157,10 @@
     <ClInclude Include="MultiTextureShaderClass.h" />
     <ClInclude Include="PositionClass.h" />
     <ClInclude Include="ReflectionShaderClass.h" />
+    <ClInclude Include="RefractionShaderClass.h" />
     <ClInclude Include="RenderTextureClass.h" />
     <ClInclude Include="ShaderClass.h" />
+    <ClInclude Include="SoundClass.h" />
     <ClInclude Include="SpecmapShaderClass.h" />
     <ClInclude Include="SystemClass.h" />
     <ClInclude Include="TextClass.h" />
@@ -217,6 +237,18 @@
       <FileType>Document</FileType>
     </None>
     <None Include="fade.fx">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="refraction.fx">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="light4.fx">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="glass.fx">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Shader\fire.fx">
       <FileType>Document</FileType>
     </None>
     <FxCompile Include="texture.fx">

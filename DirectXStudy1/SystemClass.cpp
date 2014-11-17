@@ -10,6 +10,8 @@ SystemClass::SystemClass()
 	_cpu = NULL;
 	_timer = NULL;
 	_position = NULL;
+
+	_sound = NULL; 
 }
 
 
@@ -49,6 +51,19 @@ bool SystemClass::Initialize()
 	result = m_Graphics->Initialize(screenWidth, screenHeight, m_hwnd);
 	if (!result)
 	{
+		return false;
+	}
+
+	_sound = new SoundClass;
+	if (!_sound)
+	{
+		return false;
+	}
+
+	result = _sound->Initialize(m_hwnd);
+	if (!result)
+	{
+		MessageBox(m_hwnd, L"CN Sound", L"Err", MB_OK);
 		return false;
 	}
 
@@ -117,6 +132,13 @@ void SystemClass::ShutDown()
 	{
 		delete _fps;
 		_fps = NULL;
+	}
+
+	if (_sound)
+	{
+		_sound->Shutdown();
+		delete _sound;
+		_sound = NULL;
 	}
 
 	if (m_Graphics)
@@ -207,12 +229,13 @@ bool SystemClass::Frame()
 	_position->TurnBack(keydown);
 
 	_position->GetPositionZ(rot.z);
+	_position->GetPositionX(rot.x);
 
 	m_Input->GetMouseLocation(mouseX, mouseY);
 
 	//result = m_Graphics->Frame(rot, mouseX, mouseY, _fps->GetFps(), _cpu->GetCpuPercentage(), _timer->GetTime());
-	//result = m_Graphics->Frame();
-	result = m_Graphics->Frame(_timer->GetTime());
+	result = m_Graphics->Frame(rot);
+	//result = m_Graphics->Frame(_timer->GetTime());
 	if (!result)
 	{
 		return false;

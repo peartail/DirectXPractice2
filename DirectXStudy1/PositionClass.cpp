@@ -1,5 +1,5 @@
 #include "PositionClass.h"
-
+#include "d3dx10math.h"
 
 PositionClass::PositionClass()
 {
@@ -8,7 +8,7 @@ PositionClass::PositionClass()
 	_leftTurnSpeed = 0.f;
 	_rightTurnSpeed = 0.f;
 
-	_positionZ = 0.f;
+	_positionZ = _positionX =  0.f;
 	_frontTurnSpeed = 0.f;
 	_backTurnSpeed = 0.f;
 }
@@ -36,6 +36,11 @@ void PositionClass::GetRotation(float& y)
 void PositionClass::GetPositionZ(float& z)
 {
 	z = _positionZ;
+}
+
+void PositionClass::GetPositionX(float& x)
+{
+	x = _positionX;
 }
 
 
@@ -112,8 +117,10 @@ void PositionClass::TurnFront(bool keydown)
 			_frontTurnSpeed = 0.0f;
 		}
 	}
+	_positionX += sinf(D3DX_PI*_roationY / 180) * _frontTurnSpeed;
+	_positionZ += cosf(D3DX_PI*_roationY / 180) * _frontTurnSpeed;
 
-	_positionZ += _frontTurnSpeed;
+	//_positionZ += _frontTurnSpeed;
 
 }
 
@@ -137,6 +144,9 @@ void PositionClass::TurnBack(bool keydown)
 		}
 	}
 
-	_positionZ -= _backTurnSpeed;
+	_positionX -= sinf(D3DX_PI*_roationY / 180) * _backTurnSpeed;
+	_positionZ -= cosf(D3DX_PI*_roationY / 180) * _backTurnSpeed;
+
+	//_positionZ -= _backTurnSpeed;
 
 }

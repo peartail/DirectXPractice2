@@ -16,6 +16,8 @@ public:
 	void SetFrameTime(float);
 	void GetRotation(float&);
 	void GetPositionZ(float&);
+	void GetPositionX(float&);
+
 
 	void TurnLeft(bool);
 	void TurnRight(bool);
@@ -26,6 +28,7 @@ private:
 	float _frameTime;
 	float _roationY;
 	float _positionZ;
+	float _positionX;
 	float _leftTurnSpeed, _rightTurnSpeed;
 	float _frontTurnSpeed, _backTurnSpeed;
 

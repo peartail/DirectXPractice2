@@ -37,7 +37,7 @@ protected:
 	void OutputShaderErrorMessage(ID3D10Blob*, HWND, WCHAR*);
 
 
-	void RenderShader(ID3D11DeviceContext*, int);
+	virtual void RenderShader(ID3D11DeviceContext*, int);
 private:
 
 private:

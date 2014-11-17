@@ -41,6 +41,13 @@ void LightClass::SetSpecularPower(float p)
 	_specularPower = p;
 }
 
+void LightClass::SetPosition(float x, float y, float z)
+{
+	_position = D3DXVECTOR4(x, y, z, 1);
+	
+}
+
+
 D3DXVECTOR4 LightClass::GetAmbientColor()
 {
 	return _ambientColor;
@@ -64,4 +71,9 @@ D3DXVECTOR4 LightClass::GetSpecularColor()
 float LightClass::GetSpecularPower()
 {
 	return _specularPower;
+}
+
+D3DXVECTOR4 LightClass::GetPosition()
+{
+	return _position;
 }

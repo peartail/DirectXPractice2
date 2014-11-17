@@ -9,14 +9,24 @@
 
 #include "InputClass.h"
 //#include "GraphicClass.h"
-#include "GraphicClass27.h"
+//#include "GraphicClass27.h"
+//#include "GraphicClass29.h"
+//#include "GraphicClass30.h"
+//#include "GraphicClass32.h"
+#include "GraphicsClass33.h"
 
 #include "FpsClass.h"
 #include "CpuClass.h"
 #include "TimerClass.h"
 #include "PositionClass.h"
 
-#define GraphicClass GraphicClass27
+#include "SoundClass.h"
+
+//#define GraphicClass GraphicClass27
+//#define GraphicClass GraphicClass29
+//#define GraphicClass GraphicClass30
+//#define GraphicClass GraphicClass32
+#define GraphicClass GraphicsClass33
 
 class SystemClass
 {
@@ -49,6 +59,8 @@ private:
 	TimerClass* _timer;
 
 	PositionClass* _position;
+
+	SoundClass* _sound;
 };
 
 static LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);

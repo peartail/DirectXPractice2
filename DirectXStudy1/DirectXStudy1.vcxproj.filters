@@ -28,6 +28,9 @@
     <Filter Include="DXUT">
       <UniqueIdentifier>{ca3d2ee0-1ebb-48fa-92a7-5cf411f58663}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sound">
+      <UniqueIdentifier>{0d13a2bc-0bd7-4d70-9529-7e55142b441d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -138,19 +141,49 @@
     <ClCompile Include="RenderTextureClass.cpp">
       <Filter>2D</Filter>
     </ClCompile>
-    <ClCompile Include="ReflectionShaderClass.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="GraphicClass27.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="FadeShaderClass.cpp">
+    <ClCompile Include="GraphicClass29.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Light4Class.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicClass30.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundClass.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="GlassShaderClass.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="FadeShaderClass.cpp">
+      <Filter>ShaderUtil</Filter>
+    </ClCompile>
+    <ClCompile Include="Light4ShaderClass.cpp">
+      <Filter>ShaderUtil</Filter>
+    </ClCompile>
+    <ClCompile Include="ReflectionShaderClass.cpp">
+      <Filter>ShaderUtil</Filter>
+    </ClCompile>
+    <ClCompile Include="RefractionShaderClass.cpp">
+      <Filter>ShaderUtil</Filter>
     </ClCompile>
     <ClCompile Include="WaterShaderClass.cpp">
+      <Filter>ShaderUtil</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicClass32.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="GraphicClass29.cpp">
+    <ClCompile Include="FireShaderClass.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsClass33.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicClass34.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -260,46 +293,128 @@
     <ClInclude Include="DebugWindowsClass.h">
       <Filter>2D</Filter>
     </ClInclude>
-    <ClInclude Include="ReflectionShaderClass.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="GraphicClass27.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="FadeShaderClass.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="WaterShaderClass.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="GraphicClass29.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Light4Class.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicClass30.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundClass.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="GlassShaderClass.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="RefractionShaderClass.h">
+      <Filter>ShaderUtil</Filter>
+    </ClInclude>
+    <ClInclude Include="ReflectionShaderClass.h">
+      <Filter>ShaderUtil</Filter>
+    </ClInclude>
+    <ClInclude Include="WaterShaderClass.h">
+      <Filter>ShaderUtil</Filter>
+    </ClInclude>
+    <ClInclude Include="Light4ShaderClass.h">
+      <Filter>ShaderUtil</Filter>
+    </ClInclude>
+    <ClInclude Include="FadeShaderClass.h">
+      <Filter>ShaderUtil</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicClass32.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="FireShaderClass.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsClass33.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicClass34.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Color.hlsl" />
-    <None Include="ColorVertex.hlsl" />
-    <None Include="ColorPixel.hlsl" />
-    <None Include="Light.fx" />
-    <None Include="Light.vs" />
-    <None Include="Light.ps" />
-    <None Include="multitexture.fx" />
-    <None Include="lightmap.fx" />
-    <None Include="bumpmap.fx" />
-    <None Include="specmap.fx" />
-    <None Include="fog.fx" />
-    <None Include="clipplane.fx" />
-    <None Include="translate.fx" />
-    <None Include="transparent.fx" />
-    <None Include="refection.fx" />
-    <None Include="fade.fx" />
-    <None Include="water.fx" />
+    <None Include="bumpmap.fx">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="clipplane.fx">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="Color.hlsl">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="ColorPixel.hlsl">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="ColorVertex.hlsl">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="fade.fx">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="fog.fx">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="glass.fx">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="Light.fx">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="Light.ps">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="Light.vs">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="light4.fx">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="lightmap.fx">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="multitexture.fx">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="refection.fx">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="refraction.fx">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="specmap.fx">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="translate.fx">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="transparent.fx">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="water.fx">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="Shader\fire.fx">
+      <Filter>리소스 파일</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="texture.fx" />
-    <FxCompile Include="alphamap.fx" />
+    <FxCompile Include="alphamap.fx">
+      <Filter>리소스 파일</Filter>
+    </FxCompile>
+    <FxCompile Include="texture.fx">
+      <Filter>리소스 파일</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Cube.txt" />
+    <Text Include="Cube.txt">
+      <Filter>리소스 파일</Filter>
+    </Text>
   </ItemGroup>
 </Project>

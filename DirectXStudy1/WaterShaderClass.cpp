@@ -17,7 +17,7 @@ bool WaterShaderClass::Initialize(ID3D11Device* device, HWND hwnd)
 {
 	bool result;
 
-	result = InitializeShader(device, hwnd, L"refection.fx", L"refection.fx");
+	result = InitializeShader(device, hwnd, L"water.fx", L"water.fx");
 	if (!result)
 	{
 		return false;
