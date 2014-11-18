@@ -6,6 +6,9 @@ RenderTextureClass::RenderTextureClass()
 	_renderTargetTexture = NULL;
 	_renderTargetView = NULL;
 	_shaderResourceView = NULL;
+
+	_texwidth = _texheight = 0;
+	_depthstencilview = NULL; 
 }
 
 
@@ -15,6 +18,8 @@ RenderTextureClass::~RenderTextureClass()
 
 bool RenderTextureClass::Initialize(ID3D11Device* device, int texwidth, int texheight)
 {
+	_texheight = texheight;
+	_texwidth = texwidth;
 	D3D11_TEXTURE2D_DESC textureDesc;
 	HRESULT result;
 	D3D11_RENDER_TARGET_VIEW_DESC renderTargetviewdesc;
@@ -87,12 +92,12 @@ void RenderTextureClass::Shutdown()
 
 
 
-void RenderTextureClass::SetRenderTarget(ID3D11DeviceContext* context, ID3D11DepthStencilView* depthstencilview)
+void RenderTextureClass::SetRenderTarget(ID3D11DeviceContext* context)
 {
-	context->OMSetRenderTargets(1, &_renderTargetView, depthstencilview);
+	context->OMSetRenderTargets(1, &_renderTargetView, _depthstencilview);
 }
 
-void RenderTextureClass::ClearRenderTarget(ID3D11DeviceContext* context, ID3D11DepthStencilView* depthstencilview, float r, float g, float b, float a)
+void RenderTextureClass::ClearRenderTarget(ID3D11DeviceContext* context, float r, float g, float b, float a)
 {
 	float color[4];
 
@@ -103,11 +108,21 @@ void RenderTextureClass::ClearRenderTarget(ID3D11DeviceContext* context, ID3D11D
 
 	context->ClearRenderTargetView(_renderTargetView, color);
 
-	context->ClearDepthStencilView(depthstencilview, D3D11_CLEAR_DEPTH, 1.0f, 0);
+	context->ClearDepthStencilView(_depthstencilview, D3D11_CLEAR_DEPTH, 1.0f, 0);
 
 }
 
 ID3D11ShaderResourceView* RenderTextureClass::GetShaderResourceView()
 {
 	return _shaderResourceView;
+}
+
+int RenderTextureClass::GetTextureHeight()
+{
+	return _texheight;
+}
+
+int RenderTextureClass::GetTextureWidth()
+{
+	return _texwidth;
 }

@@ -78,6 +78,7 @@
     <ClCompile Include="CpuClass.cpp" />
     <ClCompile Include="D3dclass.cpp" />
     <ClCompile Include="DebugWindowsClass.cpp" />
+    <ClCompile Include="DepthShaderClass.cpp" />
     <ClCompile Include="FadeShaderClass.cpp" />
     <ClCompile Include="FireShaderClass.cpp" />
     <ClCompile Include="FogShaderClass.cpp" />
@@ -92,7 +93,10 @@
     <ClCompile Include="GraphicClass30.cpp" />
     <ClCompile Include="GraphicClass32.cpp" />
     <ClCompile Include="GraphicClass34.cpp" />
+    <ClCompile Include="GraphicClass35.cpp" />
+    <ClCompile Include="GraphicClass36.cpp" />
     <ClCompile Include="GraphicsClass33.cpp" />
+    <ClCompile Include="HorizontalBlurShaderClass.cpp" />
     <ClCompile Include="InputClass.cpp" />
     <ClCompile Include="Light4Class.cpp" />
     <ClCompile Include="Light4ShaderClass.cpp" />
@@ -103,6 +107,7 @@
     <ClCompile Include="ModelClass.cpp" />
     <ClCompile Include="ModellistClass.cpp" />
     <ClCompile Include="MultiTextureShaderClass.cpp" />
+    <ClCompile Include="OrthoWindowClass.cpp" />
     <ClCompile Include="PositionClass.cpp" />
     <ClCompile Include="ReflectionShaderClass.cpp" />
     <ClCompile Include="RefractionShaderClass.cpp" />
@@ -119,6 +124,7 @@
     <ClCompile Include="TranslateShaderClass.cpp" />
     <ClCompile Include="TransparentShaderClass.cpp" />
     <ClCompile Include="UIClass.cpp" />
+    <ClCompile Include="VerticalBlurShaderClass.cpp" />
     <ClCompile Include="WaterShaderClass.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -131,6 +137,7 @@
     <ClInclude Include="CpuClass.h" />
     <ClInclude Include="D3dclass.h" />
     <ClInclude Include="DebugWindowsClass.h" />
+    <ClInclude Include="DepthShaderClass.h" />
     <ClInclude Include="FadeShaderClass.h" />
     <ClInclude Include="FireShaderClass.h" />
     <ClInclude Include="FogShaderClass.h" />
@@ -145,7 +152,10 @@
     <ClInclude Include="GraphicClass30.h" />
     <ClInclude Include="GraphicClass32.h" />
     <ClInclude Include="GraphicClass34.h" />
+    <ClInclude Include="GraphicClass35.h" />
+    <ClInclude Include="GraphicClass36.h" />
     <ClInclude Include="GraphicsClass33.h" />
+    <ClInclude Include="HorizontalBlurShaderClass.h" />
     <ClInclude Include="InputClass.h" />
     <ClInclude Include="Light4Class.h" />
     <ClInclude Include="Light4ShaderClass.h" />
@@ -155,6 +165,7 @@
     <ClInclude Include="ModelClass.h" />
     <ClInclude Include="ModellistClass.h" />
     <ClInclude Include="MultiTextureShaderClass.h" />
+    <ClInclude Include="OrthoWindowClass.h" />
     <ClInclude Include="PositionClass.h" />
     <ClInclude Include="ReflectionShaderClass.h" />
     <ClInclude Include="RefractionShaderClass.h" />
@@ -171,6 +182,7 @@
     <ClInclude Include="TranslateShaderClass.h" />
     <ClInclude Include="TransparentShaderClass.h" />
     <ClInclude Include="UIClass.h" />
+    <ClInclude Include="VerticalBlurShaderClass.h" />
     <ClInclude Include="WaterShaderClass.h" />
   </ItemGroup>
   <ItemGroup>
@@ -249,6 +261,15 @@
       <FileType>Document</FileType>
     </None>
     <None Include="Shader\fire.fx">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Shader\depth.fx">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Shader\horizontalblur.fx">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Shader\verticalblur.fx">
       <FileType>Document</FileType>
     </None>
     <FxCompile Include="texture.fx">

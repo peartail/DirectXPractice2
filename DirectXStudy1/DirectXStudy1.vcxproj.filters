@@ -186,6 +186,24 @@
     <ClCompile Include="GraphicClass34.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="DepthShaderClass.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicClass35.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="HorizontalBlurShaderClass.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="VerticalBlurShaderClass.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="OrthoWindowClass.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicClass36.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CameraClass.h">
@@ -338,6 +356,24 @@
     <ClInclude Include="GraphicClass34.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="DepthShaderClass.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicClass35.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="HorizontalBlurShaderClass.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="VerticalBlurShaderClass.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="OrthoWindowClass.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicClass36.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="bumpmap.fx">
@@ -401,6 +437,15 @@
       <Filter>리소스 파일</Filter>
     </None>
     <None Include="Shader\fire.fx">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="Shader\depth.fx">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="Shader\horizontalblur.fx">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="Shader\verticalblur.fx">
       <Filter>리소스 파일</Filter>
     </None>
   </ItemGroup>
