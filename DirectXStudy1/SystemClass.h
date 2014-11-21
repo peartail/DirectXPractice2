@@ -15,7 +15,8 @@
 //#include "GraphicClass32.h"
 //#include "GraphicsClass33.h"
 //#include "GraphicClass35.h"
-#include "GraphicClass36.h"
+//#include "GraphicClass36.h"
+#include "GraphicClass37.h"
 
 #include "FpsClass.h"
 #include "CpuClass.h"
@@ -30,7 +31,8 @@
 //#define GraphicClass GraphicClass32
 //#define GraphicClass GraphicsClass33
 //#define GraphicClass GraphicClass35
-#define GraphicClass GraphicClass36
+//#define GraphicClass GraphicClass36
+#define GraphicClass GraphicClass37
 
 class SystemClass
 {

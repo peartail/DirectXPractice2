@@ -95,9 +95,12 @@
     <ClCompile Include="GraphicClass34.cpp" />
     <ClCompile Include="GraphicClass35.cpp" />
     <ClCompile Include="GraphicClass36.cpp" />
+    <ClCompile Include="GraphicClass37.cpp" />
     <ClCompile Include="GraphicsClass33.cpp" />
     <ClCompile Include="HorizontalBlurShaderClass.cpp" />
     <ClCompile Include="InputClass.cpp" />
+    <ClCompile Include="InstanceModelClass.cpp" />
+    <ClCompile Include="InstanceTextureShaderClass.cpp" />
     <ClCompile Include="Light4Class.cpp" />
     <ClCompile Include="Light4ShaderClass.cpp" />
     <ClCompile Include="LightClass.cpp" />
@@ -108,6 +111,7 @@
     <ClCompile Include="ModellistClass.cpp" />
     <ClCompile Include="MultiTextureShaderClass.cpp" />
     <ClCompile Include="OrthoWindowClass.cpp" />
+    <ClCompile Include="ParticleSystemClass.cpp" />
     <ClCompile Include="PositionClass.cpp" />
     <ClCompile Include="ReflectionShaderClass.cpp" />
     <ClCompile Include="RefractionShaderClass.cpp" />
@@ -116,6 +120,7 @@
     <ClCompile Include="SoundClass.cpp" />
     <ClCompile Include="SpecmapShaderClass.cpp" />
     <ClCompile Include="SystemClass.cpp" />
+    <ClCompile Include="TeselColorShader.cpp" />
     <ClCompile Include="TextClass.cpp" />
     <ClCompile Include="TextureArray.cpp" />
     <ClCompile Include="TextureClass.cpp" />
@@ -154,9 +159,12 @@
     <ClInclude Include="GraphicClass34.h" />
     <ClInclude Include="GraphicClass35.h" />
     <ClInclude Include="GraphicClass36.h" />
+    <ClInclude Include="GraphicClass37.h" />
     <ClInclude Include="GraphicsClass33.h" />
     <ClInclude Include="HorizontalBlurShaderClass.h" />
     <ClInclude Include="InputClass.h" />
+    <ClInclude Include="InstanceModelClass.h" />
+    <ClInclude Include="InstanceTextureShaderClass.h" />
     <ClInclude Include="Light4Class.h" />
     <ClInclude Include="Light4ShaderClass.h" />
     <ClInclude Include="LightClass.h" />
@@ -166,6 +174,7 @@
     <ClInclude Include="ModellistClass.h" />
     <ClInclude Include="MultiTextureShaderClass.h" />
     <ClInclude Include="OrthoWindowClass.h" />
+    <ClInclude Include="ParticleSystemClass.h" />
     <ClInclude Include="PositionClass.h" />
     <ClInclude Include="ReflectionShaderClass.h" />
     <ClInclude Include="RefractionShaderClass.h" />
@@ -174,6 +183,7 @@
     <ClInclude Include="SoundClass.h" />
     <ClInclude Include="SpecmapShaderClass.h" />
     <ClInclude Include="SystemClass.h" />
+    <ClInclude Include="TeselColorShader.h" />
     <ClInclude Include="TextClass.h" />
     <ClInclude Include="TextureArray.h" />
     <ClInclude Include="TextureClass.h" />
@@ -212,6 +222,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Shader\teselcolor.hs" />
     <None Include="water.fx">
       <FileType>Document</FileType>
     </None>
@@ -270,6 +281,12 @@
       <FileType>Document</FileType>
     </None>
     <None Include="Shader\verticalblur.fx">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Shader\insttexture.fx">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Shader\teselcolor.fx">
       <FileType>Document</FileType>
     </None>
     <FxCompile Include="texture.fx">

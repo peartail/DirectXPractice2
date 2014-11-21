@@ -64,19 +64,19 @@ bool GraphicClass36::Initialize(int sw, int sh, HWND hwnd)
 	V_RETURN(_vblurshader->Initialize(GETDEVICE, hwnd), L"vblur not");
 
 	NEW_CLASS(_renderTex, RenderTextureClass);
-	V_RETURN(_renderTex->Initialize(GETDEVICE, downsampleW, downsampleH), L"Not rendertex");
+	V_RETURN(_renderTex->Initialize(GETDEVICE, downsampleW, downsampleH, SCREEN_DEPTH, SCREEN_NEAR), L"Not rendertex");
 
 	NEW_CLASS(_downSampleTex, RenderTextureClass);
-	V_RETURN(_downSampleTex->Initialize(GETDEVICE, downsampleW, downsampleH), L"Not rendertex");
+	V_RETURN(_downSampleTex->Initialize(GETDEVICE, downsampleW, downsampleH, SCREEN_DEPTH, SCREEN_NEAR), L"Not rendertex");
 
 	NEW_CLASS(_hblureTex, RenderTextureClass);
-	V_RETURN(_hblureTex->Initialize(GETDEVICE, downsampleW, downsampleH), L"Not rendertex");
+	V_RETURN(_hblureTex->Initialize(GETDEVICE, downsampleW, downsampleH, SCREEN_DEPTH, SCREEN_NEAR), L"Not rendertex");
 
 	NEW_CLASS(_vblurtex, RenderTextureClass);
-	V_RETURN(_vblurtex->Initialize(GETDEVICE, downsampleW, downsampleH), L"Not rendertex");
+	V_RETURN(_vblurtex->Initialize(GETDEVICE, downsampleW, downsampleH, SCREEN_DEPTH, SCREEN_NEAR), L"Not rendertex");
 
 	NEW_CLASS(_upsampleTex, RenderTextureClass);
-	V_RETURN(_upsampleTex->Initialize(GETDEVICE, downsampleW, downsampleH), L"Not rendertex");
+	V_RETURN(_upsampleTex->Initialize(GETDEVICE, downsampleW, downsampleH, SCREEN_DEPTH, SCREEN_NEAR), L"Not rendertex");
 
 	NEW_CLASS(_smallwindo, OrthoWindowClass);
 	V_RETURN(_smallwindo->Initialize(GETDEVICE, downsampleW, downsampleH), L"Not small");
@@ -182,8 +182,8 @@ bool GraphicClass36::RenderSceneToTexture(float rot)
 	D3DXMATRIX world, view, proj;
 	bool result;
 
-	_renderTex->SetRenderTarget(_D3D->GetDeviceContext(), _D3D->GetDepthStencilView());
-	_renderTex->ClearRenderTarget(_D3D->GetDeviceContext(), _D3D->GetDepthStencilView(), 0, 0, 0, 1);
+	_renderTex->SetRenderTarget(_D3D->GetDeviceContext());
+	_renderTex->ClearRenderTarget(_D3D->GetDeviceContext(), 0, 0, 0, 1);
 
 	_camera->Render();
 
@@ -198,6 +198,8 @@ bool GraphicClass36::RenderSceneToTexture(float rot)
 
 	_D3D->SetBackBufferRenderTarget();
 
+	_D3D->ResetViewport();
+
 	return true;
 }
 
@@ -206,15 +208,16 @@ bool GraphicClass36::DownSampleTexture()
 	D3DXMATRIX world, view,ortho;
 	bool result;
 
-	_downSampleTex->SetRenderTarget(_D3D->GetDeviceContext(), _D3D->GetDepthStencilView());
-	_downSampleTex->ClearRenderTarget(_D3D->GetDeviceContext(), _D3D->GetDepthStencilView(), 0, 0, 0, 1);
+	_downSampleTex->SetRenderTarget(_D3D->GetDeviceContext());
+	_downSampleTex->ClearRenderTarget(_D3D->GetDeviceContext(), 0, 1, 0, 1);
 
 	_camera->Render();
 
 	_D3D->GetWorldMatrix(world);
 	_camera->GetViewMatrix(view);
 	
-	_D3D->GetOrthoMatrix(ortho);
+	//_D3D->GetOrthoMatrix(ortho);
+	_downSampleTex->GetOrthoMatrix(ortho);
 	
 	_D3D->TurnZBufferOff();
 
@@ -224,6 +227,8 @@ bool GraphicClass36::DownSampleTexture()
 	_D3D->TurnZBufferOn();
 
 	_D3D->SetBackBufferRenderTarget();
+
+	_D3D->ResetViewport();
 
 	return true;
 }
@@ -236,15 +241,16 @@ bool GraphicClass36::RenderHorizontalBlurToTexture()
 
 	screensizex = (float)_hblureTex->GetTextureWidth();
 
-	_hblureTex->SetRenderTarget(_D3D->GetDeviceContext(), _D3D->GetDepthStencilView());
-	_hblureTex->ClearRenderTarget(_D3D->GetDeviceContext(), _D3D->GetDepthStencilView(), 0, 0, 0, 1);
+	_hblureTex->SetRenderTarget(_D3D->GetDeviceContext());
+	_hblureTex->ClearRenderTarget(_D3D->GetDeviceContext(), 0, 0, 0, 1);
 
 	_camera->Render();
 
 	_D3D->GetWorldMatrix(world);
 	_camera->GetViewMatrix(view);
 
-	_D3D->GetOrthoMatrix(ortho);
+	//_D3D->GetOrthoMatrix(ortho);
+	_hblureTex->GetOrthoMatrix(ortho);
 
 	_D3D->TurnZBufferOff();
 
@@ -254,6 +260,8 @@ bool GraphicClass36::RenderHorizontalBlurToTexture()
 	_D3D->TurnZBufferOn();
 
 	_D3D->SetBackBufferRenderTarget();
+
+	_D3D->ResetViewport();
 
 	return true;
 }
@@ -266,15 +274,17 @@ bool GraphicClass36::RenderVerticalBlureToTexture()
 
 	screensizex = (float)_hblureTex->GetTextureHeight();
 
-	_vblurtex->SetRenderTarget(_D3D->GetDeviceContext(), _D3D->GetDepthStencilView());
-	_vblurtex->ClearRenderTarget(_D3D->GetDeviceContext(), _D3D->GetDepthStencilView(), 0, 0, 0, 1);
+	_vblurtex->SetRenderTarget(_D3D->GetDeviceContext());
+	_vblurtex->ClearRenderTarget(_D3D->GetDeviceContext(), 0, 0, 0, 1);
 
 	_camera->Render();
 
 	_D3D->GetWorldMatrix(world);
 	_camera->GetViewMatrix(view);
 
-	_D3D->GetOrthoMatrix(ortho);
+	//_D3D->GetOrthoMatrix(ortho);
+
+	_vblurtex->GetOrthoMatrix(ortho);
 
 	_D3D->TurnZBufferOff();
 
@@ -284,6 +294,8 @@ bool GraphicClass36::RenderVerticalBlureToTexture()
 	_D3D->TurnZBufferOn();
 
 	_D3D->SetBackBufferRenderTarget();
+
+	_D3D->ResetViewport();
 
 	return true;
 }
@@ -296,15 +308,16 @@ bool GraphicClass36::UpSampleTexture()
 
 	screensizex = (float)_hblureTex->GetTextureHeight();
 
-	_upsampleTex->SetRenderTarget(_D3D->GetDeviceContext(), _D3D->GetDepthStencilView());
-	_upsampleTex->ClearRenderTarget(_D3D->GetDeviceContext(), _D3D->GetDepthStencilView(), 0, 0, 0, 1);
+	_upsampleTex->SetRenderTarget(_D3D->GetDeviceContext());
+	_upsampleTex->ClearRenderTarget(_D3D->GetDeviceContext(), 0, 0, 0, 1);
 
 	_camera->Render();
 
 	_D3D->GetWorldMatrix(world);
 	_camera->GetViewMatrix(view);
 
-	_D3D->GetOrthoMatrix(ortho);
+	//_D3D->GetOrthoMatrix(ortho);
+	_upsampleTex->GetOrthoMatrix(ortho);
 
 	_D3D->TurnZBufferOff();
 
@@ -315,6 +328,8 @@ bool GraphicClass36::UpSampleTexture()
 
 	_D3D->SetBackBufferRenderTarget();
 
+	_D3D->ResetViewport();
+
 	return true;
 }
 
@@ -324,7 +339,7 @@ bool GraphicClass36::Render2DTextureScene()
 	bool result;
 	float screensizex;
 
-	_D3D->BeginScene(1, 0, 0, 0);
+	_D3D->BeginScene(0, 0, 0, 0);
 
 	_camera->Render();
 
@@ -342,10 +357,6 @@ bool GraphicClass36::Render2DTextureScene()
 	_D3D->TurnZBufferOn();
 
 	_D3D->EndScene();
-
-	screensizex = (float)_hblureTex->GetTextureHeight();
-
-	_D3D->SetBackBufferRenderTarget();
 
 	return true;
 }

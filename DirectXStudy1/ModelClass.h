@@ -25,6 +25,7 @@ private:
 		D3DXVECTOR3 tangent;
 		D3DXVECTOR3 binorm;
 	};
+
 	struct ModelType
 	{
 		float x,y,z;

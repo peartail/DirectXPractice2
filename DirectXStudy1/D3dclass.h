@@ -44,6 +44,7 @@ public:
 	ID3D11DepthStencilView* GetDepthStencilView();
 	void SetBackBufferRenderTarget();
 
+	void ResetViewport();
 private:
 	bool m_vsync_enabled;
 	int m_videoCardMemory;
@@ -64,6 +65,10 @@ private:
 
 	ID3D11BlendState* _alphaEnableBlendingState;
 	ID3D11BlendState* _alphaDisableBlendingState;
+
+	int _screenwidth, _screenheight;
+
+	D3D11_VIEWPORT _viewport;
 
 private:
 	bool SettingDisplay(unsigned int &numerator, unsigned int &denominator, int screenWidth, int screenHeight);

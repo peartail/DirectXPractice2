@@ -18,6 +18,8 @@ D3dclass::D3dclass()
 
 	_alphaDisableBlendingState = NULL;
 	_alphaEnableBlendingState = NULL;
+
+	_screenwidth = _screenheight = 0;
 }
 
 
@@ -31,6 +33,8 @@ bool D3dclass::Initialize(int screenWidth, int screenHeight, bool vsync, HWND hw
 	
 	unsigned int numerator, denominator;
 	
+	_screenwidth = screenWidth;
+	_screenheight = screenHeight;
 	int error;
 	DXGI_SWAP_CHAIN_DESC swapChainDesc;
 	D3D_FEATURE_LEVEL featureLevel;
@@ -39,7 +43,7 @@ bool D3dclass::Initialize(int screenWidth, int screenHeight, bool vsync, HWND hw
 	D3D11_DEPTH_STENCIL_DESC depthStencilDesc;
 	D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc;
 	D3D11_RASTERIZER_DESC rasterDesc;
-	D3D11_VIEWPORT viewport;
+
 	float fieldOfView, screenAspect;
 
 	D3D11_DEPTH_STENCIL_DESC depthDisabledStencilDesc;
@@ -217,7 +221,9 @@ bool D3dclass::Initialize(int screenWidth, int screenHeight, bool vsync, HWND hw
 	rasterDesc.DepthBias = 0;
 	rasterDesc.DepthBiasClamp = 0.0f;
 	rasterDesc.DepthClipEnable = true;
-	rasterDesc.FillMode = D3D11_FILL_SOLID;
+	//rasterDesc.FillMode = D3D11_FILL_SOLID;
+	//선처럼 보이긩
+	rasterDesc.FillMode = D3D11_FILL_WIREFRAME;
 	rasterDesc.FrontCounterClockwise = false;
 	rasterDesc.MultisampleEnable = false;
 	rasterDesc.ScissorEnable = false;
@@ -234,15 +240,15 @@ bool D3dclass::Initialize(int screenWidth, int screenHeight, bool vsync, HWND hw
 	m_deviceContext->RSSetState(m_rasterState);
 
 	//렌더링을 위한 뷰포트 설정
-	viewport.Width = (float)screenWidth;
-	viewport.Height = (float)screenHeight;
-	viewport.MinDepth = 0.0f;
-	viewport.MaxDepth = 1.0f;
-	viewport.TopLeftX = 0.0f;
-	viewport.TopLeftY = 0.0f;
+	_viewport.Width = (float)screenWidth;
+	_viewport.Height = (float)screenHeight;
+	_viewport.MinDepth = 0.0f;
+	_viewport.MaxDepth = 1.0f;
+	_viewport.TopLeftX = 0.0f;
+	_viewport.TopLeftY = 0.0f;
 
 	//뷰포트 생성
-	m_deviceContext->RSSetViewports(1, &viewport);
+	m_deviceContext->RSSetViewports(1, &_viewport);
 
 	//투영행렬 설정
 	fieldOfView = (float)D3DX_PI / 4.0f;
@@ -610,4 +616,10 @@ ID3D11DepthStencilView* D3dclass::GetDepthStencilView()
 void D3dclass::SetBackBufferRenderTarget()
 {
 	m_deviceContext->OMSetRenderTargets(1, &m_renderTargetView, m_depthStencilView);
+}
+
+void D3dclass::ResetViewport()
+{
+	//뷰포트 생성
+	m_deviceContext->RSSetViewports(1, &_viewport);
 }

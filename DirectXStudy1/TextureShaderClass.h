@@ -34,10 +34,9 @@ protected:
 
 	virtual bool SetShaderParameters(ID3D11DeviceContext*, D3DXMATRIX, D3DXMATRIX, D3DXMATRIX, ID3D11ShaderResourceView*);
 	virtual void ShutdownShader();
-	void OutputShaderErrorMessage(ID3D10Blob*, HWND, WCHAR*);
-
-
 	virtual void RenderShader(ID3D11DeviceContext*, int);
+
+	void OutputShaderErrorMessage(ID3D10Blob*, HWND, WCHAR*);
 private:
 
 private:

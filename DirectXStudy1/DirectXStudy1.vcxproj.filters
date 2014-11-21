@@ -204,6 +204,21 @@
     <ClCompile Include="GraphicClass36.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="InstanceModelClass.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="InstanceTextureShaderClass.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicClass37.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="TeselColorShader.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleSystemClass.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CameraClass.h">
@@ -374,6 +389,21 @@
     <ClInclude Include="GraphicClass36.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="InstanceModelClass.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="InstanceTextureShaderClass.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicClass37.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="TeselColorShader.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleSystemClass.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="bumpmap.fx">
@@ -446,6 +476,15 @@
       <Filter>리소스 파일</Filter>
     </None>
     <None Include="Shader\verticalblur.fx">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="Shader\insttexture.fx">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="Shader\teselcolor.fx">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="Shader\teselcolor.hs">
       <Filter>리소스 파일</Filter>
     </None>
   </ItemGroup>
