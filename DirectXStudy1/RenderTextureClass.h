@@ -24,11 +24,11 @@ public:
 	int GetTextureHeight();
 	void GetOrthoMatrix(D3DXMATRIX&);
 private:
+	int _texwidth, _texheight;
+
 	ID3D11Texture2D* _renderTargetTexture;
 	ID3D11RenderTargetView* _renderTargetView;
 	ID3D11ShaderResourceView* _shaderResourceView;
-
-	int _texwidth, _texheight;
 
 	ID3D11DepthStencilView* _depthstencilview;
 	ID3D11Texture2D* _depthStencilBuffer;

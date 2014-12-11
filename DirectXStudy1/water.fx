@@ -94,8 +94,6 @@ float4 PS(PInType i) : SV_TARGET
 
 	color = lerp(refColor, refractColor, 0.6f);
 
-	//color = float4(1, 1, 1, 1);
-
 	return color;
 }
 

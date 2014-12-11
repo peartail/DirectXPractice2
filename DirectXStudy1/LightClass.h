@@ -20,6 +20,8 @@ public:
 	void SetSpecularPower(float);
 
 	void SetPosition(float, float, float);
+	//40
+	void SetLookAt(float, float, float);
 
 	D3DXVECTOR4 GetAmbientColor();
 	D3DXVECTOR4 GetDiffuseColor();
@@ -28,13 +30,24 @@ public:
 	float GetSpecularPower();
 
 	D3DXVECTOR4 GetPosition();
+
+	void GenerateViewMatrix();
+	void GenerateProjcetionMatrix(float, float);
+
+	void GetViewMatrix(D3DXMATRIX&);
+	void GetProjMatrix(D3DXMATRIX&);
 private:
 	D3DXVECTOR4 _ambientColor;
 	D3DXVECTOR4 _diffuseColor;
 	D3DXVECTOR3 _direction;
 	D3DXVECTOR4 _specularColor;
 	float _specularPower;
+	
 	D3DXVECTOR4 _position;
+
+	D3DXVECTOR3 _lookat;
+	D3DXMATRIX _viewmat;
+	D3DXMATRIX _projmat;
 };
 
 

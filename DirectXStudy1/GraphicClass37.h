@@ -2,19 +2,19 @@
 
 const bool FULL_SCREEN = false;
 const bool VSYNC_ENABLED = true;
-const float SCREEN_DEPTH = 1000.0f;
+const float SCREEN_DEPTH = 100000.0f;
 const float SCREEN_NEAR = 1.0f;
 
 #include "D3dclass.h"
 #include "CameraClass.h"
 
 //37¿Â
-//#include "InstanceModelClass.h"
-//#include "InstanceTextureShaderClass.h"
+#include "InstanceModelClass.h"
+#include "InstanceTextureShaderClass.h"
 
 //38¿Â
-#include "TeselColorShader.h"
-#include "ModelClass.h"
+//#include "TeselColorShader.h"
+//#include "ModelClass.h"
 
 class GraphicClass37
 {
@@ -34,10 +34,10 @@ private:
 	D3dclass* _D3D;
 	CameraClass* _camera;
 
-	//InstanceModelClass* _model;
-	//InstanceTextureShaderClass* _shader;
+	InstanceModelClass* _model;
+	InstanceTextureShaderClass* _shader;
 
-	ModelClass *_model;
-	TeselColorShader* _shader;
+	//ModelClass *_model;
+	//TeselColorShader* _shader;
 };
 

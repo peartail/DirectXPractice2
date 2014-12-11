@@ -83,8 +83,6 @@ float4 PS(PInType i) : SV_TARGET
 
 	color = color * texcolor;
 
-	//color = float4(1, 1, 1, 1);
-
 	return color;
 }
 

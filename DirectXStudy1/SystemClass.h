@@ -16,7 +16,10 @@
 //#include "GraphicsClass33.h"
 //#include "GraphicClass35.h"
 //#include "GraphicClass36.h"
-#include "GraphicClass37.h"
+//#include "GraphicClass37.h"
+//#include "GraphicClass39.h"
+//#include "GraphicClass40.h"
+#include "GraphicClass41.h"
 
 #include "FpsClass.h"
 #include "CpuClass.h"
@@ -32,7 +35,10 @@
 //#define GraphicClass GraphicsClass33
 //#define GraphicClass GraphicClass35
 //#define GraphicClass GraphicClass36
-#define GraphicClass GraphicClass37
+//#define GraphicClass GraphicClass37
+//#define GraphicClass GraphicClass39
+//#define GraphicClass GraphicClass40
+#define GraphicClass GraphicClass41
 
 class SystemClass
 {
@@ -51,7 +57,7 @@ private:
 	bool Frame();
 	void InitializeWindows(int&, int&);
 	void ShutdownWindows();
-
+	bool HandleInput(float);
 private:
 	LPCWSTR m_applicationName;
 	HINSTANCE m_hinstance;

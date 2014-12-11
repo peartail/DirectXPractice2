@@ -30,25 +30,26 @@ bool GraphicClass37::Initialize(int sw, int sh, HWND hwnd)
 
 	NEW_CLASS(_camera, CameraClass);
 
-	_camera->SetPosition(0, 2, -10);
+	_camera->SetPosition(0, 100, -1000);
 
-	/*
+	_camera->SetRotation(0, 45, 0);
+	
 	//37
 	NEW_CLASS(_model, InstanceModelClass);
 
-	V_RETURN(_model->Initailize(GETDEVICE, "Cube2.txt", L"Texture/firetex.gif"), L"Not floor");
+	V_RETURN(_model->Initailize(GETDEVICE, "Models\\water.txt", L"Texture/firetex.gif"), L"Not floor");
 
 	NEW_CLASS(_shader, InstanceTextureShaderClass);
 	V_RETURN(_shader->Initialize(GETDEVICE, hwnd),L"NotTex");
-	*/
+	
 	//38
-
+	/*
 	NEW_CLASS(_model, ModelClass);
-	V_RETURN(_model->Initailize(GETDEVICE, "Torus2.txt", L"Texture/firetex.gif"), L"Not floor");
+	V_RETURN(_model->Initailize(GETDEVICE, "Models\\bath.txt", L"Texture/firetex.gif"), L"Not floor");
 
 	NEW_CLASS(_shader, TeselColorShader);
 	V_RETURN(_shader->Initialize(GETDEVICE, hwnd),L"CS not");
-
+	*/
 	return true;
 }
 
@@ -71,7 +72,8 @@ bool GraphicClass37::Frame(D3DXVECTOR3 rotation)
 		rot -= 360;
 	}
 
-	_camera->SetPosition(0.f, 0.f, -10.f);
+	_camera->SetPosition(0, 0, -1500);
+	//_camera->SetPosition(0.f, 0.f, -10.f);
 
 	float rota = _camera->GetPosition().z + rotation.z;
 	float rotx = _camera->GetPosition().x + rotation.x;
@@ -79,6 +81,7 @@ bool GraphicClass37::Frame(D3DXVECTOR3 rotation)
 
 
 	_camera->SetRotation(_camera->GetRotation().x, rotation.y, _camera->GetRotation().z);
+	//_camera->SetRotation(_camera->GetRotation().x, 45, _camera->GetRotation().z);
 	_camera->SetPosition(rotx, _camera->GetPosition().y, rota);
 
 
@@ -110,11 +113,12 @@ bool GraphicClass37::Render(float rot)
 	_model->Render(_D3D->GetDeviceContext());
 	
 	//37Àå
-	//IS_V(_shader->Render(_D3D->GetDeviceContext(), _model->GetVertexCount(),_model->GetInstanceCount(), world, view, proj,_model->GetTexture()));
+	IS_V(_shader->Render(_D3D->GetDeviceContext(), _model->GetVertexCount(),_model->GetInstanceCount(), world, view, proj,_model->GetTexture()));
 
+	/*
 	//38
 	IS_V(_shader->Render(_D3D->GetDeviceContext(), _model->GetIndexCount(), world, view, proj, 12));
-
+	*/
 	_D3D->EndScene();
 
 	return true;

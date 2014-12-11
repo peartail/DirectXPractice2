@@ -96,6 +96,9 @@
     <ClCompile Include="GraphicClass35.cpp" />
     <ClCompile Include="GraphicClass36.cpp" />
     <ClCompile Include="GraphicClass37.cpp" />
+    <ClCompile Include="GraphicClass39.cpp" />
+    <ClCompile Include="GraphicClass40.cpp" />
+    <ClCompile Include="GraphicClass41.cpp" />
     <ClCompile Include="GraphicsClass33.cpp" />
     <ClCompile Include="HorizontalBlurShaderClass.cpp" />
     <ClCompile Include="InputClass.cpp" />
@@ -109,14 +112,18 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ModelClass.cpp" />
     <ClCompile Include="ModellistClass.cpp" />
+    <ClCompile Include="MultiShadowShaderClass.cpp" />
     <ClCompile Include="MultiTextureShaderClass.cpp" />
     <ClCompile Include="OrthoWindowClass.cpp" />
+    <ClCompile Include="ParticleShaderClass.cpp" />
     <ClCompile Include="ParticleSystemClass.cpp" />
     <ClCompile Include="PositionClass.cpp" />
     <ClCompile Include="ReflectionShaderClass.cpp" />
     <ClCompile Include="RefractionShaderClass.cpp" />
     <ClCompile Include="RenderTextureClass.cpp" />
     <ClCompile Include="ShaderClass.cpp" />
+    <ClCompile Include="ShadowShader2.cpp" />
+    <ClCompile Include="ShadowShaderClass.cpp" />
     <ClCompile Include="SoundClass.cpp" />
     <ClCompile Include="SpecmapShaderClass.cpp" />
     <ClCompile Include="SystemClass.cpp" />
@@ -160,6 +167,9 @@
     <ClInclude Include="GraphicClass35.h" />
     <ClInclude Include="GraphicClass36.h" />
     <ClInclude Include="GraphicClass37.h" />
+    <ClInclude Include="GraphicClass39.h" />
+    <ClInclude Include="GraphicClass40.h" />
+    <ClInclude Include="GraphicClass41.h" />
     <ClInclude Include="GraphicsClass33.h" />
     <ClInclude Include="HorizontalBlurShaderClass.h" />
     <ClInclude Include="InputClass.h" />
@@ -172,14 +182,18 @@
     <ClInclude Include="LightShaderClass.h" />
     <ClInclude Include="ModelClass.h" />
     <ClInclude Include="ModellistClass.h" />
+    <ClInclude Include="MultiShadowShaderClass.h" />
     <ClInclude Include="MultiTextureShaderClass.h" />
     <ClInclude Include="OrthoWindowClass.h" />
+    <ClInclude Include="ParticleShaderClass.h" />
     <ClInclude Include="ParticleSystemClass.h" />
     <ClInclude Include="PositionClass.h" />
     <ClInclude Include="ReflectionShaderClass.h" />
     <ClInclude Include="RefractionShaderClass.h" />
     <ClInclude Include="RenderTextureClass.h" />
     <ClInclude Include="ShaderClass.h" />
+    <ClInclude Include="ShadowShader2.h" />
+    <ClInclude Include="ShadowShaderClass.h" />
     <ClInclude Include="SoundClass.h" />
     <ClInclude Include="SpecmapShaderClass.h" />
     <ClInclude Include="SystemClass.h" />
@@ -289,6 +303,16 @@
     <None Include="Shader\teselcolor.fx">
       <FileType>Document</FileType>
     </None>
+    <None Include="Shader\particle.fx">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Shader\shadow.fx">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Shader\multishadow.fx">
+      <FileType>Document</FileType>
+    </None>
+    <FxCompile Include="Shader\shadow2.fx" />
     <FxCompile Include="texture.fx">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </FxCompile>

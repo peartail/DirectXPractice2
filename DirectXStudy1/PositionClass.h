@@ -14,23 +14,35 @@ public:
 	~PositionClass();
 
 	void SetFrameTime(float);
-	void GetRotation(float&);
-	void GetPositionZ(float&);
-	void GetPositionX(float&);
+	
+	void SetPosition(float, float, float);
+	void SetRotation(float, float, float);
 
+	void GetPosition(float&, float&, float&);
+	void GetRotation(float&, float&, float&);
 
 	void TurnLeft(bool);
 	void TurnRight(bool);
-	void TurnFront(bool);
-	void TurnBack(bool);
+
+	void MoveForward(bool);
+	void MoveBackWard(bool);
+	void MoveUpward(bool);
+	void MoveDownward(bool);
+	
+	void LookUpward(bool);
+	void LookDownward(bool);
 
 private:
 	float _frameTime;
-	float _roationY;
-	float _positionZ;
-	float _positionX;
-	float _leftTurnSpeed, _rightTurnSpeed;
-	float _frontTurnSpeed, _backTurnSpeed;
+
+	float _posx, _posy, _posz;
+	float _rotx, _roty, _rotz;
+
+	float _forwardspeed, _backwardspeed;
+	float _upwardspeed, _downwardspeed;
+	float _leftturnspeed, _rightturnspeed;
+	float _lookupspeed, _lookdownspeed;
+	
 
 };
 

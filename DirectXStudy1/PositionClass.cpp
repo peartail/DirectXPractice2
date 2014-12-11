@@ -4,13 +4,12 @@
 PositionClass::PositionClass()
 {
 	_frameTime = 0.f;
-	_roationY = 0.f;
-	_leftTurnSpeed = 0.f;
-	_rightTurnSpeed = 0.f;
+	
+	_posx = _posy = _posz = 0;
+	_rotx = _roty = _rotz = 0;
 
-	_positionZ = _positionX =  0.f;
-	_frontTurnSpeed = 0.f;
-	_backTurnSpeed = 0.f;
+	_forwardspeed = _backwardspeed = _upwardspeed = _downwardspeed = _leftturnspeed = _rightturnspeed = 0;
+	_lookdownspeed = _lookdownspeed = 0;
 }
 
 PositionClass::PositionClass(const PositionClass& other)
@@ -28,46 +27,156 @@ void PositionClass::SetFrameTime(float time)
 	return;
 }
 
-void PositionClass::GetRotation(float& y)
+void PositionClass::SetPosition(float x, float y, float z)
 {
-	y = _roationY;
+	_posx = x;
+	_posy = y;
+	_posz = z;
 }
 
-void PositionClass::GetPositionZ(float& z)
+void PositionClass::SetRotation(float x, float y, float z)
 {
-	z = _positionZ;
+	_rotx = x;
+	_roty = y;
+	_rotz = z;
 }
 
-void PositionClass::GetPositionX(float& x)
+void PositionClass::GetPosition(float& x, float& y, float& z)
 {
-	x = _positionX;
+	x = _posx;
+	y = _posy;
+	z = _posz;
 }
 
+void PositionClass::GetRotation(float& x, float& y, float& z)
+{
+	x = _rotx;
+	y = _roty;
+	z = _rotz;
+}
+
+void PositionClass::MoveForward(bool keydown)
+{
+	if (keydown)
+	{
+		_forwardspeed += _frameTime * 0.01f;
+
+		if (_forwardspeed > (_frameTime*0.15f))
+		{
+			_forwardspeed = _frameTime * 0.15f;
+		}
+	}
+	else
+	{
+		_forwardspeed -= _frameTime*0.005f;
+		if (_forwardspeed < 0.0f)
+		{
+			_forwardspeed = 0.0f;
+		}
+	}
+
+	float radians = _roty * 0.0174532925f;
+
+	_posx += sinf(radians) * _forwardspeed;
+	_posz += cosf(radians) * _forwardspeed;
+}
+
+void PositionClass::MoveBackWard(bool keydown)
+{
+	if (keydown)
+	{
+		_backwardspeed += _frameTime * 0.01f;
+
+		if (_backwardspeed > (_frameTime*0.15f))
+		{
+			_backwardspeed = _frameTime * 0.15f;
+		}
+	}
+	else
+	{
+		_backwardspeed -= _frameTime*0.005f;
+		if (_backwardspeed < 0.0f)
+		{
+			_backwardspeed = 0.0f;
+		}
+	}
+
+	float radians = _roty * 0.0174532925f;
+
+	_posx -= sinf(radians) * _backwardspeed;
+	_posz -= cosf(radians) * _backwardspeed;
+}
+
+void PositionClass::MoveUpward(bool keydown)
+{
+	if (keydown)
+	{
+		_upwardspeed += _frameTime * 0.01f;
+
+		if (_upwardspeed > (_frameTime*0.15f))
+		{
+			_upwardspeed = _frameTime * 0.15f;
+		}
+	}
+	else
+	{
+		_upwardspeed -= _frameTime*0.005f;
+		if (_upwardspeed < 0.0f)
+		{
+			_upwardspeed = 0.0f;
+		}
+	}
+
+	_posy += _upwardspeed;
+}
+
+void PositionClass::MoveDownward(bool keydown)
+{
+	if (keydown)
+	{
+		_downwardspeed += _frameTime * 0.01f;
+
+		if (_downwardspeed > (_frameTime*0.15f))
+		{
+			_downwardspeed = _frameTime * 0.15f;
+		}
+	}
+	else
+	{
+		_downwardspeed -= _frameTime*0.005f;
+		if (_downwardspeed < 0.0f)
+		{
+			_downwardspeed = 0.0f;
+		}
+	}
+
+	_posy -= _downwardspeed;
+}
 
 void PositionClass::TurnLeft(bool keydown)
 {
 	if (keydown)
 	{
-		_leftTurnSpeed += _frameTime * 0.01f;
+		_leftturnspeed += _frameTime * 0.01f;
 
-		if (_leftTurnSpeed > (_frameTime*0.15f))
+		if (_leftturnspeed > (_frameTime*0.15f))
 		{
-			_leftTurnSpeed = _frameTime * 0.15f;
+			_leftturnspeed = _frameTime * 0.15f;
 		}
 	}
 	else
 	{
-		_leftTurnSpeed -= _frameTime*0.005f;
-		if (_leftTurnSpeed < 0.0f)
+		_leftturnspeed -= _frameTime*0.005f;
+		if (_leftturnspeed < 0.0f)
 		{
-			_leftTurnSpeed = 0.0f;
+			_leftturnspeed = 0.0f;
 		}
 	}
 
-	_roationY -= _leftTurnSpeed;
-	if (_roationY < 0.0f)
+	_roty -= _leftturnspeed;
+	if (_roty < 0.0f)
 	{
-		_roationY += 360.f;
+		_roty += 360.f;
 	}
 }
 
@@ -75,78 +184,79 @@ void PositionClass::TurnRight(bool keydown)
 {
 	if (keydown)
 	{
-		_rightTurnSpeed += _frameTime * 0.01f;
+		_rightturnspeed += _frameTime * 0.01f;
 
-		if (_rightTurnSpeed > (_frameTime*0.15f))
+		if (_rightturnspeed > (_frameTime*0.15f))
 		{
-			_rightTurnSpeed = _frameTime * 0.15f;
+			_rightturnspeed = _frameTime * 0.15f;
 		}
 	}
 	else
 	{
-		_rightTurnSpeed -= _frameTime*0.005f;
-		if (_rightTurnSpeed < 0.0f)
+		_rightturnspeed -= _frameTime*0.005f;
+		if (_rightturnspeed < 0.0f)
 		{
-			_rightTurnSpeed = 0.0f;
+			_rightturnspeed = 0.0f;
 		}
 	}
 
-	_roationY += _rightTurnSpeed;
-	if (_roationY < 0.0f)
+	_roty += _rightturnspeed;
+	if (_roty > 360.f)
 	{
-		_roationY += 360.f;
+		_roty -= 360.f;
 	}
 }
 
-void PositionClass::TurnFront(bool keydown)
+void PositionClass::LookUpward(bool keydown)
 {
 	if (keydown)
 	{
-		_frontTurnSpeed += _frameTime * 0.01f;
+		_lookupspeed += _frameTime * 0.01f;
 
-		if (_frontTurnSpeed > (_frameTime*0.15f))
+		if (_lookupspeed > (_frameTime*0.15f))
 		{
-			_frontTurnSpeed = _frameTime * 0.15f;
+			_lookupspeed = _frameTime * 0.15f;
 		}
 	}
 	else
 	{
-		_frontTurnSpeed -= _frameTime*0.005f;
-		if (_frontTurnSpeed < 0.0f)
+		_lookupspeed -= _frameTime*0.005f;
+		if (_lookupspeed < 0.0f)
 		{
-			_frontTurnSpeed = 0.0f;
+			_lookupspeed = 0.0f;
 		}
 	}
-	_positionX += sinf(D3DX_PI*_roationY / 180) * _frontTurnSpeed;
-	_positionZ += cosf(D3DX_PI*_roationY / 180) * _frontTurnSpeed;
 
-	//_positionZ += _frontTurnSpeed;
-
+	_rotx -= _lookupspeed;
+	if (_rotx > 90.0f)
+	{
+		_rotx = 90.f;
+	}
 }
 
-void PositionClass::TurnBack(bool keydown)
+void PositionClass::LookDownward(bool keydown)
 {
 	if (keydown)
 	{
-		_backTurnSpeed += _frameTime * 0.01f;
+		_lookdownspeed += _frameTime * 0.01f;
 
-		if (_backTurnSpeed > (_frameTime*0.15f))
+		if (_lookdownspeed > (_frameTime*0.15f))
 		{
-			_backTurnSpeed = _frameTime * 0.15f;
+			_lookdownspeed = _frameTime * 0.15f;
 		}
 	}
 	else
 	{
-		_backTurnSpeed -= _frameTime*0.005f;
-		if (_backTurnSpeed < 0.0f)
+		_lookdownspeed -= _frameTime*0.005f;
+		if (_lookdownspeed < 0.0f)
 		{
-			_backTurnSpeed = 0.0f;
+			_lookdownspeed = 0.0f;
 		}
 	}
 
-	_positionX -= sinf(D3DX_PI*_roationY / 180) * _backTurnSpeed;
-	_positionZ -= cosf(D3DX_PI*_roationY / 180) * _backTurnSpeed;
-
-	//_positionZ -= _backTurnSpeed;
-
+	_rotx += _lookdownspeed;
+	if (_rotx < -90.0f)
+	{
+		_rotx = -90.f;
+	}
 }

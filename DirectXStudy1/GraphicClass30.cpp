@@ -82,7 +82,7 @@ void GraphicClass30::ShutDown()
 bool GraphicClass30::Frame(D3DXVECTOR3 rotation)
 {
 
-	_camera->SetPosition(0.f, 0.f, -7.f);
+	_camera->SetPosition(0.f, 0.f, -4000.f);
 
 	float rota = _camera->GetPosition().z + rotation.z;
 

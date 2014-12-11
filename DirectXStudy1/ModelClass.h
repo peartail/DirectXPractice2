@@ -69,6 +69,9 @@ public:
 	ID3D11ShaderResourceView* GetTexture();
 
 	ID3D11ShaderResourceView** GetTextureArr();
+
+	void SetPosition(float, float, float);
+	void GetPosition(float&, float&, float&);
 private:
 	bool InitializeBuffers(ID3D11Device*);
 	void ShutdownBuffers();
@@ -85,9 +88,11 @@ private:
 	void CalculateTangentBinormal(TempVertexType, TempVertexType, TempVertexType, VectorType&, VectorType&);
 	void CalculateNormal(VectorType, VectorType, VectorType&);
 
+	
 private:
 	bool _isSdkMesh;
 	
+	float _posx, _posy, _posz;
 };
 
 #endif

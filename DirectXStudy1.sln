@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DirectX2DProject", "DirectX
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xmeshtotxt", "xmeshtotxt\xmeshtotxt.vcxproj", "{00793EDF-5704-4A11-9585-42E1B9C5105A}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ModelScaling", "ModelScaling\ModelScaling.vcxproj", "{0261E20B-240E-499D-991B-5470694AA6A2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -33,6 +35,10 @@ Global
 		{00793EDF-5704-4A11-9585-42E1B9C5105A}.Debug|Win32.Build.0 = Debug|Win32
 		{00793EDF-5704-4A11-9585-42E1B9C5105A}.Release|Win32.ActiveCfg = Release|Win32
 		{00793EDF-5704-4A11-9585-42E1B9C5105A}.Release|Win32.Build.0 = Release|Win32
+		{0261E20B-240E-499D-991B-5470694AA6A2}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0261E20B-240E-499D-991B-5470694AA6A2}.Debug|Win32.Build.0 = Debug|Win32
+		{0261E20B-240E-499D-991B-5470694AA6A2}.Release|Win32.ActiveCfg = Release|Win32
+		{0261E20B-240E-499D-991B-5470694AA6A2}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

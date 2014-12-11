@@ -51,11 +51,11 @@ private:
 	void KillParticles();
 
 	bool UpdateBuffers(ID3D11DeviceContext*);
-	bool RenderBuffers(ID3D11DeviceContext*);
+	void RenderBuffers(ID3D11DeviceContext*);
 
 private:
 
-	float _particleDeviationX, _particleDeviationY, _particleDivationZ;
+	float _particleDeviationX, _particleDeviationY, _particleDeviationZ;
 	float _particleVelocity, _particleVelocityVariation;
 	float _particleSize, particlePerSecond;
 	int _maxParticles;

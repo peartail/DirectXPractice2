@@ -14,7 +14,7 @@ ModelClass::ModelClass(void)
 	_model = NULL;
 	_isSdkMesh = false;
 
-	
+
 }
 
 ModelClass::ModelClass(bool issdkmesh)
@@ -30,12 +30,12 @@ ModelClass::~ModelClass(void)
 {
 }
 
-bool ModelClass::Initailize(ID3D11Device* device,char* modelfilename, WCHAR* texturefilename)
+bool ModelClass::Initailize(ID3D11Device* device, char* modelfilename, WCHAR* texturefilename)
 {
 	bool result;
 
-	result = LoadModel(device,modelfilename);
-	if(!result)
+	result = LoadModel(device, modelfilename);
+	if (!result)
 	{
 		return false;
 	}
@@ -55,7 +55,7 @@ bool ModelClass::Initailize(ID3D11Device* device,char* modelfilename, WCHAR* tex
 	return true;
 }
 
-bool ModelClass::Initailize(ID3D11Device* device, char* modelfilename, WCHAR* tex1,WCHAR* tex2)
+bool ModelClass::Initailize(ID3D11Device* device, char* modelfilename, WCHAR* tex1, WCHAR* tex2)
 {
 	bool result;
 
@@ -73,7 +73,7 @@ bool ModelClass::Initailize(ID3D11Device* device, char* modelfilename, WCHAR* te
 		return false;
 	}
 
-	result = LoadTexture(device, tex1,tex2);
+	result = LoadTexture(device, tex1, tex2);
 	if (!result)
 	{
 		return false;
@@ -82,7 +82,7 @@ bool ModelClass::Initailize(ID3D11Device* device, char* modelfilename, WCHAR* te
 	return true;
 }
 
-bool ModelClass::Initailize(ID3D11Device* device, char* modelfilename, WCHAR* tex1, WCHAR* tex2,WCHAR* tex3)
+bool ModelClass::Initailize(ID3D11Device* device, char* modelfilename, WCHAR* tex1, WCHAR* tex2, WCHAR* tex3)
 {
 	bool result;
 
@@ -98,7 +98,7 @@ bool ModelClass::Initailize(ID3D11Device* device, char* modelfilename, WCHAR* te
 		return false;
 	}
 
-	result = LoadTexture(device, tex1, tex2,tex3);
+	result = LoadTexture(device, tex1, tex2, tex3);
 	if (!result)
 	{
 		return false;
@@ -137,15 +137,15 @@ ID3D11ShaderResourceView** ModelClass::GetTextureArr()
 
 bool ModelClass::InitializeBuffers(ID3D11Device* device)
 {
-	
+
 	VertexType* vertice;
 	unsigned long* indices;
-	D3D11_BUFFER_DESC vertexBufferDesc,indexBufferDesc;
-	D3D11_SUBRESOURCE_DATA vertexData,indexData;
+	D3D11_BUFFER_DESC vertexBufferDesc, indexBufferDesc;
+	D3D11_SUBRESOURCE_DATA vertexData, indexData;
 	HRESULT result;
-	
+
 	int i;
-	
+
 	//배열 생성
 	vertice = new VertexType[m_vertexCount];
 	if (!vertice)
@@ -154,16 +154,16 @@ bool ModelClass::InitializeBuffers(ID3D11Device* device)
 	}
 
 	indices = new unsigned long[m_indexCount];
-	if(!indices)
+	if (!indices)
 	{
 		return false;
 	}
 
-	for(i=0;i<m_vertexCount;i++)
+	for (i = 0; i < m_vertexCount; i++)
 	{
-		vertice[i].pos = D3DXVECTOR3(_model[i].x,_model[i].y,_model[i].z);
-		vertice[i].texture = D3DXVECTOR2(_model[i].tu,_model[i].tv);
-		vertice[i].normal = D3DXVECTOR3(_model[i].nx,_model[i].ny,_model[i].nz);
+		vertice[i].pos = D3DXVECTOR3(_model[i].x, _model[i].y, _model[i].z);
+		vertice[i].texture = D3DXVECTOR2(_model[i].tu, _model[i].tv);
+		vertice[i].normal = D3DXVECTOR3(_model[i].nx, _model[i].ny, _model[i].nz);
 		vertice[i].tangent = D3DXVECTOR3(_model[i].tx, _model[i].ty, _model[i].tz);
 		vertice[i].binorm = D3DXVECTOR3(_model[i].bx, _model[i].by, _model[i].bz);
 
@@ -236,16 +236,16 @@ void ModelClass::RenderBuffers(ID3D11DeviceContext* context)
 	unsigned int offset;
 
 	stride = sizeof(VertexType);
-	
+
 	offset = 0;
 
 	context->IASetVertexBuffers(0, 1, &m_vertexBuffer, &stride, &offset);
 
 	context->IASetIndexBuffer(m_indexBuffer, DXGI_FORMAT_R32_UINT, 0);
 
-	//context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	//테셀레이션 쓸 때
-	context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_3_CONTROL_POINT_PATCHLIST);
+	//context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_3_CONTROL_POINT_PATCHLIST);
 }
 
 bool ModelClass::LoadTexture(ID3D11Device* device, WCHAR* filename)
@@ -266,7 +266,7 @@ bool ModelClass::LoadTexture(ID3D11Device* device, WCHAR* filename)
 	return true;
 }
 
-bool ModelClass::LoadTexture(ID3D11Device* device, WCHAR* tex1,WCHAR* tex2)
+bool ModelClass::LoadTexture(ID3D11Device* device, WCHAR* tex1, WCHAR* tex2)
 {
 	bool result;
 
@@ -276,7 +276,7 @@ bool ModelClass::LoadTexture(ID3D11Device* device, WCHAR* tex1,WCHAR* tex2)
 		return false;
 	}
 
-	result = _texarr->Initialize(device, tex1,tex2);
+	result = _texarr->Initialize(device, tex1, tex2);
 	if (!result)
 	{
 		return false;
@@ -284,7 +284,7 @@ bool ModelClass::LoadTexture(ID3D11Device* device, WCHAR* tex1,WCHAR* tex2)
 	return true;
 }
 
-bool ModelClass::LoadTexture(ID3D11Device* device, WCHAR* tex1, WCHAR* tex2,WCHAR* tex3)
+bool ModelClass::LoadTexture(ID3D11Device* device, WCHAR* tex1, WCHAR* tex2, WCHAR* tex3)
 {
 	bool result;
 
@@ -294,7 +294,7 @@ bool ModelClass::LoadTexture(ID3D11Device* device, WCHAR* tex1, WCHAR* tex2,WCHA
 		return false;
 	}
 
-	result = _texarr->Initialize(device, tex1, tex2,tex3);
+	result = _texarr->Initialize(device, tex1, tex2, tex3);
 	if (!result)
 	{
 		return false;
@@ -321,68 +321,61 @@ void ModelClass::ReleaseTexture()
 
 bool ModelClass::LoadModel(ID3D11Device* device, char* filename)
 {
-	if (_isSdkMesh)
+
+	ifstream fin;
+	char input;
+	int i;
+
+	fin.open(filename);
+
+	if (fin.fail())
 	{
-		const char * tempfile = filename;
-		//_mesh11.Create(device, tempfile, true);
-		
+		return false;
 	}
-	else
+
+	fin.get(input);
+	while (input != ':')
 	{
-		ifstream fin;
-		char input;
-		int i;
-
-		fin.open(filename);
-
-		if (fin.fail())
-		{
-			return false;
-		}
-
 		fin.get(input);
-		while (input != ':')
-		{
-			fin.get(input);
-		}
-
-		fin >> m_vertexCount;
-
-		m_indexCount = m_vertexCount;
-
-		_model = new ModelType[m_vertexCount];
-		if (!_model)
-		{
-			return false;
-		}
-
-		fin.get(input);
-		while (input != ':')
-		{
-			fin.get(input);
-		}
-		fin.get(input);
-		fin.get(input);
-
-		for (i = 0; i<m_vertexCount; i++)
-		{
-			fin >> _model[i].x >> _model[i].y >> _model[i].z;
-			fin >> _model[i].tu >> _model[i].tv;
-			fin >> _model[i].nx >> _model[i].ny >> _model[i].nz;
-		}
-
-		fin.close();
 	}
-	
+
+	fin >> m_vertexCount;
+
+	m_indexCount = m_vertexCount;
+
+	_model = new ModelType[m_vertexCount];
+	if (!_model)
+	{
+		return false;
+	}
+
+	fin.get(input);
+	while (input != ':')
+	{
+		fin.get(input);
+	}
+	fin.get(input);
+	fin.get(input);
+
+	for (i = 0; i < m_vertexCount; i++)
+	{
+		fin >> _model[i].x >> _model[i].y >> _model[i].z;
+		fin >> _model[i].tu >> _model[i].tv;
+		fin >> _model[i].nx >> _model[i].ny >> _model[i].nz;
+	}
+
+	fin.close();
+
+
 
 	return true;
 }
 
 void ModelClass::ReleaseModel()
 {
-	if(_model)
+	if (_model)
 	{
-		delete [] _model;
+		delete[] _model;
 		_model = 0;
 	}
 }
@@ -467,7 +460,7 @@ void ModelClass::CalculateModelVectors()
 }
 
 
-void ModelClass::CalculateTangentBinormal(TempVertexType v1, TempVertexType v2, TempVertexType v3,VectorType& tan,VectorType& bin)
+void ModelClass::CalculateTangentBinormal(TempVertexType v1, TempVertexType v2, TempVertexType v3, VectorType& tan, VectorType& bin)
 {
 	float vec1[3], vec2[3];
 	float tuvec[2], tvvec[2];
@@ -524,4 +517,18 @@ void ModelClass::CalculateNormal(VectorType tan, VectorType bin, VectorType& nor
 	nor.x = nor.x / length;
 	nor.y = nor.y / length;
 	nor.z = nor.z / length;
+}
+
+void ModelClass::SetPosition(float x, float y, float z)
+{
+	_posx = x;
+	_posy = y;
+	_posz = z;
+}
+
+void ModelClass::GetPosition(float& x, float& y, float& z)
+{
+	x = _posx;
+	y = _posy;
+	z = _posz;
 }

@@ -103,6 +103,8 @@ bool SystemClass::Initialize()
 		return false;
 	}
 
+	_position->SetPosition(0, 2, -10);
+
 	return true;
 }
 
@@ -197,7 +199,7 @@ void SystemClass::Run()
 bool SystemClass::Frame()
 {
 	bool keydown,result;
-	float rotationY;
+	float posx, posy, posz, rotx, roty, rotz;
 	int mouseX, mouseY;
 
 	_timer->Frame();
@@ -210,32 +212,27 @@ bool SystemClass::Frame()
 		return false;
 	}
 
-	D3DXVECTOR3 rot(0.0f, 0.0f, 0.0f);
+	if (m_Input->IsEscapePressed())
+	{
+		return false;
+	}
 
-	_position->SetFrameTime(_timer->GetTime());
+	result = HandleInput(_timer->GetTime());
+	if (!result)
+	{
+		return false;
+	}
 
-	keydown = m_Input->IsLeftArrowPressed();
-	_position->TurnLeft(keydown);
-
-	keydown = m_Input->IsRightArrowPressed();
-	_position->TurnRight(keydown);
-
-	_position->GetRotation(rot.y);
-
-	keydown = m_Input->IsFronArrowPressed();
-	_position->TurnFront(keydown);
-
-	keydown = m_Input->IsBackendArrowPressed();
-	_position->TurnBack(keydown);
-
-	_position->GetPositionZ(rot.z);
-	_position->GetPositionX(rot.x);
+	_position->GetPosition(posx, posy, posz);
+	_position->GetRotation(rotx, roty, rotz);
 
 	m_Input->GetMouseLocation(mouseX, mouseY);
 
 	//result = m_Graphics->Frame(rot, mouseX, mouseY, _fps->GetFps(), _cpu->GetCpuPercentage(), _timer->GetTime());
-	result = m_Graphics->Frame(rot);
+	//result = m_Graphics->Frame(rot);
 	//result = m_Graphics->Frame(_timer->GetTime());
+	//result = m_Graphics->Frame(D3DXVECTOR3(rotx,roty,rotz),_timer->GetTime());
+	result = m_Graphics->Frame(D3DXVECTOR3(rotx, roty, rotz), posx,posy,posz,rotx,roty,rotz);
 	if (!result)
 	{
 		return false;
@@ -333,6 +330,40 @@ void SystemClass::ShutdownWindows()
 	m_hinstance = NULL;
 
 	ApplicationHandle = NULL;
+
+}
+
+bool SystemClass::HandleInput(float frametime)
+{
+	bool keydown;
+
+	_position->SetFrameTime(frametime);
+
+	keydown = m_Input->IsLeftPressed();
+	_position->TurnLeft(keydown);
+
+	keydown = m_Input->IsRightPressed();
+	_position->TurnRight(keydown);
+
+	keydown = m_Input->IsUpPressed();
+	_position->MoveForward(keydown);
+
+	keydown = m_Input->IsDownPressed();
+	_position->MoveBackWard(keydown);
+
+	keydown = m_Input->IsAPressed();
+	_position->MoveUpward(keydown);
+
+	keydown = m_Input->IsZPressed();
+	_position->MoveDownward(keydown);
+
+	keydown = m_Input->IsPgUpPressed();
+	_position->LookUpward(keydown);
+
+	keydown = m_Input->IsPgDownPressed();
+	_position->LookDownward(keydown);
+
+	return true;
 
 }
 

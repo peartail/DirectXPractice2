@@ -39,6 +39,8 @@ float4 PS(PInputT i) : SV_TARGET
 
 	depthV = i.depthPos.z / i.depthPos.w;
 
+	color = float4(depthV, depthV, depthV, 1);
+	/*
 	if (depthV < 0.9f)
 	{
 		color = float4(1, 0, 0, 1);
@@ -53,7 +55,7 @@ float4 PS(PInputT i) : SV_TARGET
 	{
 		color = float4(0, 0, 1, 1);
 	}
-
+	*/
 
 	return color;
 }

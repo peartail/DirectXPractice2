@@ -36,17 +36,17 @@ bool GraphicClass29::Initialize(int sw, int sh, HWND hwnd)
 	NEW_CLASS(_camera, CameraClass);
 
 	NEW_CLASS(_groundmodel, ModelClass);
-	result = _groundmodel->Initailize(GETDEVICE, "Cube2.txt", L"Texture/clouds.bmp");
+	result = _groundmodel->Initailize(GETDEVICE, "Models\\plane.txt", L"Texture/firetex.gif");
 	V_RETURN(result, L"Not model");
 
 	NEW_CLASS(_wallmodel, ModelClass);
-	V_RETURN(_wallmodel->Initailize(GETDEVICE, "Cube2.txt", L"Texture/clouds.bmp"), L"Not model");
+	V_RETURN(_wallmodel->Initailize(GETDEVICE, "Models\\wall.txt", L"Texture/firetex.gif"), L"Not model");
 
 	NEW_CLASS(_bathmodel, ModelClass);
-	V_RETURN(_bathmodel->Initailize(GETDEVICE, "Cube2.txt", L"Texture/clouds.bmp"), L"Not model");
+	V_RETURN(_bathmodel->Initailize(GETDEVICE, "Models\\water.txt", L"Texture/firetex.gif"), L"Not model");
 
 	NEW_CLASS(_watermodel, ModelClass);
-	V_RETURN(_watermodel->Initailize(GETDEVICE, "Cube2.txt", L"Texture/water.gif"), L"Not model");
+	V_RETURN(_watermodel->Initailize(GETDEVICE, "Models\\water.txt", L"Texture/water.gif"), L"Not model");
 
 	NEW_CLASS(_light, LightClass);
 	_light->SetAmbientColor(0.15, 0.15, 0.15, 1);
@@ -72,6 +72,8 @@ bool GraphicClass29::Initialize(int sw, int sh, HWND hwnd)
 	_waterh = 2.75f;
 	_waterTrans = 0.f;
 	
+	_camera->SetPosition(0.f, 2.f, -3.f);
+	_camera->SetRotation(0.f, 45, 0);
 
 	return true;
 }
@@ -99,19 +101,34 @@ void GraphicClass29::ShutDown()
 
 bool GraphicClass29::Frame(D3DXVECTOR3 rotation)
 {
+	/*
 	_waterTrans += 0.001;
 	if (_waterTrans > 1.0f)
 	{
 		_waterTrans -= 1.f;
-	}
+	}*/
 	
-
-
-	_camera->SetPosition(0.f, 2.f, -3.f);
-	_camera->SetRotation(0.f, 45, 0);
+	/*
+	
 
 	_camera->SetRotation(_camera->GetRotation().x, rotation.y, _camera->GetRotation().z);
 	_camera->SetPosition(_camera->GetPosition().x, _camera->GetPosition().y, rotation.z);
+
+	*/
+
+	_camera->SetPosition(0.f, 200.f, -300.f);
+	_camera->SetRotation(0.f, 45, 0);
+
+
+	static float rot = 0;
+
+	float rota = _camera->GetPosition().z + rotation.z;
+	float rotx = _camera->GetPosition().x + rotation.x;
+
+
+
+	_camera->SetRotation(_camera->GetRotation().x, rotation.y, _camera->GetRotation().z);
+	_camera->SetPosition(rotx, _camera->GetPosition().y, rota);
 
 	if (!Render())
 	{
@@ -123,15 +140,15 @@ bool GraphicClass29::Frame(D3DXVECTOR3 rotation)
 
 bool GraphicClass29::Render()
 {
-	bool result;
+	bool result = true;
 
-	result = RenderRefractionToTexture();
+	//result = RenderRefractionToTexture();
 	if (!result)
 	{
 		return false;
 	}
 
-	result = RenderReflectionToTexture();
+	//result = RenderReflectionToTexture();
 	if (!result)
 	{
 		return false;
@@ -168,9 +185,9 @@ bool GraphicClass29::RenderRefractionToTexture()
 
 	D3DXMatrixTranslation(&world, 0, 2, 0);
 
-	//_bathmodel->Render(_D3D->GetDeviceContext());
+	_bathmodel->Render(_D3D->GetDeviceContext());
 
-	//IS_V(_refractShader->Render(_D3D->GetDeviceContext(), _bathmodel->GetIndexCount(), world, view, proj, _bathmodel->GetTexture(), _light->GetDirection(), _light->GetAmbientColor(), _light->GetDiffuseColor(), clipPlane));	
+	IS_V(_refractShader->Render(_D3D->GetDeviceContext(), _bathmodel->GetIndexCount(), world, view, proj, _bathmodel->GetTexture(), _light->GetDirection(), _light->GetAmbientColor(), _light->GetDiffuseColor(), clipPlane));	
 
 	_D3D->SetBackBufferRenderTarget();
 
@@ -195,9 +212,9 @@ bool GraphicClass29::RenderReflectionToTexture()
 
 	D3DXMatrixTranslation(&world, 0, 6, 8);
 
-	//_wallmodel->Render(_D3D->GetDeviceContext());
+	_wallmodel->Render(_D3D->GetDeviceContext());
 
-	//IS_V(_lightshader->Render(_D3D->GetDeviceContext(), _wallmodel->GetIndexCount(), world, refview, proj, _wallmodel->GetTexture(), _light->GetDirection(), _light->GetAmbientColor(), _light->GetDiffuseColor(), _camera->GetPosition(), D3DXVECTOR4(1, 1, 1, 1), 0.15f));
+	IS_V(_lightshader->Render(_D3D->GetDeviceContext(), _wallmodel->GetIndexCount(), world, refview, proj, _wallmodel->GetTexture(), _light->GetDirection(), _light->GetAmbientColor(), _light->GetDiffuseColor(), _camera->GetPosition(), D3DXVECTOR4(1, 1, 1, 1), 0.15f));
 
 	_D3D->SetBackBufferRenderTarget();
 
@@ -207,7 +224,7 @@ bool GraphicClass29::RenderReflectionToTexture()
 bool GraphicClass29::RenderScene()
 {
 	D3DXMATRIX world, view, proj, refmat;
-	bool result;
+	bool result = true;
 
 	_D3D->BeginScene(0, 0, 0, 1);
 
@@ -219,9 +236,9 @@ bool GraphicClass29::RenderScene()
 
 	D3DXMatrixTranslation(&world, 0, 1, 0);
 
-	//_groundmodel->Render(_D3D->GetDeviceContext());
+	_groundmodel->Render(_D3D->GetDeviceContext());
 
-	//IS_V(_lightshader->Render(_D3D->GetDeviceContext(), _groundmodel->GetIndexCount(), world, view, proj, _groundmodel->GetTexture(), _light->GetDirection(), _light->GetAmbientColor(), _light->GetDiffuseColor(), _camera->GetPosition(), D3DXVECTOR4(1, 1, 1, 1), 0.15f));	
+	IS_V(_lightshader->Render(_D3D->GetDeviceContext(), _groundmodel->GetIndexCount(), world, view, proj, _groundmodel->GetTexture(), _light->GetDirection(), _light->GetAmbientColor(), _light->GetDiffuseColor(), _camera->GetPosition(), D3DXVECTOR4(1, 1, 1, 1), 0.15f));	
 
 	_D3D->GetWorldMatrix(world);
 
@@ -233,7 +250,7 @@ bool GraphicClass29::RenderScene()
 
 	_D3D->GetWorldMatrix(world);
 
-	D3DXMatrixTranslation(&world, 0, 2, 0);
+	//D3DXMatrixTranslation(&world, 0, 2, 0);
 
 	//_bathmodel->Render(_D3D->GetDeviceContext());
 
@@ -246,9 +263,9 @@ bool GraphicClass29::RenderScene()
 
 	D3DXMatrixTranslation(&world, 0, _waterh, 0);
 
-	_watermodel->Render(_D3D->GetDeviceContext());
+	//_watermodel->Render(_D3D->GetDeviceContext());
 
-	result = _watershader->Render(_D3D->GetDeviceContext(), _watermodel->GetIndexCount(), world, view, proj, refmat, _reftex->GetShaderResourceView(), _refractex->GetShaderResourceView(), _watermodel->GetTexture(), _waterTrans, 0.01);
+	//result = _watershader->Render(_D3D->GetDeviceContext(), _watermodel->GetIndexCount(), world, view, proj, refmat, _reftex->GetShaderResourceView(), _refractex->GetShaderResourceView(), _watermodel->GetTexture(), _waterTrans, 0.01);
 
 	if (!result)
 	{

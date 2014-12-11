@@ -47,6 +47,13 @@ void LightClass::SetPosition(float x, float y, float z)
 	
 }
 
+void LightClass::SetLookAt(float x, float y, float z)
+{
+	_lookat.x = x;
+	_lookat.y = y;
+	_lookat.z = z;
+}
+
 
 D3DXVECTOR4 LightClass::GetAmbientColor()
 {
@@ -76,4 +83,40 @@ float LightClass::GetSpecularPower()
 D3DXVECTOR4 LightClass::GetPosition()
 {
 	return _position;
+}
+
+void LightClass::GenerateViewMatrix()
+{
+	D3DXVECTOR3 up;
+	D3DXVECTOR3 pos;
+	
+	up.x = 0.f;
+	up.y = 1.f;
+	up.z = 0.f;
+
+	pos.x = _position.x;
+	pos.y = _position.y;
+	pos.z = _position.z;
+
+	D3DXMatrixLookAtLH(&_viewmat, &pos, &_lookat, &up);
+}
+
+void LightClass::GenerateProjcetionMatrix(float screendepth, float screennear)
+{
+	float fov, screenaspect;
+
+	fov = (float)D3DX_PI / 2.0f;
+	screenaspect = 1.0f;
+
+	D3DXMatrixPerspectiveFovLH(&_projmat, fov, screenaspect, screennear, screendepth);
+}
+
+void LightClass::GetViewMatrix(D3DXMATRIX& mat)
+{
+	mat = _viewmat;
+}
+
+void LightClass::GetProjMatrix(D3DXMATRIX& proj)
+{
+	proj = _projmat;
 }

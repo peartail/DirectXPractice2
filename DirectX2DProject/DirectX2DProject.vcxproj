@@ -77,8 +77,10 @@
     <ClInclude Include="FontShaderClass.h" />
     <ClInclude Include="FpsClass.h" />
     <ClInclude Include="GraphicClass.h" />
+    <ClInclude Include="GraphicClass41.h" />
     <ClInclude Include="InputClass.h" />
     <ClInclude Include="ModelClass.h" />
+    <ClInclude Include="MultiShadowShaderClass.h" />
     <ClInclude Include="ShaderClass.h" />
     <ClInclude Include="SoundClass.h" />
     <ClInclude Include="SystemClass.h" />
@@ -97,9 +99,11 @@
     <ClCompile Include="FontShaderClass.cpp" />
     <ClCompile Include="FpsClass.cpp" />
     <ClCompile Include="GraphicClass.cpp" />
+    <ClCompile Include="GraphicClass41.cpp" />
     <ClCompile Include="InputClass.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ModelClass.cpp" />
+    <ClCompile Include="MultiShadowShaderClass.cpp" />
     <ClCompile Include="ShaderClass.cpp" />
     <ClCompile Include="SoundClass.cpp" />
     <ClCompile Include="SystemClass.cpp" />
